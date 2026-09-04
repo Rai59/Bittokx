@@ -23,6 +23,8 @@ Status: draft v0.2, 2026-09-04. Each item is testable against a seeded tenant
 - AC-0.7 Two parallel write-tool calls in one turn cannot both execute; writes
   for a `Conversation` are serialised. A reminder that would exceed the 48h cap
   after the write is `forbidden`.
+- AC-0.8 Approving a draft executes the adapter with no additional model call
+  (apply path has no LLM).
 
 ## AC-1 Customer Service (Instagram)
 

@@ -207,10 +207,10 @@ staged change IDs (ADR-018):
    reason, evidence (tool results), policy rule, staging id.
 4. Owner: approve, edit-then-approve, or reject-with-reason (web app; WhatsApp
    for items marked urgent).
-5. On approve: policy is **re-evaluated against current limits** (graduation
-   may have changed; inventory may have moved). If still allowed, the adapter
-   executes using the staging id. If not, the item returns to the queue with
-   the new reason.
+5. On approve: policy is **re-evaluated against current limits**. If still
+   allowed, the **adapter executes with no model in the path** (Mercury
+   Command: after authorization they call the backend directly, bypassing the
+   AI). If not, the item returns to the queue with the new reason.
 
 Timeouts: customer-facing drafts unanswered for 30 min send a holding reply
 ("we're checking, will get back within N hours") — itself a pre-approved
@@ -240,7 +240,9 @@ Untyped Mem0/Letta chat memory is forbidden.
 
 Key facts `tenant + user_id` even while MVP 1 has one owner, so later staff
 do not share memory. Policy documents are chunked into facts with
-`source = policy_doc_v{n}`. Retention period TBD with OQ4 (start: 18 months).
+`source = policy_doc_v{n}`. Owner-only hidden notes (Ramp) use
+`visibility = owner` and are never injected into the customer-facing prompt.
+Retention period TBD with OQ4 (start: 18 months).
 
 ## 8. Audit log
 
@@ -300,12 +302,20 @@ came from except through metadata.
 ## 11. Security baseline
 
 - Tenant isolation at DB schema, ERPNext site, and LiteLLM key.
-- Secrets in a vault/env, never in prompts or logs. PII minimised in model logs.
+- **Identity:** session start binds tenant + principal to an unguessable
+  session id. Later requests carry only that id. **No tool argument names a
+  user** (commerce-agents `docs/safety.md`).
+- Secrets in a vault/env, on the session or adapter constructor, **never in
+  prompts, tool args, or logs**. Checkout URLs from `checkout_handoff` are
+  attached after the model call and never pass through the model.
+- PII minimised in model logs. Session id is a credential; log a digest, not
+  the id.
 - Tool allowlists per role; write tools produce commands only.
 - Signed webhooks (Meta, Frappe HMAC), idempotency keys on commands.
 - Untrusted-content sanitise + fence; no tool result is ever treated as an instruction.
 - Provenance gate: adapters refuse IDs not issued this session.
 - Writes serialised per `Conversation`; caps enforced on resulting state.
+- Apply path has **no model**.
 
 ## 12. Repository layout (proposed)
 

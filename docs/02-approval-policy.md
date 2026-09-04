@@ -18,6 +18,8 @@ Status: draft v0.2, 2026-09-04. Evidence: `05-research-synthesis.md`.
 7. A `draft` is a durable pause: no vendor write until the owner acts, then
    policy is evaluated again against **current** limits and the **resulting**
    state (ADR-018). Caps cannot be stacked by parallel or retried tool calls.
+8. After approval, the adapter runs **with no model in the loop** (Mercury
+   Command). The model cannot retry a write it was not allowed to finish.
 
 ## 2. Action classes and MVP matrix
 
@@ -125,4 +127,6 @@ For each `(tenant, class)`:
 - Per-class slider: auto / draft / off.
 - Amount caps where relevant (discount cap, reminder frequency).
 - Policy document upload and edit; each save is a new `policy_version`.
+  Owner-only **hidden notes** (Ramp) are stored as facts the customer-facing
+  prompt never sees (e.g. “refunds over NPR 5,000 always come to me”).
 - Demote-to-draft one tap; view "why did the agent do this" from any message.

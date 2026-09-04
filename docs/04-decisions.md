@@ -2,7 +2,7 @@
 
 Short ADRs. Each records the decision, the evidence, and what would change it.
 Evidence base: `05-research-synthesis.md`. ADR-001 … ADR-012 stand; ADR-006
-is amended; ADR-013 … ADR-018 are the research-driven additions.
+is amended; ADR-013 … ADR-019 are the research-driven additions.
 
 ## ADR-001 ERPNext over Odoo as the hosted backend
 
@@ -275,17 +275,40 @@ way that kills the global cache (accept the cost).
 Decision: a `draft` outcome persists run state and a server-generated staging
 id, emits **no vendor write**, and resumes only after approve / edit / reject.
 On approve, the policy engine runs again against **current** limits and the
-**resulting** state. Writes for one `Conversation` are serialised. Caps
-(reminders, discounts) are enforced on the post-write state so parallel or
-retried tool calls cannot stack past them.
+**resulting** state, then the **adapter executes with no model in the path**.
+Writes for one `Conversation` are serialised. Caps (reminders, discounts) are
+enforced on the post-write state so parallel or retried tool calls cannot
+stack past them.
 
-Evidence: Anthropic merchant agent (`apply_change` only for approved staged
-ids; guardrails re-checked at apply; cart writes serialised per session).
-OpenAI Agents SDK `needs_approval` pause/resume. LangGraph `interrupt()` +
-durable checkpointer, with the explicit rule: no side effects before interrupt
-because the node re-runs. Gorgias uses Temporal for the same pause/resume on
-Shopify tickets. LangGraph has no audit log — ours stays separate (ADR-007).
+Evidence: Mercury Command security post (16 Jul 2026): "The model proposes.
+The product enforces. The user authorizes." After approval they "directly call
+our backend to take the action, bypassing the AI entirely." Anthropic merchant
+agent: `apply_change` only for approved staged ids; guardrails re-checked at
+apply; cart writes serialised per session (`merchant_agent/gates.py`,
+`shopping_agent/gates.py` in anthropics/commerce-agents). Sage Close agent:
+does not post without approval. OpenAI Agents SDK `needs_approval`. LangGraph
+`interrupt()` + durable checkpointer: the node **re-runs** on resume, so no
+side effects before interrupt. Gorgias uses Temporal for the same pause/resume.
 
 Would change it: adopting a workflow engine (Temporal) for the queue when we
 have more than one human actor and long-running waits; the pause/resume
 contract stays.
+
+## ADR-019 Identity and secrets never enter the model
+
+Decision: session start binds tenant + principal to an unguessable session id.
+Later requests carry only that id. Tool arguments never include a user id,
+payment credential, or checkout URL. Tokens live on the session / adapter.
+Checkout URLs from `checkout_handoff` are attached **after** the model call.
+Policy **hidden notes** (owner-only) are facts the customer-facing prompt never
+sees. Model logs record a digest of the session id, not the id.
+
+Evidence: commerce-agents `docs/safety.md` and `docs/backends.md` (identity
+held by the server; no tool argument names a user; credentials never shown to
+the model; checkout URL never through the model; session id is also the
+request credential). Mercury: card numbers, SSNs, credentials never passed to
+the underlying model. Ramp: hidden policy notes. WorkOS: LLM cannot police
+itself; authorization is a resource graph.
+
+Would change it: a regulator requiring the model to "see" a national ID in
+order to answer — then a dedicated, scoped tool with redaction, not free text.
