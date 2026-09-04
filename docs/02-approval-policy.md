@@ -1,6 +1,6 @@
 # Bittokx — Approval Policy (action classes and MVP defaults)
 
-Status: draft v0.1, 2026-09-04.
+Status: draft v0.2, 2026-09-04. Evidence: `05-research-synthesis.md`.
 
 ## 1. Principles
 
@@ -15,6 +15,9 @@ Status: draft v0.1, 2026-09-04.
    matrix applies to them. This mirrors how Rillet, Sage and Ramp treat human-, system-
    and AI-originated entries identically.
 6. Decisions are logged before execution with the rule id and policy version.
+7. A `draft` is a durable pause: no vendor write until the owner acts, then
+   policy is evaluated again against **current** limits and the **resulting**
+   state (ADR-018). Caps cannot be stacked by parallel or retried tool calls.
 
 ## 2. Action classes and MVP matrix
 
@@ -86,6 +89,15 @@ default_outcome: draft
 Rules are evaluated in order; first match wins; unmatched commands fall to
 `default_outcome`. Every evaluation is logged with `matched_rule_ids` and
 `policy_version`.
+
+Apply-time extras:
+
+- CS-REPLY-FACT / CS-REPLY-STATUS / CS-LINK drafts that do not cite a
+  **session-issued** tool-result id are `forbidden` by the engine, not queued.
+- `apply` of any staged command re-runs the matching rules. If the class has
+  been demoted or a cap would be exceeded after the write, the approval returns
+  to the queue with the new reason; it does not execute.
+- Write commands for one `Conversation` are serialised.
 
 ## 4. Graduation (earning autonomy)
 

@@ -1,6 +1,8 @@
 # Bittokx — Decision Log
 
 Short ADRs. Each records the decision, the evidence, and what would change it.
+Evidence base: `05-research-synthesis.md`. ADR-001 … ADR-012 stand; ADR-006
+is amended; ADR-013 … ADR-018 are the research-driven additions.
 
 ## ADR-001 ERPNext over Odoo as the hosted backend
 
@@ -53,7 +55,12 @@ Evidence: MAST (NeurIPS 2025) finds multi-agent gains over single-agent are ofte
 minimal, with 41.8% of failures from specification/design and 36.9% from inter-agent
 misalignment. Cognition's "Don't Build Multi-Agents" and Anthropic's research-system
 post reconcile to: fan out only for independent read-heavy work; single decision-maker
-for interdependent write-heavy work. Bittokx work is transactional.
+for interdependent write-heavy work. Anthropic's 2026 commerce deployments: a single
+agent with skills outperformed both one-giant-prompt and subagent-per-domain on quality,
+cost, and latency; subagents only for self-contained reads or a conversation handoff.
+Bittokx work is transactional. OpenAI's 2025 agents guide starts single-agent for the
+same reason. Grok Bot "Auto Review" is a second model on risky actions — that is the
+senior-approver pattern; we use the policy engine instead.
 
 Would change it: a genuinely parallel, read-heavy job (e.g. weekly market research)
 where an orchestrator-worker fan-out is warranted. That can be added as a role later.
@@ -74,18 +81,26 @@ so reliability must come from controls and evals, not model choice alone.
 Would change it: eval data showing a specific narrow task (e.g. Nepali intent
 classification) where a LoRA-tuned small model beats routing on cost and accuracy.
 
-## ADR-006 Memory is structured and bi-temporal; no free-text memory extraction in MVP 1
+## ADR-006 Memory is structured, bi-temporal, and extracted asynchronously
 
-Decision: three layers — operational (canonical model), business knowledge (facts table
-with valid_from/valid_to and source), episodic (thread/task state). No Mem0/Letta-style
-automatic fact extraction from chat.
+Decision: three layers — operational (canonical model), business knowledge
+(`facts` table with `tenant + user_id`, valid_from/valid_to, source), episodic
+(thread/task state). Reads are three-layer (always-in-context, pre-fetch,
+lookup tool). Writes are an **async extractor after the turn** that reads
+**user + assistant text only, never tool results**, through a predicate
+validator. No Mem0 / Letta-style untyped chat memory. No in-loop "save memory"
+tool on the customer-facing path.
 
-Evidence: for a business, most "memory" is the ERP. Temporal validity is what
-distinguishes Zep/Graphiti's higher LongMemEval scores on knowledge-update questions and
-also yields an audit trail. Vendor memory benchmarks are contested (LOCOMO flaws).
+Evidence: Anthropic commerce agents (2026-09-02) store typed facts in the
+application DB; an async extractor scored 13% higher fact recall than a save
+tool and added no user-facing latency; extractor isolation stops listings /
+reviews becoming user facts. Zep/Graphiti's LongMemEval gains on knowledge-update
+questions come from temporal validity, which we keep. Vendor memory benchmarks
+are contested (LOCOMO flaws).
 
-Would change it: a need for multi-hop graph traversal across entities; then adopt
-Graphiti self-hosted behind the same facts interface.
+Would change it: a need for multi-hop graph traversal across entities; then
+adopt Graphiti self-hosted behind the same facts interface. A jurisdiction that
+forbids this class of memory: per-deployment switch off (extractor no-ops).
 
 ## ADR-007 Append-only, hash-chained audit log from day one
 
@@ -129,7 +144,8 @@ the prototype; acceptable if the runtime keeps a REST-only boundary to Frappe.
 ## ADR-010 Do not fork Hermes Agent or OpenClaw; borrow patterns
 
 Decision: borrow gateway → session → single runtime, skills as Markdown, exec-approval
-manager, heartbeat/cron for proactive work. Do not fork.
+manager, heartbeat/cron for proactive work. Do not fork. Same stance on Anthropic
+commerce-agents (ADR-013).
 
 Evidence: both are MIT and personal-assistant shaped (one user, file memory, chat in /
 actions out); neither has tenancy, ledgers or approval policy as first-class concepts.
@@ -158,3 +174,118 @@ graduates.
 Evidence: Ramp began suggestion-only and expanded autonomy as trust grew; QuickBooks
 "Ready to post" derives confidence from the customer's own history. All-draft also
 produces the labelled data the eval set and graduation logic need.
+
+## ADR-013 Do not fork Anthropic commerce-agents; borrow the harness
+
+Decision: treat [anthropics/commerce-agents](https://github.com/anthropics/commerce-agents)
+(Apache 2.0, announced 2026-09-02) as a **pattern catalog**, not a dependency
+and not our product. We are closer to their **merchant agent + shopping
+customer-care skill** than to their storefront shopping agent. Customers shop
+on Daraz / own site; our CS agent lives in Instagram / TikTok DMs.
+
+Borrow: one loop + skills; `StorefrontBackend` has no charge method (our
+checkout is a link); merchant writes are staged IDs applied after approval;
+provenance gates; fencing; snapshot evals; cache prefix order; async typed
+memory extractor.
+
+Do not borrow: Claude-only runtime, shopping search/cart/checkout loop,
+presentation-as-tools on the customer channel, computer-use, their eval plugin
+as a required toolchain.
+
+Evidence: Anthropic does not maintain the repo and does not accept
+contributions. It is a blueprint for teams that already have a storefront.
+Forking an unmaintained Claude-specific shopping agent would fight our
+ERPNext + Daraz + social-DM shape.
+
+Would change it: Anthropic starting to maintain the repo as a real SDK *and*
+us needing a storefront shopping agent. Unlikely in MVP 1.
+
+## ADR-014 Provenance gate: writes and figures only use session-issued IDs
+
+Decision: the harness records every ID a tool returned this session. Commands
+and customer-facing numbers (price, stock, order status, checkout URL) that
+cite any other ID are refused before the adapter. The server fills records
+from those IDs; the model does not supply amounts.
+
+Evidence: Anthropic commerce harness: cart and merchant writes accept only
+server-issued IDs; hallucinated / user-pasted / planted-in-a-review IDs never
+reach the backend. Our R4 (invented order facts) is the same failure. Salesforce
+Agentforce runs deterministic `before_reasoning` / `after_reasoning` scripts
+for the same reason — the LLM is not the last check.
+
+Would change it: a channel where the customer must be allowed to paste an
+external order id we have never seen (then: lookup tool first, and only the
+lookup's returned id becomes writable).
+
+## ADR-015 Skills for the long tail; safety and high-frequency in the prompt
+
+Decision: `SKILL.md` files for procedures used on a minority of turns; anything
+on ≥ ~1/3 of traffic, plus all safety / legal / brand rules, stays in the role
+system prompt. If a skill is predictable from channel or a cheap classifier,
+the harness injects it before the first model call. Skills load as tool
+results, never as system-prompt appends.
+
+Evidence: Anthropic anatomy post: loading a skill costs a turn; skills beat
+subagents because the main agent keeps the whole history. Hermes and OpenClaw
+use the same Markdown skill pattern. Intercom Fin Procedures and Decagon AOPs
+are the CX equivalent: procedure text, deterministic eligibility in code.
+
+Would change it: evals showing a skill used on most turns (promote it into the
+prompt) or a prompt that has grown past cache / quality limits (demote the
+coldest sections into skills).
+
+## ADR-016 Snapshot evals are the measurement bar
+
+Decision: grade agents by constructing a messages array + tool/canonical state,
+appending one user message, running, and scoring **final state + rendered
+reply**, not the path. 50–100 cases per flow. Every positive case has a
+negative twin. A share of cases start from long / messy / contradictory
+histories. Simulated-user (second model as customer) is for **discovering**
+cases only. CI always runs core traffic + every safety case; a skill change
+also runs that skill and its neighbors' boundary cases. τ²-bench-style pass^k
+remains the gate for routing a model customer-facing (policy adherence).
+
+Evidence: Anthropic commerce evals: the API is stateless, so any conversation
+state can be a snapshot; simulated-user pairs two non-deterministic systems
+and is a poor measuring instrument. τ / τ²-bench still useful as a
+policy-following floor. Meta ARE/Gaia2 is for later multi-human async evals.
+
+Would change it: a flow that cannot be snapshotted (true multi-hour async
+with a human in the middle) — then add an ARE-style scenario runner beside
+snapshots, not instead of them.
+
+## ADR-017 Prompt cache prefix is global → session → volatile last
+
+Decision: design for 90–99% cache hit rate. Byte-identical global prefix
+(persona, safety, tool defs) → session (tenant facts, history, loaded skills)
+→ volatile last (time, channel). Skills as tool results. Never put a timestamp
+or "current page" at the top of the system prompt.
+
+Evidence: Anthropic: cached reads are ~10× cheaper and 1.5–2× faster at ~100k
+tokens; best commerce deployments hit 90–99%. Hermes injects skills as user
+messages for the same prefix stability. LiteLLM already exposes Anthropic-style
+cache controls.
+
+Would change it: a provider with no prefix cache (then the order still does
+not hurt); or a hard requirement to rotate the global prompt per tenant in a
+way that kills the global cache (accept the cost).
+
+## ADR-018 Draft is a durable pause; policy is re-checked at apply time
+
+Decision: a `draft` outcome persists run state and a server-generated staging
+id, emits **no vendor write**, and resumes only after approve / edit / reject.
+On approve, the policy engine runs again against **current** limits and the
+**resulting** state. Writes for one `Conversation` are serialised. Caps
+(reminders, discounts) are enforced on the post-write state so parallel or
+retried tool calls cannot stack past them.
+
+Evidence: Anthropic merchant agent (`apply_change` only for approved staged
+ids; guardrails re-checked at apply; cart writes serialised per session).
+OpenAI Agents SDK `needs_approval` pause/resume. LangGraph `interrupt()` +
+durable checkpointer, with the explicit rule: no side effects before interrupt
+because the node re-runs. Gorgias uses Temporal for the same pause/resume on
+Shopify tickets. LangGraph has no audit log — ours stays separate (ADR-007).
+
+Would change it: adopting a workflow engine (Temporal) for the queue when we
+have more than one human actor and long-running waits; the pause/resume
+contract stays.
