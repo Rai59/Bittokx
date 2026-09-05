@@ -9,28 +9,45 @@ This is a decision document, not a product spec. Live GitHub numbers were checke
 
 ## Recommendation in one page
 
-| Decision | Choice | Why |
-| --- | --- | --- |
-| **ERP** | **Yes — ERPNext on Frappe** | Fully open source (no Enterprise paywall), covers accounting / inventory / manufacturing / sales / buying in one system, and is designed to be extended with our own apps. |
-| **CRM** | **Frappe CRM, same site as ERPNext** | First-party product, same framework, official Deal → Quotation → Customer handoff. Avoid a second stack unless sales UX becomes the product. |
-| **Do not pick as CRM** | ERPNext’s built-in CRM module | Feature-frozen. Frappe is moving sales work to Frappe CRM. |
-| **Do not pick first** | Twenty, SuiteCRM, EspoCRM, Krayin | Strong products, but they force a second database, second language, and a custom ERP sync. |
-| **Build last** | Custom ERP or CRM from zero | Reuse Frappe DocTypes, workflows, permissions, and accounting. Write only what the ecosystem does not already do. |
+**For Bittokx as specified in PR #1 (AI shop OS, Nepal e-commerce first): do not install a CRM product.**
 
-**The useful rule:** stay inside the Frappe ecosystem until a gap is proven. The expensive mistake is running ERPNext *and* a fashionable TypeScript CRM *and* a PHP helpdesk, then spending the next year writing sync jobs.
+The Keycloak + Frappe CRM + HRMS + Helpdesk + Insights + POS + n8n + Chatwoot diagram is a *possible later suite*. It is the wrong prototype. The PRD already chose a thinner shape (ADR-001, ADR-009, architecture §13).
+
+| Layer | Prototype (optimal) | Not yet |
+| --- | --- | --- |
+| Ledger | ERPNext, one site per tenant, customer never sees Desk | Odoo, Xero (UK later as an *adapter*) |
+| CRM | **None.** `Contact` in ERPNext + `Conversation` / `Message` in our Postgres | Frappe CRM, Twenty, SuiteCRM, EspoCRM, Krayin |
+| Product | Our FastAPI runtime + owner approve UI | Extra Frappe apps as the product |
+| Inbox | Gmail API first, then Instagram Graph | Chatwoot, Helpdesk, WhatsApp |
+| Auth | Owner login in our app | Keycloak |
+| Glue | Direct adapters (Gmail, ERPNext REST, CSV upload) | n8n |
+| HR / POS / Insights | No | When a shop asks |
+
+```
+Gmail + Instagram          Owner web (approve / reject)
+        │                            │
+        └────────────┬───────────────┘
+                     ▼
+              Bittokx API (FastAPI) + Postgres
+              agents, policy, approvals, audit
+                     │
+                     ▼
+              ERPNext (silent ledger)
+              + nepal-compliance
+              + tiny frappe_bittokx app
+```
+
+That is three processes. Not a suite.
 
 ---
 
 ## What we are optimizing for
 
-Bittokx is a greenfield repository. There is no domain spec in the repo yet. The research assumes we want what the request implies:
+Read against [PR #1](https://github.com/Rai59/Bittokx/pull/1): Bittokx is an **AI-native shop operating system**. Own UI on a hosted ledger. Agents draft; the owner applies. Nepal clothing e-commerce first (5–6 staff, Gmail as the ops inbox, Instagram enquiry only). UK/AU later via Xero/QuickBooks/HubSpot *adapters*, not by installing those products.
 
-1. Use existing open-source products instead of inventing an ERP or CRM.
-2. ERPNext / Frappe is the current ERP preference.
-3. CRM is still open.
-4. We will likely extend the stack into a product (custom modules, branding, maybe multi-tenant later).
+v1 does **not** include POS, HR, helpdesk-as-a-product, marketplace, live bank feeds, or WhatsApp. All money writes need a human.
 
-If Bittokx is closer to an all-in-one business OS (ERP + POS + CRM + HR + finance), Frappe is a better home than a CRM-first product. If Bittokx is a modern sales CRM that happens to invoice later, Twenty would win. Those are different products.
+Sections below still compare ERP/CRM products for later. They do not add prototype work.
 
 ---
 
@@ -94,7 +111,51 @@ None of those is implied by “ERP + undecided CRM, prefer open source.”
 
 ## 2. Which CRM?
 
-### Default: Frappe CRM
+### Prototype answer: none
+
+Bittokx’s “CRM” in v1 is inbox + contact + enquiry, not a sales pipeline.
+
+- Customer lives as ERPNext **Customer / Contact**.
+- Thread lives as our **Conversation / Message**.
+- CS job is: stock, order status, checkout *link*. The agent never creates an order.
+- Owner already has an approve UI. A second CRM UI is a second place to click.
+
+Installing Frappe CRM or Twenty before Gmail → invoice drafts work is over-engineering.
+
+### What if we used Twenty?
+
+Twenty is the best *standalone* modern CRM. It is still a bad fit for this product.
+
+| What Twenty is good at | What Bittokx actually needs |
+| --- | --- |
+| Leads, deals, kanban, custom objects | Gmail invoices + Instagram “is this in stock?” |
+| A Salesforce-shaped workspace salespeople live in | An owner phone UI that only approves drafts |
+| GraphQL / TypeScript / AI-in-the-CRM | Our agent runtime already is the AI layer |
+| HubSpot/Salesforce alternative | UK customers *already have* HubSpot — we adapt to it later |
+
+Costs if we add it now:
+
+- Second database (Postgres) *and* a second product model next to our canonical `Contact`.
+- Sync to ERPNext Customers/Items with no official connector.
+- AGPL + some enterprise-gated features (SSO, some permissions).
+- A UI that competes with the Bittokx owner app.
+
+Use Twenty later only if a tenant’s *sales team* needs a pipeline workspace and they do not already have HubSpot. Even then it is an adapter target, like HubSpot — not our system of record.
+
+### If we later need a CRM product
+
+| Option | When it is optimal | When it is not |
+| --- | --- | --- |
+| **Keep building none** | Enquiries + accounts stay in our inbox. Most Nepal shops. | A sales manager wants a deal board. |
+| **Frappe CRM** | Same bench as ERPNext; we want Deal → Quotation on one site. | We still have not shipped Gmail drafts. |
+| **Twenty** | Tenant wants a modern sales CRM and we will not host Desk. | We need native quotes/stock. |
+| **HubSpot (adapter)** | UK/AU shop already pays for HubSpot. | Nepal prototype. |
+| **Chatwoot** | Shared inbox across web/IG/WhatsApp is the pain, not deals. | We can take Gmail + Meta webhooks ourselves (prototype plan). |
+| **EspoCRM / SuiteCRM / Krayin** | Almost never for Bittokx. Extra PHP/Laravel, no ERPNext handoff. | — |
+
+**Default later pick if a pipeline appears:** Frappe CRM on the same site (same users, Item sync, quotation button). Not Twenty, unless the tenant refuses to live near Frappe at all.
+
+### Default later (not prototype): Frappe CRM
 
 **Repo:** [frappe/crm](https://github.com/frappe/crm) — ~3.5k stars, Vue, **AGPL-3.0**, last push 4 September 2026.
 
@@ -166,23 +227,24 @@ Krayin’s MIT license is attractive for a commercial fork, but it does not buy 
 ### CRM decision rule
 
 ```
-if ERP is ERPNext:
-    CRM = Frappe CRM on the same site
-    do not enable ERPNext CRM as the sales UI
-elif product is "modern AI CRM" and ERP is later:
-    CRM = Twenty
-    integrate ERPNext via n8n + REST later
-elif nonprofit / membership:
-    CRM = CiviCRM
+if Bittokx prototype (Gmail + Instagram enquiry):
+    CRM product = none
+    Contact in ERPNext; Conversation/Message in our DB
+elif tenant already has HubSpot/Xero CRM:
+    adapter only — do not install a CRM
+elif we need Deal → Quotation on our hosted ERPNext:
+    Frappe CRM on the same site
+elif tenant wants a Salesforce-shaped workspace and refuses Frappe UI:
+    Twenty as an adapter target (like HubSpot)
 else:
-    EspoCRM (small) or SuiteCRM (Salesforce-shaped)
+    still none
 ```
 
 ---
 
 ## 3. Other open-source projects we should use
 
-Do not invent these. Install or integrate them.
+Catalog only. **Prototype installs ERPNext + nepal-compliance + our API/web.** Everything in this section is later, when a shop asks.
 
 ### 3.1 Stay on Frappe first (same bench, same users, same permissions)
 
@@ -245,35 +307,27 @@ n8n vs Frappe workflows: Frappe workflows are for document approval (Submit / Ca
 
 ## 4. Suggested architecture
 
+**Prototype (this is the optimal stack):**
+
 ```
-                    ┌──────────────────────────────┐
-   Staff SSO        │  Keycloak / Authentik (later) │
-                    └─────────────┬────────────────┘
-                                  │
-                    ┌─────────────▼────────────────┐
-                    │     One Frappe site           │
-                    │  ERPNext + Frappe CRM         │
-                    │  + HRMS + Helpdesk + Insights │
-                    │  + our apps: bittokx_*        │
-                    └───────┬───────────┬───────────┘
-           quotes/invoices  │           │ tickets / items
-                            │           │
-              ┌─────────────▼──┐   ┌────▼─────────┐
-              │ POS / Webshop  │   │ n8n (glue)   │
-              │ (if retail)    │   └───┬──────────┘
-              └────────────────┘       │
-                                 Chatwoot / Listmonk / banks / tax APIs
+Gmail + Instagram          Owner web (approve / reject)
+        │                            │
+        └────────────┬───────────────┘
+                     ▼
+              Bittokx API (FastAPI) + Postgres
+              agents, policy, approvals, audit
+                     │  REST only
+                     ▼
+              ERPNext — one site per tenant
+              + nepal-compliance
+              + tiny frappe_bittokx app (fields, webhooks, service user)
 ```
 
-**Hosting:** `frappe_docker` on our VMs, or Frappe Cloud until we have ops. One site, not a site-per-app.
+Matches ADR-009 and architecture §1 / §13 in PR #1. Three processes. Owner never uses Desk.
 
-**Our code lives in:**
+**Later suite (only after Gmail drafts work and a tenant asks):** Keycloak, Frappe CRM, HRMS, Helpdesk, Insights, POS/Webshop, n8n, Chatwoot. Do not stand this up to feel complete.
 
-- `bittokx_core` — company branding, roles, fixtures, country settings
-- `bittokx_compliance` — tax, e-invoice, local reports (when we know the country)
-- optional verticals later (`bittokx_retail`, `bittokx_lending`, …)
-
-Never copy ERPNext DocTypes into our repo. Extend them.
+**Our code lives in:** `apps/api`, `apps/web`, `apps/frappe_bittokx`. Never fork ERPNext.
 
 ---
 
@@ -296,12 +350,13 @@ Get a lawyer before we sell “Bittokx Cloud” running patched ERPNext + CRM. I
 
 ## 6. What to validate next (not more reading)
 
-1. **Stand up one site** with ERPNext v16 + Frappe CRM + HRMS using `frappe_docker`.
-2. Walk a real flow: lead → deal → quotation → sales order → delivery → invoice → payment.
-3. Try POS Awesome or POSNext with 50 SKUs if retail matters.
-4. List statutory needs (VAT, e-invoice, payroll language, chart of accounts) for the first country. That is the largest hidden build.
-5. Decide isolation: one company, multi-company one site, or site-per-tenant.
-6. Only after that, consider Chatwoot / n8n / Metabase. Not before.
+1. One ERPNext site + nepal-compliance. No CRM/HR/Helpdesk apps.
+2. FastAPI adapter: read Customer/Item/Sales Invoice; write drafts only.
+3. Gmail → Accounts draft (J6/J7). Owner apply. No model on apply.
+4. Bank CSV → Payment Entry draft (J11).
+5. Instagram enquiry only after the Gmail spine works.
+
+Do not install Twenty, Frappe CRM, Chatwoot, n8n, or Keycloak to prove the product.
 
 ---
 
@@ -320,8 +375,6 @@ Get a lawyer before we sell “Bittokx Cloud” running patched ERPNext + CRM. I
 
 ## Bottom line
 
-ERPNext / Frappe is the right ERP bet if we want to **compose an open business system** and write only the Bittokx layer. The matching CRM is **Frappe CRM on the same site**, not Twenty and not ERPNext’s old CRM module.
+ERPNext stays the ledger. **Do not add a CRM product for the prototype.** Twenty is a strong CRM and a bad Bittokx dependency: our product *is* the inbox + approve loop, and UK tenants already bring HubSpot.
 
-Twenty, SuiteCRM, and EspoCRM are good projects to learn from. They are the wrong second database until Frappe CRM is proven insufficient.
-
-The rest of the stack should be **official Frappe apps first**, then Chatwoot / n8n / Metabase / a POS app when a concrete gap appears.
+The Keycloak / full-Frappe-suite / n8n diagram is later optional composition, not the optimal start. Optimal is the three-process cut already in PR #1.

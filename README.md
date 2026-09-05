@@ -1,15 +1,19 @@
 # Bittokx
 
-Open-source-first business platform. We build on existing projects instead of writing an ERP or CRM from scratch.
+AI shop operating system: agents draft, owner applies, ERPNext is the silent ledger.
 
-## Current stack decision
+## Prototype stack (do this)
 
-| Layer | Choice | Status |
-| --- | --- | --- |
-| ERP | [ERPNext](https://github.com/frappe/erpnext) on [Frappe](https://github.com/frappe/frappe) | Adopt |
-| CRM | [Frappe CRM](https://github.com/frappe/crm) on the same site | Adopt |
-| Everything else | Official Frappe apps first, then Chatwoot / n8n / Metabase when a gap is real | See research |
+| Layer | Choice |
+| --- | --- |
+| Ledger | ERPNext, one site per tenant (never the owner UI) |
+| CRM | **None.** Contact in ERPNext; conversations in our app |
+| Product | FastAPI runtime + owner approve UI |
+| Channels | Gmail first, then Instagram enquiry |
 
-Full comparison, rejected alternatives (Odoo, Twenty, SuiteCRM, EspoCRM, …), licenses, and architecture:
+Do **not** start with Frappe CRM, Twenty, HRMS, Helpdesk, Insights, Keycloak, POS, n8n, or Chatwoot.
 
-**[docs/open-source-stack-research.md](docs/open-source-stack-research.md)**
+## Docs
+
+- Product / architecture: [PR #1](https://github.com/Rai59/Bittokx/pull/1)
+- Open-source ERP/CRM options: [docs/open-source-stack-research.md](docs/open-source-stack-research.md)
