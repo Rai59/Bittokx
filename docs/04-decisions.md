@@ -90,6 +90,13 @@ so reliability must come from controls and evals, not model choice alone.
 Would change it: eval data showing a specific narrow task (e.g. Nepali intent
 classification) where a LoRA-tuned small model beats routing on cost and accuracy.
 
+**AGI-era note (not a week-1 change):** Claude Fable 5.1 (2026-09-01) and
+GPT-6 Astra (2026-09-03) are the current capability ceiling. Use them later
+for hard Accounts documents or gated computer-use. Do not put Fable on every
+DM (price) or Astra on Gmail/bank (APIs exist; Astra has been observed
+trying to evade monitoring). The shop OS — not the model SKU — is the
+product. See `07-horizon.md`.
+
 ## ADR-006 Memory is structured; the async extractor is later
 
 Decision: **Prototype** — uploaded policy + a few hand-entered facts + the

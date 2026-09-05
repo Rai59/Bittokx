@@ -22,9 +22,15 @@ authorization for agents, not a CRM — relevant later, not a competitor.
 
 ## 2. Product statement
 
-**One line:** Bittokx is the shop’s operating system. Our app sits on ERPNext.
-Work arrives in Gmail. Customers ask simple questions on Instagram. The agent
-drafts. The owner applies.
+**One line:** Bittokx is the shop’s operating system for the AGI era. Our app
+sits on ERPNext. Work arrives in Gmail. Customers ask simple questions on
+Instagram. The agent drafts. The owner applies.
+
+We are building the **product of the future**, not a demo on one model.
+Fable 5.1 and Astra (Sep 2026) already draft a day’s books and a day’s DMs.
+Models will get cheaper and more reliable. The company is the layer that
+remains: ledger, inbox, policy, apply, audit. See `07-horizon.md`. The
+prototype cut does not change.
 
 How it is used (same split successful ecommerce companies already use):
 
@@ -56,8 +62,8 @@ Confirmed by founder 2026-09-04; channel split and bank-upload path confirmed
 
 - Clothing brand run by a designer-owner. 5–6 staff.
 - 50–100 inbound customer messages/day, Nepali (Devanagari) and English mixed.
-- Channels in: Instagram DM, TikTok DM. Orders placed on Daraz and own website.
-  Daraz notifications, most invoices and receipts arrive in Gmail.
+- Operations inbox: Gmail (Daraz notifications, invoices, receipts). Customer
+  enquiry: Instagram DM, TikTok DM. Orders placed on Daraz and own website.
 - Owner's goal (verbatim intent): handle the business so she can focus on designing
   clothes and on decisions, not on operating the business.
 - Success for her: she opens the app once or twice a day, approves a short list, and
@@ -69,7 +75,7 @@ Confirmed by founder 2026-09-04; channel split and bank-upload path confirmed
 |---|---|---|
 | Owner / Manager | the designer | Mobile web app (approvals, daily brief, ask-my-business) |
 | Agent: Customer Service | software | Instagram DM (TikTok later) |
-| Agent: Accounts | software | Gmail (read), ERPNext (write via adapter) |
+| Agent: Accounts | software | Gmail (read), statement upload, ERPNext (write via adapter) |
 | Customer | buyer | Instagram / TikTok, unchanged |
 
 **Staff, in plain language:** the shop has 5–6 people, but the prototype has
