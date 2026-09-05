@@ -134,4 +134,5 @@ CS (look up order → draft reply) and Accounts (read email → draft invoice) a
 5. Then Instagram → simple CS enquiry (J1–J3).
 
 Do not start with LiteLLM, Yapily, TrueLayer, hash chains, extractors, or a
-skills framework.
+skills framework. `07-horizon.md` is direction for the AGI era — do not build
+it in week 1.
