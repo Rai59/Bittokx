@@ -1,11 +1,12 @@
 # Bittokx — Research synthesis (primary sources)
 
-Status: 2026-09-04, pass 2. The first write-up of this file summarised other
-summaries. This pass reads the sources the founder named: cloned repos,
-official engineering posts, product docs, and arXiv abstracts/PDFs.
+Status: 2026-09-05, pass 3. Pass 2 read primary sources. This pass adds the
+papers and blogs from the founder’s 2026-09-05 list, and **stops treating this
+file as architecture**.
 
-If this file and `01-architecture.md` disagree, this file wins until an ADR
-records the override.
+**If this file and the PRD / prototype cut disagree, the PRD and prototype cut
+win.** Research may add an ADR only when a ship decision changes. Do not grow
+`01-architecture.md` from a paper.
 
 How to read: §0 is the coverage checklist (every name you listed). §1 is the
 verdict for Bittokx. The rest is evidence, with URLs and, for commerce-agents,
@@ -561,8 +562,8 @@ a deterministic resource graph.** FGA = RBAC attached to a resource hierarchy
 (vertical inheritance, no lateral movement). For agents acting on behalf of a
 user: **intersection check** (agent AND user must be allowed) — Confused
 Deputy. Later for Bittokx when staff exist: “this agent may `lookup_order` on
-tenant A’s orders, not tenant B.” MVP 1: schema-per-tenant is the coarse
-version.
+tenant A’s orders, not tenant B.” Prototype: `tenant_id` on every row is the
+coarse version. Schema-per-tenant is later.
 
 ## 7. Mapping → Bittokx (what this pass adds)
 
@@ -587,8 +588,13 @@ runtimes.
    then terms then next step; this flow reads; money is a handoff).
 
 What still does **not** change: ERPNext, thin canonical model, deterministic
-policy engine, all-draft prototype, money-out human-only, LiteLLM, Frappe +
-FastAPI split, NPR pricing.
+policy engine, all-draft prototype, money-out human-only, Frappe + FastAPI
+split, NPR pricing.
+
+What the **prototype cut** (`01-architecture.md`, `06-review.md`) now defers,
+even though this file described them: LiteLLM, hash-chained audit, async
+extractor, skills framework, schema-per-tenant, 50–100 eval cases per flow.
+Those remain good *later* ideas. They are not week-1 work.
 
 ## 8. Source list (primary)
 
@@ -639,3 +645,43 @@ CX / auth
 - https://sierra.ai/blog/agents-as-a-service
 - https://workos.com/blog/agents-need-authorization-not-just-authentication
 - Salesforce Trailhead, Agentforce Builder 2026
+
+## 9. 2026 papers and catalogues (2026-09-05) — use vs skip
+
+Read: JetBrains *Top Agentic Frameworks 2026*; LangChain HITL / `interrupt`
+post; Google *Towards a Science of Scaling Agent Systems*; VoltAgent
+awesome-ai-agent-papers (watch list); the founder’s named papers.
+
+### 9.1 Use
+
+| Source | What it changes |
+|---|---|
+| Google *Science of Scaling Agent Systems* (Jan 2026, arXiv 2512.08296; [blog](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)) | 180 configs. Sequential tasks: **every** multi-agent variant **39–70% worse**. Tool-heavy work pays a coordination tax. Independent swarms amplify errors **17.2×**. **Strengthens ADR-004.** Do not add a reviewer / planner / swarm. |
+| JetBrains (Jun 2026) [frameworks post](https://blog.jetbrains.com/pycharm/2026/06/top-agentic-frameworks-for-building-applications-2026/) | Graph (LangGraph, OpenAI Agents SDK) for production HITL; role (AutoGen, CrewAI) for prototypes; chain (LangChain) for speed. **Catalogue, not a shopping list.** Prototype = FastAPI loop + `approvals` table. Consider LangGraph only if pause/resume becomes painful. |
+| LangChain [HITL `interrupt` post](https://www.langchain.com/blog/making-it-easier-to-build-human-in-the-loop-agents-with-interrupt) | Persist, pause before a side effect, human edits, resume. **Node re-runs** on resume → no write before the pause. We already copied the *shape* (ADR-018). We do not take their runtime. |
+| Stanford *Adaptation of agentic AI* | Adapt **tools and prompts** first; SFT/RL after traces. Confirms ADR-005. |
+| NVIDIA SLMs (already in §3.4) | Log traces, then consider a small model. Already ADR-005. |
+| Kirsch *Domain-Specialized Agent Systems in Enterprise AI* | Use the **title**, not the machinery. We are already CS + Accounts on ERP. Do not add a “domain OS” layer. |
+
+### 9.2 Skip (do not implement, do not add ADRs)
+
+| Paper | Why skip |
+|---|---|
+| Stanford comprehensive review of agents | Background. Perceive–reason–act. We already have the loop. |
+| DeepMind foundation agents (brain / emotion / reward) | We are not building a cognitive architecture. |
+| Titans (test-time neural memory, 2M tokens) | Typed facts + ERP beat a neural memory module. |
+| DeepSeek-R1 | Training a reasoner is not our job. |
+| Meta RL compute scaling (400k GPU-hours) | We are not running that. |
+| Microsoft Agent Lightning | RL on an existing agent, later if ever. |
+| Meta ARE / Gaia2 | Later eval platform. 20 snapshot cases first. |
+| AlphaEvolve | Algorithm discovery, not e-commerce ops. |
+| Cambridge self-evolving agents (arXiv 2607.07663) | **No recursive self-improvement** on money or customer DMs. |
+| VoltAgent/awesome-ai-agent-papers (364+ papers, 2026) | A **watch list**, not a build list. |
+
+### 9.3 LangChain.com generally
+
+The LangChain blog is a product + evals + HITL stream. Useful patterns:
+interrupt before side effects; put the right tools and facts in the window, not
+the whole company. That argues **against** a giant skills catalogue and
+**against** always-on memory extraction in week 1. It does not argue for
+adding LangChain or LangGraph as a dependency.

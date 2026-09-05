@@ -1,6 +1,7 @@
 # Bittokx — Approval Policy (action classes and MVP defaults)
 
-Status: draft v0.2, 2026-09-04. Evidence: `05-research-synthesis.md`.
+Status: draft v0.3, 2026-09-05. Evidence: `05-research-synthesis.md`.
+Prototype cut: `01-architecture.md`. Classes marked **later** are not build.
 
 ## 1. Principles
 
@@ -9,8 +10,11 @@ Status: draft v0.2, 2026-09-04. Evidence: `05-research-synthesis.md`.
    `forbidden` (refuse and log). There is no fourth "ask the model again".
 3. Money movement is `forbidden` for agents in MVP 1: refunds, payouts, transfers,
    supplier payments. The agent prepares; the human pays; the agent records afterwards.
-4. Prototype default: everything consequential is `draft`. Autonomy is earned per class
-   through graduation (section 4), never assumed.
+4. Prototype default: everything consequential is `draft`. Opening a `ReturnRequest`
+   record (`CS-RETURN-OPEN`) is `auto` because it creates a record and makes no
+   customer promise — that is not a leak. Graduation (section 4) is **later**;
+   there is no slider UI in the prototype. The owner may flip a class in config
+   after a shadow week.
 5. Same rules for every actor. If the owner later adds a second human user, the same
    matrix applies to them. This mirrors how Rillet, Sage and Ramp treat human-, system-
    and AI-originated entries identically.
@@ -36,10 +40,10 @@ Legend: A = auto, D = draft (human approves), F = forbidden for agents.
 | CS-LINK | Send Daraz / own-site checkout link | D | A | Link must come from `get_checkout_link` |
 | CS-HOLD | Send pre-approved holding template ("checking, back in N hours") | A | A | Template text owner-approved once |
 | CS-EVIDENCE | Ask customer for photo / order id / reason for a return | A | A | Template-based; no commitment made |
-| CS-REMINDER | Payment reminder for unpaid own-site order | D | A after 50 clean | Frequency cap: 1 per 48h per order |
-| CS-RETURN-OPEN | Open ReturnRequest with collected evidence | A | A | Creates a record, no promise |
-| CS-RETURN-DECISION | Tell customer refund approved / declined | D | D | Owner decides; agent drafts wording. Nepal E-Commerce Act: grievance resolution ≤ 15 days — engine tracks the clock |
-| CS-DISCOUNT | Offer discount, voucher, store credit | F | D above NPR 0, A ≤ owner-set cap | Off in prototype |
+| CS-REMINDER | Payment reminder for unpaid own-site order | D | A after data | **Later than J1–J3.** Frequency cap: 1 per 48h per order |
+| CS-RETURN-OPEN | Open ReturnRequest with collected evidence | A | A | Creates a record, no promise. Allowed `auto` in the prototype. |
+| CS-RETURN-DECISION | Tell customer refund approved / declined | D | D | Owner decides; agent drafts wording. Prototype: a due-date field + a line in the daily brief, not a 15-day “engine”. |
+| CS-DISCOUNT | Offer discount, voucher, store credit | F | D above NPR 0 | **Later.** Off in prototype. |
 | CS-ESCALATE | Hand thread to owner with summary | A | A | Always allowed; triggers on anger, legal words, "human", loop detection |
 | CS-FREEFORM | Any reply not covered above | D | D | Stays draft |
 
@@ -51,18 +55,18 @@ Legend: A = auto, D = draft (human approves), F = forbidden for agents.
 | AC-SI-FROM-ORDER | Sales Invoice draft from confirmed Daraz / site order | D | A | Derived from accepted document; amounts copied not computed by model |
 | AC-SI-ADJUSTED | Sales Invoice with manual discount / price override | D | D | |
 | AC-PI-FROM-DOC | Purchase Invoice / Expense draft from Gmail attachment | D | D → A per supplier after 20 clean | Attachment linked; supplier must exist or be drafted |
-| AC-PAYMENT-MATCH-EXACT | Payment Entry when amount + reference match exactly | D | A | Deterministic match rule, not model judgement |
-| AC-PAYMENT-MATCH-FUZZY | Payment Entry with partial / ambiguous match | D | D | |
-| AC-CATEGORISE-RULE | Categorise statement line matching an owner rule or exact prior pattern | D | A | QuickBooks "green" equivalent |
-| AC-CATEGORISE-WEAK | Categorise with weak or no history | D | D | |
-| AC-CREDIT-NOTE | Credit note for approved return | D | D | Money-adjacent |
+| AC-PAYMENT-MATCH-EXACT | Payment Entry when amount + reference match exactly | D | A | **Later than J6/J7.** No bank-statement CSV in the prototype. |
+| AC-PAYMENT-MATCH-FUZZY | Payment Entry with partial / ambiguous match | D | D | **Later.** |
+| AC-CATEGORISE-RULE | Categorise statement line matching an owner rule | D | A | **Later.** Not J1–J10. |
+| AC-CATEGORISE-WEAK | Categorise with weak or no history | D | D | **Later.** |
+| AC-CREDIT-NOTE | Credit note for approved return | D | D | Money-adjacent. After J4. |
 | AC-JE-MANUAL | Any manual journal entry | F | D | Never auto |
 | AC-REFUND-RECORD | Record a refund the owner has already paid | D | D | Requires owner's approval of the return first |
 | AC-MONEY-OUT | Pay supplier, transfer, payout, issue refund | F | F | Agents never move money in MVP 1 |
-| AC-TAX | Anything touching VAT accounts, CBMS submission | F | D | |
-| AC-COA | Change chart of accounts, fiscal year, settings | F | F | Human in ERPNext UI |
-| AC-CLOSE | Period close | F | D | |
-| AC-BRIEF | Daily brief to owner | A | A | Read-only output |
+| AC-TAX | Anything touching VAT accounts, CBMS submission | F | D | **Later.** |
+| AC-COA | Change chart of accounts, fiscal year, settings | F | F | **Later.** Human in ERPNext UI |
+| AC-CLOSE | Period close | F | D | **Later.** |
+| AC-BRIEF | Daily brief to owner | A | A | Read-only output. After J1–J3 and J6. |
 
 ## 3. Rule format
 
@@ -101,17 +105,18 @@ Apply-time extras:
   to the queue with the new reason; it does not execute.
 - Write commands for one `Conversation` are serialised.
 
-## 4. Graduation (earning autonomy)
+## 4. Graduation (later — not a prototype engine)
 
-For each `(tenant, class)`:
+**Prototype: all consequential classes stay `draft`.** There is no streak counter,
+no proposal, no slider. After a shadow week the owner may flip one class in
+config.
+
+**Later**, when there is data:
 
 - `clean_streak` = consecutive approvals with zero edits and no later reversal.
-- Any edit, rejection, or reversal within 7 days resets the streak to 0.
-- When `clean_streak >= threshold` (default 50; 20 for per-supplier AC-PI-FROM-DOC), the
-  system creates a proposal: "Move CS-REPLY-STATUS to auto? 50/50 approved unchanged."
-- Only the owner accepts. Acceptance creates a new `policy_version`.
-- Any class can be demoted by the owner in one tap; demotion is immediate.
-- Money-out classes cannot graduate.
+- When `clean_streak >= threshold` (default 50; 20 for per-supplier AC-PI-FROM-DOC),
+  the system *proposes* moving the class to `auto`. Only the owner accepts.
+- Any class can be demoted in one tap. Money-out classes cannot graduate.
 
 ## 5. Escalation triggers (always auto)
 
@@ -124,9 +129,8 @@ For each `(tenant, class)`:
 
 ## 6. Owner controls (UI)
 
-- Per-class slider: auto / draft / off.
-- Amount caps where relevant (discount cap, reminder frequency).
-- Policy document upload and edit; each save is a new `policy_version`.
-  Owner-only **hidden notes** (Ramp) are stored as facts the customer-facing
-  prompt never sees (e.g. “refunds over NPR 5,000 always come to me”).
-- Demote-to-draft one tap; view "why did the agent do this" from any message.
+**Prototype:** approve / edit / reject on the web list. Upload the return/refund
+policy. View "why did the agent do this" from a draft.
+
+**Later:** per-class slider; amount caps; owner-only hidden notes (Ramp);
+one-tap demote.

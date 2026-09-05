@@ -1,8 +1,10 @@
 # Bittokx — Decision Log
 
 Short ADRs. Each records the decision, the evidence, and what would change it.
-Evidence base: `05-research-synthesis.md`. ADR-001 … ADR-012 stand; ADR-006
-is amended; ADR-013 … ADR-019 are the research-driven additions.
+Evidence base: `05-research-synthesis.md`. **Stop adding ADRs unless a ship
+decision changes.** 19 is enough. Prototype cut in `01-architecture.md` and
+`06-review.md` overrides “build this in week 1” readings of ADR-006, 007, 008,
+015, 016, 017.
 
 ## ADR-001 ERPNext over Odoo as the hosted backend
 
@@ -62,6 +64,12 @@ Bittokx work is transactional. OpenAI's 2025 agents guide starts single-agent fo
 same reason. Grok Bot "Auto Review" is a second model on risky actions — that is the
 senior-approver pattern; we use the policy engine instead.
 
+**Google, Jan 2026** (*Towards a Science of Scaling Agent Systems*, arXiv 2512.08296;
+180 configs): on sequential tasks **every** multi-agent variant was **39–70% worse**.
+Tool-heavy work pays a coordination tax. Independent swarms amplify errors **17.2×**.
+CS (look up order → draft reply) and Accounts (read email → draft invoice) are
+sequential and tool-heavy. Strongest quantitative reason to keep one loop.
+
 Would change it: a genuinely parallel, read-heavy job (e.g. weekly market research)
 where an orchestrator-worker fan-out is warranted. That can be added as a role later.
 
@@ -81,12 +89,14 @@ so reliability must come from controls and evals, not model choice alone.
 Would change it: eval data showing a specific narrow task (e.g. Nepali intent
 classification) where a LoRA-tuned small model beats routing on cost and accuracy.
 
-## ADR-006 Memory is structured, bi-temporal, and extracted asynchronously
+## ADR-006 Memory is structured; the async extractor is later
 
-Decision: three layers — operational (canonical model), business knowledge
+Decision: **Prototype** — uploaded policy + a few hand-entered facts + the
+conversation log. No async extractor, no bi-temporal table, no hidden notes.
+
+**Later:** three layers — operational (canonical model), business knowledge
 (`facts` table with `tenant + user_id`, valid_from/valid_to, source), episodic
-(thread/task state). Reads are three-layer (always-in-context, pre-fetch,
-lookup tool). Writes are an **async extractor after the turn** that reads
+(thread/task state). Writes are an **async extractor after the turn** that reads
 **user + assistant text only, never tool results**, through a predicate
 validator. No Mem0 / Letta-style untyped chat memory. No in-loop "save memory"
 tool on the customer-facing path.
@@ -102,21 +112,25 @@ Would change it: a need for multi-hop graph traversal across entities; then
 adopt Graphiti self-hosted behind the same facts interface. A jurisdiction that
 forbids this class of memory: per-deployment switch off (extractor no-ops).
 
-## ADR-007 Append-only, hash-chained audit log from day one
+## ADR-007 Append-only audit log from day one; hash chain later
 
-Decision: one `audit_event` row per action/decision, pre-execution recording for
-draft/forbidden decisions, SHA-256 chain per tenant.
+Decision: every **decision** and every **execution** writes an `audit_event` row
+(a draft then an approve is two rows). Pre-execution recording for draft/forbidden.
+**Prototype: append-only rows, no hash chain, no offline verifier.** Hash chain
+when a second tenant or UK compliance appears. Do not treat EU AI Act / IETF
+alignment as a Nepal-prototype requirement.
 
-Evidence: EU AI Act Art. 12 record-keeping obligations effective August 2026; IETF
-Agent Audit Trail draft specifies pre-execution recording for escalations/denials and
-hash chaining; Rillet/Sage cite the audit log ("who gave the task, who approved") as the
-core customer-trust feature. Cheap now, very expensive to retrofit.
+Evidence: Sage/Rillet cite the audit log ("who gave the task, who approved") as
+the customer-trust feature. Append-only is cheap and enough for one shop.
+Retrofitting a chain is possible; shipping a verifier before Instagram works is
+not.
 
-## ADR-008 LiteLLM self-hosted as the model gateway
+## ADR-008 One API key in the prototype; LiteLLM later
 
-Decision: LiteLLM proxy with per-tenant virtual keys and caps; model groups
-`cheap_structured`, `customer_facing`, `owner_facing`; Claude Sonnet 5 default for
-customer-facing text until the Nepali eval clears cheaper models.
+Decision: **Prototype** — one Anthropic API key, Claude for customer-facing text,
+`tenant_id` in our own logs. **Later** — LiteLLM (or equivalent) with per-tenant
+virtual keys, caps, and groups `cheap_structured`, `customer_facing`,
+`owner_facing`. Cheap models only after a Nepali eval, not before.
 
 Evidence: LiteLLM is open source, self-hosted, OpenAI-compatible, supports fallbacks,
 cost/latency routing and per-key spend tracking; OpenRouter adds a 5.5% fee and cannot be
@@ -165,11 +179,12 @@ customer that replaces a NPR 25,000 employee.
 Would change it: design-partner refusal at the tested price, or measured COGS above
 USD 30/tenant/month after routing.
 
-## ADR-012 Prototype starts all-draft; autonomy is earned per class
+## ADR-012 Prototype starts all-draft; graduation is later, not an engine
 
-Decision: in the first four weeks every consequential action is a draft; graduation to
-auto is proposed per action class after 50 unedited approvals; money-out never
-graduates.
+Decision: in the first four weeks every consequential action is a draft
+(`CS-RETURN-OPEN` may auto-create a record; it makes no promise). There is **no
+graduation UI** in the prototype. After a shadow week the owner may flip a class
+in config. Money-out never graduates. A streak counter / slider is later.
 
 Evidence: Ramp began suggestion-only and expanded autonomy as trust grew; QuickBooks
 "Ready to post" derives confidence from the customer's own history. All-draft also
@@ -217,13 +232,15 @@ Would change it: a channel where the customer must be allowed to paste an
 external order id we have never seen (then: lookup tool first, and only the
 lookup's returned id becomes writable).
 
-## ADR-015 Skills for the long tail; safety and high-frequency in the prompt
+## ADR-015 One persona file per role until a skill file exists
 
-Decision: `SKILL.md` files for procedures used on a minority of turns; anything
+Decision: **Prototype** — `prompts/customer_service.md` and
+`prompts/accounts.md` plus the uploaded policy. Do not name seven `SKILL.md`
+files that are not in the repo.
+
+**Later:** `SKILL.md` files for procedures used on a minority of turns; anything
 on ≥ ~1/3 of traffic, plus all safety / legal / brand rules, stays in the role
-system prompt. If a skill is predictable from channel or a cheap classifier,
-the harness injects it before the first model call. Skills load as tool
-results, never as system-prompt appends.
+system prompt. Skills load as tool results, never as system-prompt appends.
 
 Evidence: Anthropic anatomy post: loading a skill costs a turn; skills beat
 subagents because the main agent keeps the whole history. Hermes and OpenClaw
@@ -238,12 +255,10 @@ coldest sections into skills).
 
 Decision: grade agents by constructing a messages array + tool/canonical state,
 appending one user message, running, and scoring **final state + rendered
-reply**, not the path. 50–100 cases per flow. Every positive case has a
-negative twin. A share of cases start from long / messy / contradictory
-histories. Simulated-user (second model as customer) is for **discovering**
-cases only. CI always runs core traffic + every safety case; a skill change
-also runs that skill and its neighbors' boundary cases. τ²-bench-style pass^k
-remains the gate for routing a model customer-facing (policy adherence).
+reply**, not the path. **Prototype: 20 cases per shipped flow** (J1–J3 first)
+plus 2 injection cases. Pair a few positives with a negative. Simulated-user
+is for **discovering** cases only. 50–100 per flow is later, from real DMs.
+τ²-bench-style pass^k is a later gate before a cheap model is customer-facing.
 
 Evidence: Anthropic commerce evals: the API is stateless, so any conversation
 state can be a snapshot; simulated-user pairs two non-deterministic systems
@@ -254,12 +269,15 @@ Would change it: a flow that cannot be snapshotted (true multi-hour async
 with a human in the middle) — then add an ARE-style scenario runner beside
 snapshots, not instead of them.
 
-## ADR-017 Prompt cache prefix is global → session → volatile last
+## ADR-017 Prompt cache prefix is later discipline, not a week-1 project
 
-Decision: design for 90–99% cache hit rate. Byte-identical global prefix
-(persona, safety, tool defs) → session (tenant facts, history, loaded skills)
-→ volatile last (time, channel). Skills as tool results. Never put a timestamp
-or "current page" at the top of the system prompt.
+Decision: **Prototype** — keep the system prompt stable (no timestamp at the
+top). Do not build a cache-hit dashboard or a three-layer prefix design until
+a second model or a painful bill appears.
+
+**Later:** global (persona, safety, tool defs) → session (facts, history) →
+volatile last (time, channel). Skills as tool results. Aim for a high cache
+hit rate when we are paying for it.
 
 Evidence: Anthropic: cached reads are ~10× cheaper and 1.5–2× faster at ~100k
 tokens; best commerce deployments hit 90–99%. Hermes injects skills as user

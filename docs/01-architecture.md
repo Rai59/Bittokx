@@ -1,14 +1,36 @@
 # Bittokx — Architecture (MVP 1)
 
-Status: draft v0.2, 2026-09-04. Reasoning: `04-decisions.md`. Evidence:
-`05-research-synthesis.md`. If this file and the research file disagree, the
-research file wins until an ADR records the override.
+Status: draft v0.3, 2026-09-05. Reasoning: `04-decisions.md`. Evidence:
+`05-research-synthesis.md`. **If this file and the research file disagree, the
+prototype cut in this file wins.** Research does not add work.
+
+## Prototype cut (this is the build list)
+
+Ship this and stop. Everything else in this file is labelled **later**.
+
+| Piece | Prototype |
+|---|---|
+| Users | Owner only |
+| Channels | Instagram DMs in; Gmail in (invoices); owner web app to approve |
+| Jobs | J1–J3 first, then J6/J7. J4 after those work. |
+| Runtime | One FastAPI loop. Two role prompts. Typed tools. `approvals` table. |
+| Model | One Anthropic API key. Claude for customer text. Cheap model only if the bill hurts. |
+| Memory | Uploaded return/refund policy + a few hand-entered facts. Conversation log in Postgres. |
+| Audit | Append-only `audit_event` rows. No hash chain. |
+| Apply | Owner hits apply. Code writes ERPNext. **No model on that path.** |
+| ERPNext | One site per tenant. Thin mirror listed in §3. |
+| Eval | 20 snapshot cases on the shipped flow + 2 injection cases |
+| Not in the prototype | LiteLLM, schema-per-tenant Postgres, async memory extractor, skills framework, WhatsApp, staff login, bank CSV, Vue-vs-React decision, PWA, hash-chain verifier, graduation engine, Daraz Open Platform, TikTok DMs |
+
+We are a **merchant-side ops agent + customer-care in DMs**, not a storefront
+shopping agent. Customers check out on Daraz or the owner's site. See
+`05-research-synthesis.md` §1 and ADR-013.
 
 ## 1. Overview
 
 ```
  Customers                      Owner
- Instagram DM / TikTok DM       Mobile web app (PWA) / WhatsApp
+ Instagram DM                   Mobile web app
         │                              │
         ▼                              ▼
  ┌─────────────────────────────────────────────────────────┐
@@ -18,22 +40,18 @@ research file wins until an ADR records the override.
  ┌─────────────────────────────────────────────────────────┐
  │  Agent Runtime (Python / FastAPI)                       │
  │   ├─ Roles: customer_service, accounts  (config)        │
- │   ├─ Skills: SKILL.md long tail; safety always in prompt │
  │   ├─ Tools: typed, per-role allowlist                    │
  │   ├─ Provenance: writes/renders only session-issued IDs  │
- │   ├─ Memory: operational | facts | episodic + extractor  │
  │   ├─ Policy Engine (deterministic)  ── auto/draft/forbid │
  │   ├─ Approval Queue (durable pause / resume)             │
- │   └─ Audit Log (append-only, hash-chained)               │
- └───────┬───────────────┬─────────────────┬────────────────┘
-         │               │                 │
-         ▼               ▼                 ▼
-   LiteLLM proxy    Canonical Model     Adapters
-   (routing, caps)  (Postgres)          ├─ ERPNext (site per tenant)
-                                        ├─ Daraz Open Platform
-                                        ├─ Gmail
-                                        ├─ Own-site connector
-                                        └─ (later) Xero / QuickBooks / HubSpot
+ │   └─ Audit Log (append-only rows)                        │
+ └───────┬───────────────┬──────────────────────────────────┘
+         │               │
+         ▼               ▼
+   Anthropic API    Canonical Model     Adapters
+                    (Postgres)          ├─ ERPNext (site per tenant)
+                                        ├─ Gmail (read)
+                                        └─ (later) Daraz / TikTok / Xero / QuickBooks
 ```
 
 Two deployable services plus ERPNext:
@@ -42,63 +60,78 @@ Two deployable services plus ERPNext:
    a small `bittokx` Frappe app (custom fields, webhooks, a service user per tenant).
 2. **Bittokx API** — Python/FastAPI: channel gateway, agent runtime, policy engine,
    approval queue, audit log, canonical model, adapters. Talks to ERPNext over REST only.
-3. **Bittokx Web** — owner UI (Vue + `frappe-ui`, or React; decide when the full-stack
-   hire joins). Mobile-first PWA.
-
-We are a **merchant-side ops agent + customer-care in DMs**, not a storefront
-shopping agent. Customers check out on Daraz or the owner's site. See
-`05-research-synthesis.md` §1 and ADR-013.
+3. **Bittokx Web** — owner UI. Mobile-first. **Do not decide Vue vs React in this spec.**
 
 ## 2. Tenancy
 
-- Tenant = one business. One ERPNext site, one Postgres schema, one set of channel
-  credentials, one LiteLLM virtual key with a monthly cap.
-- No shared tables across tenants in the canonical model. Schema-per-tenant in Postgres;
-  the agent runtime receives the tenant id from the gateway and cannot query outside it.
+- Tenant = one business. One ERPNext site, one set of channel credentials.
+- **Prototype database:** one Postgres schema, `tenant_id` on every row. Every
+  query, tool call, and object-store key is scoped by `tenant_id`. A missed
+  `WHERE tenant_id = $1` is a P0.
+- **Later:** schema-per-tenant if a second paying shop exists and a missed
+  filter has burned us. One-database-per-tenant is never the prototype.
 
 ## 3. Canonical model (thin)
 
-Purpose: one vocabulary for tools, memory, policy and audit. It is a **read model plus a
-command interface**, not a second ledger.
+Purpose: one vocabulary for tools, memory, policy and audit. It is a **read model
+plus a command interface**, not a second ledger.
 
-Entities (v1): `Contact`, `Conversation`, `Message`, `Product`, `Order`, `OrderLine`,
-`Invoice`, `Payment`, `Bill` (supplier), `Expense`, `ReturnRequest`, `Refund`,
-`Document` (email/PDF/image attachment), `Task`.
+**Prototype mirror** (nine entities). Everything else stays in ERPNext until a
+shipped job needs it.
+
+| Entity | Lives | Notes |
+|---|---|---|
+| **Tenant** | us | Shop, locale, VAT flag, IRD credential pointer (secret store, never in the prompt). |
+| **User** | us | Owner only in the prototype. |
+| **Contact** | ERP + thin mirror | Customer. Channel identities hang off this. |
+| **Conversation** | us | One thread on one channel. |
+| **Message** | us | Inbound / outbound / draft. Raw payload stored; model sees a sanitised view. |
+| **Product** | ERP + thin mirror | SKU, title, variants, stock qty (cached). |
+| **Order** | ERP + thin mirror | The commercial promise (ERPNext Sales Order). |
+| **Invoice** | ERP + thin mirror | Sales invoice or purchase bill. VAT fields on the draft when needed. |
+| **Document** | us + object store | PDF / image. A draft invoice without a source document is a policy violation. |
+| **ReturnRequest** | us → ERP | Opened from CS; Accounts issues the credit later. |
+| **Task** | us | Owner to-do / draft approval. |
+
+**Later (not prototype tables):** `OrderLine`, `Payment`, `Bill`, `Expense`,
+`Refund` as first-class mirror rows. The agent may *read* them from ERPNext when
+J6/J8 needs them.
 
 Rules:
 
-- **Reads**: adapters mirror vendor data into the canonical tables (webhooks + periodic
-  sync). Agents read only from here. Every mirrored row carries `source_system`,
-  `source_id`, `synced_at`.
-- **Writes**: agents never write to a vendor. They emit **commands**
-  (`CreateSalesInvoiceDraft`, `SendMessage`, `RecordRefund`, …). The policy engine
-  classifies the command; the adapter executes it against the system of record; the
-  mirror updates from the vendor's response or webhook. No dual-write.
-- **Conflict**: the system of record always wins. If ERPNext and the mirror disagree,
-  the mirror is wrong.
+- **Reads**: adapters mirror vendor data into the canonical tables. Agents read
+  only from here. Every mirrored row carries `source_system`, `source_id`, `synced_at`.
+- **Writes**: agents never write to a vendor. They emit **commands**. The policy
+  engine classifies the command; the adapter executes it; the mirror updates from
+  the vendor. No dual-write.
+- **Conflict**: the system of record always wins.
+
+**We do not add:** Agent, Skill-as-a-row, Workflow, Playbook-as-a-table, or
+“Memory Palace.” Playbooks are markdown the owner uploaded. The agent is the
+runtime, not a row.
 
 ## 4. Agent runtime
 
-One model in a standard loop: assemble context → model call via LiteLLM → tool
-calls → repeat → final. No intent router. No subagent-per-domain. Anthropic's
-2026 commerce deployments found skills beat both a giant prompt and
-subagents on quality, cost, and latency; Bittokx work is the same shape
-(transactional, shared cart/order/policy context). See ADR-004, ADR-013, ADR-015.
+One model in a standard loop: assemble context → model call → tool calls →
+repeat → final. No intent router. No subagent-per-domain.
+
+Google (Jan 2026, *Towards a Science of Scaling Agent Systems*): sequential and
+tool-heavy tasks get **worse** with extra agents (−39% to −70%). CS and Accounts
+are that shape. See ADR-004.
 
 Synchronous per conversation: one run at a time per `Conversation`. Write tools
-are serialised on that lock so parallel tool calls cannot stack past a cap
-(ADR-018). Following the gateway pattern used by Hermes / OpenClaw.
+are serialised on that lock (ADR-018).
 
 ### 4.1 Roles are configuration, not code paths
+
+**Prototype:** one system prompt per role (`prompts/customer_service.md`,
+`prompts/accounts.md`) plus the owner's uploaded return/refund policy. No
+`SKILL.md` files until a second file exists in the repo and a job is worse
+without it.
 
 ```yaml
 role: customer_service
 persona: prompts/customer_service.md        # safety, language, grounding, escalation
-skills:                                     # long tail; loaded as tool results
-  - skills/cs/order-status.md
-  - skills/cs/returns-refunds.md
-  - skills/cs/checkout-link.md
-  - skills/cs/language-mix.md
 tools:
   - lookup_order
   - lookup_product
@@ -108,47 +141,28 @@ tools:
   - request_evidence       # produces a command: SendMessage (template)
   - open_return_request    # produces a command
   - escalate_to_owner      # always allowed
-memory_scope: [operational, business_knowledge, episodic]
-model_policy: customer_facing              # see LiteLLM section
+model_policy: customer_facing
 ```
 
-Accounts is the same shape with `skills/accounts/{gmail-invoice,daraz-order-email,payment-match}.md`.
+Accounts is the same shape with invoice / email tools. CS prompt holds:
+grounding, language, safety, escalation, "never invent an order or a price".
+Accounts prompt holds: "amounts copied not computed", never money-out.
 
-### 4.2 Skills vs system prompt (decide by frequency)
-
-Loading a skill costs a model turn. Rule (ADR-015):
-
-- Anything needed on ≥ ~1/3 of traffic, or any safety / legal / brand rule,
-  lives in the role persona (system prompt).
-- Long-tail procedures live in `SKILL.md` files and are loaded as **tool
-  results**, never appended to the system prompt (keeps the global cache prefix
-  stable — ADR-017).
-- If a skill is predictable from a signal we already have (channel, a cheap
-  classifier, "this email is a Daraz order"), the harness injects it before
-  the first model call and skips the extra turn.
-
-CS prompt holds: grounding, language, safety, escalation, "never invent an
-order or a price". Accounts prompt holds: "amounts copied not computed", never
-money-out.
+**Later:** versioned `SKILL.md` files for long-tail procedures (ADR-015).
+Owner-uploaded playbooks stay **data**, never executable scripts.
 
 Subagents are allowed later only as a **read-only tool** for self-contained
-work (weekly market scan) or as a **handoff** that takes over the conversation.
-They are not used inside a customer or accounts turn.
+work or as a **handoff**. They are not used inside a customer or accounts turn.
 
-### 4.3 Tools
+### 4.2 Tools
 
 Typed (pydantic in, pydantic out). A tool either reads the canonical model or
-returns a *command*. Tools never call vendors directly and never reimplement
-ERPNext / Daraz / Gmail logic — they call adapters.
+returns a *command*. Tools never call vendors directly.
 
 Tool results are context: return fields the model reasons with, drop the rest.
 Error payloads include the next step ("include an order id"), not a bare code.
 
-Customer-facing CS in MVP 1 is Instagram / TikTok **text**. Presentation-as-tools
-(Anthropic `present_products`) are deferred until the owner PWA needs charts;
-structured cards in our UI are enough.
-
-### 4.4 Provenance, grounding, untrusted content
+### 4.3 Provenance, grounding, untrusted content
 
 - **Provenance gate (ADR-014):** the harness keeps a per-session set of IDs
   the server has handed the model. Writes and customer-facing figures
@@ -159,94 +173,79 @@ structured cards in our UI are enough.
   availability, this session must contain a matching tool result. No result
   → escalate (`CS-ESCALATE`), never guess. Enforced in the harness, not the
   prompt.
-- **Untrusted content** (customer messages, email bodies, PDF text, Daraz
-  fields) is sanitised and wrapped in a fence before entering the prompt.
-  The prompt says fenced text is material to report on, never instructions.
-  Tool results are data, not instructions.
-- **Caps on resulting state:** frequency caps, discount caps, reminder caps
-  are checked against the state after the write, not against the request.
-  Policy is **re-checked at apply time** (when the owner approves), not only
-  when the draft was staged.
+- **Untrusted content** (customer messages, email bodies, PDF text) is
+  sanitised and wrapped in a fence before entering the prompt. Fenced text is
+  material to report on, never instructions.
+- **Caps on resulting state:** frequency caps are checked against the state
+  after the write. Policy is **re-checked at apply time**.
 
-### 4.5 No self-granted autonomy
+### 4.4 No self-granted autonomy
 
 The model can request any tool in its allowlist. Whether the resulting
 command executes, drafts, or is refused is decided by the policy engine.
 Checkout is a handoff URL (`get_checkout_link`); there is no "place order"
-or "charge" tool — matching Anthropic's `StorefrontBackend` having no charge
-method.
+or "charge" tool.
+
+The model never sees raw channel JSON, never sees another tenant, never sees
+IRD or Meta tokens. Identity and secrets stay in the runtime (ADR-019).
 
 ## 5. Policy engine
 
-Deterministic. Input: a `Command` plus context (tenant, role, amount, counterparty type,
-policy-match result, history stats). Output: `auto | draft | forbidden` plus the matched
-rule id and policy version. Details and the MVP matrix in `02-approval-policy.md`.
-
-Properties:
+Deterministic. Input: a `Command` plus context. Output: `auto | draft | forbidden`
+plus the matched rule id and policy version. Details in `02-approval-policy.md`.
 
 - Evaluated before any side effect; the decision is written to the audit log
-  *pre-execution* (an escalation logged after the fact proves nothing).
-- Rules are data (YAML per tenant, versioned). The owner edits them in the UI; the
-  default set ships with the product.
-- Model-reported confidence may appear as an input to a rule, never as the rule.
-- Graduation: per action class, count consecutive owner approvals with zero edits.
-  At threshold (default 50) the system *proposes* moving the class to `auto`. Only the
-  owner can accept.
+  *pre-execution*.
+- Rules are data (YAML per tenant, versioned).
+- Model-reported confidence is never the rule.
+- **Prototype: every consequential class is `draft`.** There is no graduation
+  UI. Moving a class to `auto` later is a config change after a shadow week —
+  not an engine. Opening a `ReturnRequest` record (`CS-RETURN-OPEN`) is `auto`
+  because it creates a record and makes no promise.
 
 ## 6. Approval queue (durable pause / resume)
 
 A `draft` decision is a **pause**, not a fire-and-forget ticket. Shape matches
-OpenAI Agents SDK `needs_approval`, LangGraph `interrupt()`, and Anthropic
-staged change IDs (ADR-018):
+OpenAI `needs_approval` and LangGraph `interrupt()` (ADR-018). **We do not
+take LangGraph as a dependency.** The prototype is this loop plus an
+`approvals` table. If pause/resume becomes painful, *then* consider LangGraph.
 
 1. Policy engine returns `draft`.
-2. Runtime persists run state (conversation, tool results, staged command with
-   a **server-generated staging id**). **No vendor side effect** before this
-   point — a resumed node may re-run.
-3. An `Approval` is created: command, human-readable summary, agent's stated
-   reason, evidence (tool results), policy rule, staging id.
-4. Owner: approve, edit-then-approve, or reject-with-reason (web app; WhatsApp
-   for items marked urgent).
+2. Runtime persists run state and a **server-generated staging id**. **No
+   vendor side effect** before this point — a resumed node may re-run.
+3. An `Approval` is created: command, summary, evidence, policy rule, staging id.
+4. Owner: approve, edit-then-approve, or reject-with-reason **in the web app**.
 5. On approve: policy is **re-evaluated against current limits**. If still
    allowed, the **adapter executes with no model in the path** (Mercury
-   Command: after authorization they call the backend directly, bypassing the
-   AI). If not, the item returns to the queue with the new reason.
+   Command). If not, the item returns to the queue.
 
 Timeouts: customer-facing drafts unanswered for 30 min send a holding reply
-("we're checking, will get back within N hours") — itself a pre-approved
-template. Accounting drafts have no timeout; they roll into the daily brief.
+(pre-approved template). Accounting drafts have no timeout; they roll into
+the daily brief.
+
+**Later:** WhatsApp approve-by-reply. Web app is enough for the prototype.
 
 ## 7. Memory
 
-| Layer | What | Store | Retrieval |
-|---|---|---|---|
-| Operational | orders, invoices, customers, tickets | canonical model (Postgres) | SQL via tools |
-| Business knowledge | policies, SOPs, supplier terms, owner preferences, learned typed facts | `facts` table: `(tenant, user_id, subject, predicate, object, valid_from, valid_to, source, confidence)` — bi-temporal, superseded facts are closed not deleted | three-layer read below |
-| Episodic | per-conversation and per-task state | `Conversation`, `Task` tables | by thread id |
+**Prototype:**
 
-**Read, three layers** (Anthropic commerce memory; ADR-006):
+1. Owner types a few facts (return window, COD policy).
+2. Owner uploads a playbook (PDF / markdown). We extract, show a diff, owner
+   accepts.
+3. Conversation log in Postgres. ERPNext is not memory — stock and invoices
+   are state; we read them.
 
-1. Always-in-context: tiny set (store name, owner timezone, language default).
-2. Pre-fetched per turn from signals we already have (order-id-shaped text →
-   that order; "return" → return policy facts).
-3. Lookup tool for everything else.
+**Later:** async typed extractor after a thread closes (LangMem / Anthropic
+shape). The live turn does not write memory. Bi-temporal `valid_from` /
+`valid_to`. Owner-only hidden notes. Not in v1.
 
-**Write:** an **async extractor** runs after the turn (not a save tool in the
-user-facing loop). It reads **user + assistant text only, never tool results**,
-so a Daraz product title or a supplier PDF cannot become a fact about the
-customer. Every write goes through a validator that allows only declared
-predicates (size, language preference, "asks for photos before refund", …).
-Untyped Mem0/Letta chat memory is forbidden.
-
-Key facts `tenant + user_id` even while MVP 1 has one owner, so later staff
-do not share memory. Policy documents are chunked into facts with
-`source = policy_doc_v{n}`. Owner-only hidden notes (Ramp) use
-`visibility = owner` and are never injected into the customer-facing prompt.
-Retention period TBD with OQ4 (start: 18 months).
+**What we refuse to store:** channel tokens, IRD secrets, another tenant’s
+facts, card digits from a payment screenshot.
 
 ## 8. Audit log
 
-Append-only table `audit_event`, one row per agent action or decision:
+Append-only table `audit_event`. **Every decision and every execution has a
+row** (a draft then an approve is two rows, not one).
 
 ```
 id, tenant_id, occurred_at, record_phase (pre_execution|post_execution),
@@ -254,67 +253,60 @@ agent_role, run_id, conversation_id,
 action_type (tool_call|decision|approval|execution|error),
 tool_name, arguments_digest, result_digest,
 policy_id, policy_version, decision (auto|draft|forbidden), matched_rule_ids,
-staging_id,   -- server-issued; apply only succeeds for this id
+staging_id,
 approver_user_id, approved_at,
-reason_text, model_id, prompt_digest,
-prev_hash, record_hash   -- SHA-256 over canonical JSON of the row + prev_hash
+reason_text, model_id, prompt_digest
 ```
 
-Hash chain per tenant. Verifiable offline. Aligns with the IETF Agent Audit Trail draft
-and EU AI Act Art. 12 expectations so the UK launch does not require a redesign.
+**Who can read:** owner. **Who can edit:** nobody. The model never writes this
+table. The runtime does, after the tool succeeds or the owner applies.
 
-## 9. Model routing (LiteLLM)
+**Later:** `prev_hash` / `record_hash` chain and an offline verifier, when a
+second tenant or UK compliance appears. Do not cite EU AI Act or IETF drafts
+as a Nepal-prototype requirement.
 
-- Self-hosted LiteLLM proxy; one virtual key per tenant with a monthly USD cap; fallbacks
-  configured per model group.
-- Model groups:
-  - `cheap_structured`: classification, extraction, language detection, summaries.
-    Candidates: Claude Haiku 4.5, DeepSeek V4 Flash, GLM/Qwen flash tiers.
-  - `customer_facing`: anything a customer will read, and refund recommendations.
-    Default Claude Sonnet 5 until the Nepali eval clears a cheaper model.
-  - `owner_facing`: daily brief, ask-my-business. `cheap_structured` first, escalate on
-    low tool-coverage.
-- Prompt caching designed for 90–99% hit rate (ADR-017). Request order:
-  1. **Global** — persona, safety, tool definitions. Byte-identical across
-     sessions. Cache breakpoint at the end.
-  2. **Session** — tenant facts, conversation history, loaded skills.
-  3. **Volatile last** — current time, inbound channel. Never a timestamp at
-     the top of the system prompt.
-  Skills arrive as tool results, not system-prompt appends.
-- Batch API for nightly document parsing.
+## 9. Models
+
+**Prototype: no LiteLLM.** One Anthropic API key. `tenant_id` in our own log
+line. Claude for customer-facing text. A cheaper model only if the bill hurts.
+
+**Later:** LiteLLM or equivalent, three groups (`cheap_structured`,
+`customer_facing`, `owner_facing`), cache-prefix routing (ADR-017).
+
+**Do not log prompts as training data.** Owner-exportable, tenant-scoped.
+**We do not run our own models. We do not fine-tune.** When the bill forces
+it, revisit ADR-005.
 
 ## 10. Channels
 
-| Channel | Inbound | Outbound | Notes |
-|---|---|---|---|
-| Instagram DM | Meta webhook → gateway | Graph API send | Business account, app review |
-| TikTok DM | TikTok webhook if API access granted; else owner forwards screenshots to the app (OCR path) | as above | Access risk; ship Instagram first |
-| Gmail | Gmail API watch on a label; attachments to `Document` | none in MVP | read-only scope |
-| Daraz | Open Platform order pull every N min + email fallback | none in MVP | OAuth seller authorisation |
-| Own site | platform connector or order webhook | none | OQ1 |
-| WhatsApp (owner) | Cloud API webhook | Cloud API send | approvals, alerts |
-| ERPNext | webhooks on doc events → mirror | REST via adapter | service user per tenant |
+| Channel | Prototype | Notes |
+|---|---|---|
+| Instagram DM | Yes | Meta webhook in; Graph API send. Business account, app review. |
+| Gmail | Yes, after J1–J3 | Gmail API watch on a label; attachments to `Document`. Read-only scope. |
+| Owner web app | Yes | Approvals, daily brief later. |
+| TikTok DM | Later | Ship Instagram first. |
+| Daraz Open Platform | Later | Email parsing is enough for the first Gmail slice. |
+| Own site | Later | OQ1. |
+| WhatsApp (owner) | Later | Web app is enough. |
+| ERPNext | Yes | Webhooks on doc events → mirror; REST via adapter. |
 
 The gateway normalises everything to `Message{tenant, channel, external_thread_id,
-sender, text, attachments[], received_at}`. Agents do not know which channel a message
-came from except through metadata.
+sender, text, attachments[], received_at}`.
 
 ## 11. Security baseline
 
-- Tenant isolation at DB schema, ERPNext site, and LiteLLM key.
+- Tenant isolation at `tenant_id`, ERPNext site, and API credentials.
 - **Identity:** session start binds tenant + principal to an unguessable
   session id. Later requests carry only that id. **No tool argument names a
   user** (commerce-agents `docs/safety.md`).
-- Secrets in a vault/env, on the session or adapter constructor, **never in
-  prompts, tool args, or logs**. Checkout URLs from `checkout_handoff` are
-  attached after the model call and never pass through the model.
-- PII minimised in model logs. Session id is a credential; log a digest, not
-  the id.
+- Secrets in a vault/env, **never in prompts, tool args, or logs**. Checkout
+  URLs are attached after the model call.
+- PII minimised in model logs. Session id is a credential; log a digest.
 - Tool allowlists per role; write tools produce commands only.
-- Signed webhooks (Meta, Frappe HMAC), idempotency keys on commands.
-- Untrusted-content sanitise + fence; no tool result is ever treated as an instruction.
+- Signed webhooks, idempotency keys on commands.
+- Untrusted-content sanitise + fence.
 - Provenance gate: adapters refuse IDs not issued this session.
-- Writes serialised per `Conversation`; caps enforced on resulting state.
+- Writes serialised per `Conversation`.
 - Apply path has **no model**.
 
 ## 12. Repository layout (proposed)
@@ -325,21 +317,36 @@ apps/
   web/            # owner UI
   frappe_bittokx/ # Frappe app installed on every tenant site
 docs/
-evals/            # snapshot evals (primary), Nepali language set, safety fixtures
-skills/           # SKILL.md per role, long-tail procedures
-infra/            # docker-compose for bench + api + postgres + litellm
+evals/            # snapshot evals, safety fixtures
+infra/            # docker-compose for bench + api + postgres
 ```
+
+No `skills/` directory until a `SKILL.md` exists. No LiteLLM container in the
+prototype compose file.
 
 ## 13. Build order (prototype)
 
-1. Infra: ERPNext bench with one tenant site + nepal-compliance; Postgres; LiteLLM.
-2. Canonical model + ERPNext adapter (read mirror + `CreateSalesInvoiceDraft`).
-3. Audit log + policy engine (all-draft matrix) + approval queue + minimal web UI.
-4. Instagram gateway → Customer Service role → J1–J3 with drafts; provenance
-   gate and grounding check in the harness.
-5. Snapshot eval set (50–100 cases per flow: J1–J5 plus injection) and Nepali
-   language eval; pick models. Simulated-user only to discover cases.
+1. ERPNext bench with one tenant site + nepal-compliance. Postgres. One API key.
+2. Canonical model + ERPNext adapter (read mirror + one draft-write command).
+3. Policy engine (all-draft) + approval queue + append-only audit + minimal web UI
+   (approve / edit / reject).
+4. Instagram gateway → Customer Service role → J1–J3 drafts; provenance gate
+   and grounding check in the harness.
+5. **20 snapshot cases** on J1–J3 + 2 injection cases. Not 50–100 per flow.
 6. Gmail → Accounts role → J6/J7 drafts.
 7. Return/refund intake (J4) with policy facts.
 8. Daily brief (J9), ask-my-business (J10).
 9. TikTok, Daraz API, own-site connector as access permits.
+
+Do not start with LiteLLM, hash chains, extractors, or a skills framework.
+
+## 14. What this file refuses to contain
+
+- A third role that does not have a job in the PRD.
+- A vector database as a substitute for ERPNext search on SKUs and invoices.
+- A “multi-agent society,” A2A mesh, LangGraph/CrewAI/AutoGen as a week-1
+  dependency, or an MCP server we do not yet consume.
+- Training, RL, or “self-evolving” loops on production conversations.
+- Browser-use / computer-use as a default tool.
+- Forking Anthropic commerce-agents, Hermes, or OpenClaw as the product.
+- A bank-statement CSV job (that is a bank feed by another name).

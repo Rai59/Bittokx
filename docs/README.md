@@ -2,14 +2,16 @@
 
 | File | Purpose |
 |---|---|
-| `00-prd.md` | Product requirements for MVP 1 / prototype: problem, design partner, goals, non-goals, jobs, channels, pricing, metrics, risks, open questions, eval plan |
-| `01-architecture.md` | System architecture: tenancy, canonical model, agent runtime, policy engine, approval queue, memory, audit log, model routing, channels, build order |
-| `02-approval-policy.md` | Action classes with prototype and MVP 1 defaults, rule format, graduation, escalation triggers |
-| `03-acceptance-criteria.md` | Testable acceptance criteria per subsystem and design-partner exit criteria |
-| `04-decisions.md` | Decision log (ADR-001 … ADR-019) with evidence and reversal conditions |
-| `05-research-synthesis.md` | Evidence base: how labs and comparable products actually build agents; copy vs reject; mapping to Bittokx |
+| `00-prd.md` | Product: problem, jobs, users, prototype, success |
+| `01-architecture.md` | How it is built. **The prototype cut is the build list.** |
+| `02-approval-policy.md` | Who may do what |
+| `03-acceptance-criteria.md` | How we know a slice is done |
+| `04-decisions.md` | ADR-001 … ADR-019 |
+| `05-research-synthesis.md` | Evidence. **Does not override the PRD or the prototype cut.** |
+| `06-review.md` | Over-engineering review: what to keep, what to cut |
 
-Conventions: dates in ISO; currency stated explicitly (NPR / USD / GBP). If
-`05-research-synthesis.md` and an architecture claim disagree, the research
-file wins until an ADR records the override. Every factual claim in the ADRs
-points to a source listed there.
+Conventions: dates in ISO; currency stated explicitly (NPR / USD / GBP).
+
+**If research and architecture disagree, the PRD plus the prototype cut win.** Research may add an ADR only when a ship decision changes. Do not grow the spec from a paper.
+
+Read order: PRD → approval policy → prototype cut in architecture → acceptance criteria. Decisions and research are appendices. Re-read `06-review.md` before writing code.
