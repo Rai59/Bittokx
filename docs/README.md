@@ -6,7 +6,7 @@
 | `01-architecture.md` | How it is built. **The prototype cut is the build list.** |
 | `02-approval-policy.md` | Who may do what |
 | `03-acceptance-criteria.md` | How we know a slice is done |
-| `04-decisions.md` | ADR-001 … ADR-019 |
+| `04-decisions.md` | ADR-001 … ADR-020 |
 | `05-research-synthesis.md` | Evidence. **Does not override the PRD or the prototype cut.** |
 | `06-review.md` | Over-engineering review: what to keep, what to cut |
 

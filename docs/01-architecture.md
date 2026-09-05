@@ -1,6 +1,6 @@
 # Bittokx — Architecture (MVP 1)
 
-Status: draft v0.3, 2026-09-05. Reasoning: `04-decisions.md`. Evidence:
+Status: draft v0.4, 2026-09-05. Reasoning: `04-decisions.md`. Evidence:
 `05-research-synthesis.md`. **If this file and the research file disagree, the
 prototype cut in this file wins.** Research does not add work.
 
@@ -11,16 +11,16 @@ Ship this and stop. Everything else in this file is labelled **later**.
 | Piece | Prototype |
 |---|---|
 | Users | Owner only |
-| Channels | Instagram DMs in; Gmail in (invoices); owner web app to approve |
-| Jobs | J1–J3 first, then J6/J7. J4 after those work. |
+| Channels | **Gmail first** (orders, invoices, receipts); owner uploads a bank statement CSV to test matching; Instagram DMs for simple enquiry; web app to approve |
+| Jobs | J6 → J7 → J11 → J1–J3. J4 after those work. |
 | Runtime | One FastAPI loop. Two role prompts. Typed tools. `approvals` table. |
 | Model | One Anthropic API key. Claude for customer text. Cheap model only if the bill hurts. |
 | Memory | Uploaded return/refund policy + a few hand-entered facts. Conversation log in Postgres. |
-| Audit | Append-only `audit_event` rows. No hash chain. |
+| Audit | Append-only `audit_event` rows. A draft and an apply are **two rows**. No hash chain. |
 | Apply | Owner hits apply. Code writes ERPNext. **No model on that path.** |
 | ERPNext | One site per tenant. Thin mirror listed in §3. |
 | Eval | 20 snapshot cases on the shipped flow + 2 injection cases |
-| Not in the prototype | LiteLLM, schema-per-tenant Postgres, async memory extractor, skills framework, WhatsApp, staff login, bank CSV, Vue-vs-React decision, PWA, hash-chain verifier, graduation engine, Daraz Open Platform, TikTok DMs |
+| Not in the prototype | LiteLLM, Yapily, TrueLayer, schema-per-tenant Postgres, async memory extractor, skills framework, WhatsApp, staff login, Vue-vs-React decision, PWA, hash-chain verifier, graduation engine, Daraz Open Platform, TikTok DMs |
 
 We are a **merchant-side ops agent + customer-care in DMs**, not a storefront
 shopping agent. Customers check out on Daraz or the owner's site. See
@@ -29,29 +29,32 @@ shopping agent. Customers check out on Daraz or the owner's site. See
 ## 1. Overview
 
 ```
- Customers                      Owner
- Instagram DM                   Mobile web app
-        │                              │
-        ▼                              ▼
+ Operations inbox                 Customers              Owner
+ Gmail (orders, invoices)         Instagram DM           Mobile web app
+ Bank statement CSV (upload)      (enquiry only)         approve / reject
+        │                                │                      │
+        └──────────────┬─────────────────┴──────────────────────┘
+                       ▼
  ┌─────────────────────────────────────────────────────────┐
- │  Channel Gateway  (webhooks in, normalised Message out)  │
+ │  Channel Gateway  (mail / upload / DM → Message)         │
  └───────────────┬─────────────────────────────────────────┘
                  ▼
  ┌─────────────────────────────────────────────────────────┐
  │  Agent Runtime (Python / FastAPI)                       │
- │   ├─ Roles: customer_service, accounts  (config)        │
+ │   ├─ Roles: accounts (main), customer_service (enquiry) │
  │   ├─ Tools: typed, per-role allowlist                    │
  │   ├─ Provenance: writes/renders only session-issued IDs  │
  │   ├─ Policy Engine (deterministic)  ── auto/draft/forbid │
  │   ├─ Approval Queue (durable pause / resume)             │
- │   └─ Audit Log (append-only rows)                        │
+ │   └─ Audit Log (one row per decision, one per apply)     │
  └───────┬───────────────┬──────────────────────────────────┘
          │               │
          ▼               ▼
    Anthropic API    Canonical Model     Adapters
                     (Postgres)          ├─ ERPNext (site per tenant)
                                         ├─ Gmail (read)
-                                        └─ (later) Daraz / TikTok / Xero / QuickBooks
+                                        ├─ Statement upload (CSV)
+                                        └─ (later) Yapily / TrueLayer / Daraz / TikTok / Xero
 ```
 
 Two deployable services plus ERPNext:
@@ -93,9 +96,9 @@ shipped job needs it.
 | **ReturnRequest** | us → ERP | Opened from CS; Accounts issues the credit later. |
 | **Task** | us | Owner to-do / draft approval. |
 
-**Later (not prototype tables):** `OrderLine`, `Payment`, `Bill`, `Expense`,
-`Refund` as first-class mirror rows. The agent may *read* them from ERPNext when
-J6/J8 needs them.
+**Later (not prototype tables):** `OrderLine`, `Bill`, `Expense`, `Refund` as
+first-class mirror rows. J11 drafts a Payment Entry in ERPNext from a statement
+line; we do not need a Payment mirror table until matching is painful.
 
 Rules:
 
@@ -198,10 +201,16 @@ plus the matched rule id and policy version. Details in `02-approval-policy.md`.
   *pre-execution*.
 - Rules are data (YAML per tenant, versioned).
 - Model-reported confidence is never the rule.
-- **Prototype: every consequential class is `draft`.** There is no graduation
-  UI. Moving a class to `auto` later is a config change after a shadow week —
-  not an engine. Opening a `ReturnRequest` record (`CS-RETURN-OPEN`) is `auto`
-  because it creates a record and makes no promise.
+- **What “consequential” means (so auto vs draft is not a leak):**
+  - **Draft:** the customer would hear a commitment (price, status, refund
+    yes/no, checkout link) **or** the ledger would change (invoice, bill,
+    payment match).
+  - **Auto:** read, escalate, send an owner-approved holding template, or
+    **open an internal record** that promises nothing (`CS-RETURN-OPEN`).
+    Same as opening a ticket in Gorgias — the ticket is not a refund.
+  - **Forbidden:** money leaves the business.
+  There is no graduation UI. Moving a class to `auto` later is a config
+  change after a shadow week.
 
 ## 6. Approval queue (durable pause / resume)
 
@@ -258,6 +267,17 @@ approver_user_id, approved_at,
 reason_text, model_id, prompt_digest
 ```
 
+**Correct count (use this, not “one row per action”):**
+
+| What happened | Rows |
+|---|---|
+| Agent drafts a sales invoice | 1 row: `decision` = draft |
+| Owner taps apply | 1 more row: `execution` (and an `approval`) |
+| Agent refuses money-out | 1 row: `decision` = forbidden |
+
+A draft that is later applied is **two events**, so **at least two rows**.
+Saying “exactly one row per action” was wrong.
+
 **Who can read:** owner. **Who can edit:** nobody. The model never writes this
 table. The runtime does, after the tool succeeds or the owner applies.
 
@@ -281,12 +301,14 @@ it, revisit ADR-005.
 
 | Channel | Prototype | Notes |
 |---|---|---|
-| Instagram DM | Yes | Meta webhook in; Graph API send. Business account, app review. |
-| Gmail | Yes, after J1–J3 | Gmail API watch on a label; attachments to `Document`. Read-only scope. |
-| Owner web app | Yes | Approvals, daily brief later. |
-| TikTok DM | Later | Ship Instagram first. |
+| Gmail | **First** | Gmail API watch on a label; attachments to `Document`. Read-only. Operations inbox. |
+| Bank statement CSV | Yes | Owner upload in the web app. Exact match → Payment Entry draft. Unmatched listed. |
+| Instagram DM | After Gmail | Enquiry only. Meta webhook in; Graph API send. |
+| Owner web app | Yes | Approvals. Daily brief later. |
+| TikTok DM | Later | Same job as Instagram. |
 | Daraz Open Platform | Later | Email parsing is enough for the first Gmail slice. |
 | Own site | Later | OQ1. |
+| Yapily / TrueLayer | Later | After the company is registered. UK/EU Open Banking. Pick one then. |
 | WhatsApp (owner) | Later | Web app is enough. |
 | ERPNext | Yes | Webhooks on doc events → mirror; REST via adapter. |
 
@@ -327,18 +349,19 @@ prototype compose file.
 ## 13. Build order (prototype)
 
 1. ERPNext bench with one tenant site + nepal-compliance. Postgres. One API key.
-2. Canonical model + ERPNext adapter (read mirror + one draft-write command).
+2. Canonical model + ERPNext adapter (read mirror + draft-write commands).
 3. Policy engine (all-draft) + approval queue + append-only audit + minimal web UI
    (approve / edit / reject).
-4. Instagram gateway → Customer Service role → J1–J3 drafts; provenance gate
-   and grounding check in the harness.
-5. **20 snapshot cases** on J1–J3 + 2 injection cases. Not 50–100 per flow.
-6. Gmail → Accounts role → J6/J7 drafts.
-7. Return/refund intake (J4) with policy facts.
-8. Daily brief (J9), ask-my-business (J10).
-9. TikTok, Daraz API, own-site connector as access permits.
+4. **Gmail → Accounts → J6/J7 drafts.** This is the product spine.
+5. **Statement upload → J11** exact payment-match drafts. Not Yapily. Not TrueLayer.
+6. **20 snapshot cases** on J6/J7 + a few J11 cases + 2 injection cases.
+7. Instagram → Customer Service → J1–J3 enquiry drafts; provenance + grounding.
+8. 20 snapshot cases on J1–J3.
+9. Return/refund intake (J4). Daily brief (J9). Ask-my-business (J10).
+10. TikTok, Daraz API, own-site connector, Yapily/TrueLayer as the company exists.
 
-Do not start with LiteLLM, hash chains, extractors, or a skills framework.
+Do not start with LiteLLM, hash chains, extractors, a skills framework, or an
+Open Banking application.
 
 ## 14. What this file refuses to contain
 
@@ -349,4 +372,5 @@ Do not start with LiteLLM, hash chains, extractors, or a skills framework.
 - Training, RL, or “self-evolving” loops on production conversations.
 - Browser-use / computer-use as a default tool.
 - Forking Anthropic commerce-agents, Hermes, or OpenClaw as the product.
-- A bank-statement CSV job (that is a bank feed by another name).
+- A live bank feed (Yapily / TrueLayer) before the company is registered.
+  Manual CSV upload is the prototype path, same as Xero / QuickBooks.

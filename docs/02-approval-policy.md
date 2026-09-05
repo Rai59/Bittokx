@@ -1,6 +1,6 @@
 # Bittokx — Approval Policy (action classes and MVP defaults)
 
-Status: draft v0.3, 2026-09-05. Evidence: `05-research-synthesis.md`.
+Status: draft v0.4, 2026-09-05. Evidence: `05-research-synthesis.md`.
 Prototype cut: `01-architecture.md`. Classes marked **later** are not build.
 
 ## 1. Principles
@@ -10,11 +10,13 @@ Prototype cut: `01-architecture.md`. Classes marked **later** are not build.
    `forbidden` (refuse and log). There is no fourth "ask the model again".
 3. Money movement is `forbidden` for agents in MVP 1: refunds, payouts, transfers,
    supplier payments. The agent prepares; the human pays; the agent records afterwards.
-4. Prototype default: everything consequential is `draft`. Opening a `ReturnRequest`
-   record (`CS-RETURN-OPEN`) is `auto` because it creates a record and makes no
-   customer promise — that is not a leak. Graduation (section 4) is **later**;
-   there is no slider UI in the prototype. The owner may flip a class in config
-   after a shadow week.
+4. **Consequential = draft.** A thing is consequential if the customer would
+   hear a commitment **or** the ledger would change. Those are `draft`.
+   **Not consequential (auto):** reads, escalation, an owner-approved holding
+   template, and opening an internal `ReturnRequest` (`CS-RETURN-OPEN`) — that
+   is opening a ticket, not promising a refund. **Forbidden:** money leaves
+   the business. Graduation (section 4) is later; no slider UI in the
+   prototype.
 5. Same rules for every actor. If the owner later adds a second human user, the same
    matrix applies to them. This mirrors how Rillet, Sage and Ramp treat human-, system-
    and AI-originated entries identically.
@@ -41,7 +43,7 @@ Legend: A = auto, D = draft (human approves), F = forbidden for agents.
 | CS-HOLD | Send pre-approved holding template ("checking, back in N hours") | A | A | Template text owner-approved once |
 | CS-EVIDENCE | Ask customer for photo / order id / reason for a return | A | A | Template-based; no commitment made |
 | CS-REMINDER | Payment reminder for unpaid own-site order | D | A after data | **Later than J1–J3.** Frequency cap: 1 per 48h per order |
-| CS-RETURN-OPEN | Open ReturnRequest with collected evidence | A | A | Creates a record, no promise. Allowed `auto` in the prototype. |
+| CS-RETURN-OPEN | Open ReturnRequest with collected evidence | A | A | Internal ticket only. No customer message. No money. Auto is correct. |
 | CS-RETURN-DECISION | Tell customer refund approved / declined | D | D | Owner decides; agent drafts wording. Prototype: a due-date field + a line in the daily brief, not a 15-day “engine”. |
 | CS-DISCOUNT | Offer discount, voucher, store credit | F | D above NPR 0 | **Later.** Off in prototype. |
 | CS-ESCALATE | Hand thread to owner with summary | A | A | Always allowed; triggers on anger, legal words, "human", loop detection |
@@ -55,9 +57,9 @@ Legend: A = auto, D = draft (human approves), F = forbidden for agents.
 | AC-SI-FROM-ORDER | Sales Invoice draft from confirmed Daraz / site order | D | A | Derived from accepted document; amounts copied not computed by model |
 | AC-SI-ADJUSTED | Sales Invoice with manual discount / price override | D | D | |
 | AC-PI-FROM-DOC | Purchase Invoice / Expense draft from Gmail attachment | D | D → A per supplier after 20 clean | Attachment linked; supplier must exist or be drafted |
-| AC-PAYMENT-MATCH-EXACT | Payment Entry when amount + reference match exactly | D | A | **Later than J6/J7.** No bank-statement CSV in the prototype. |
-| AC-PAYMENT-MATCH-FUZZY | Payment Entry with partial / ambiguous match | D | D | **Later.** |
-| AC-CATEGORISE-RULE | Categorise statement line matching an owner rule | D | A | **Later.** Not J1–J10. |
+| AC-PAYMENT-MATCH-EXACT | Payment Entry when uploaded statement line matches amount + reference exactly | D | A | **Prototype (J11).** Source is an uploaded CSV, not Yapily / TrueLayer. |
+| AC-PAYMENT-MATCH-FUZZY | Payment Entry with partial / ambiguous match | D | D | Stays draft. Never auto-guess. |
+| AC-CATEGORISE-RULE | Categorise statement line matching an owner rule | D | A | **Later.** Not needed to test matching. |
 | AC-CATEGORISE-WEAK | Categorise with weak or no history | D | D | **Later.** |
 | AC-CREDIT-NOTE | Credit note for approved return | D | D | Money-adjacent. After J4. |
 | AC-JE-MANUAL | Any manual journal entry | F | D | Never auto |

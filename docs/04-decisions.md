@@ -2,7 +2,8 @@
 
 Short ADRs. Each records the decision, the evidence, and what would change it.
 Evidence base: `05-research-synthesis.md`. **Stop adding ADRs unless a ship
-decision changes.** 19 is enough. Prototype cut in `01-architecture.md` and
+decision changes.** ADR-020 is the 2026-09-05 ship change (bank CSV now,
+Yapily/TrueLayer later). Prototype cut in `01-architecture.md` and
 `06-review.md` overrides “build this in week 1” readings of ADR-006, 007, 008,
 015, 016, 017.
 
@@ -255,7 +256,7 @@ coldest sections into skills).
 
 Decision: grade agents by constructing a messages array + tool/canonical state,
 appending one user message, running, and scoring **final state + rendered
-reply**, not the path. **Prototype: 20 cases per shipped flow** (J1–J3 first)
+reply**, not the path. **Prototype: 20 cases per shipped flow** (J6/J7 first, then J1–J3)
 plus 2 injection cases. Pair a few positives with a negative. Simulated-user
 is for **discovering** cases only. 50–100 per flow is later, from real DMs.
 τ²-bench-style pass^k is a later gate before a cheap model is customer-facing.
@@ -330,3 +331,21 @@ itself; authorization is a resource graph.
 
 Would change it: a regulator requiring the model to "see" a national ID in
 order to answer — then a dedicated, scoped tool with redaction, not free text.
+
+## ADR-020 Bank: upload a statement now; Yapily / TrueLayer after the company exists
+
+Decision: the prototype accepts a **manual bank-statement CSV** (J11). Exact
+amount + reference matches become Payment Entry drafts. Unmatched lines stay
+a list. **No live bank feed.** Yapily or TrueLayer (pick one) only after the
+company is registered. Those products are UK/EU Open Banking; they are not a
+Nepal week-1 path.
+
+Evidence: Xero and QuickBooks have always let you upload a statement to test
+matching before a feed exists. Sage desktop still uses CSV/OFX as the
+fallback. Yapily/TrueLayer need a registered company and an AISP path
+(own licence months, or agent-of-licence weeks) — too slow to prove the
+product. Founder confirmed 2026-09-05: upload is how we test; connect is
+later.
+
+Would change it: the company is registered and we are building the UK adapter
+— then choose Yapily or TrueLayer and keep CSV as the fallback.

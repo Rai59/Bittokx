@@ -49,8 +49,17 @@ Honest gaps this pass (ask if you want them next): full PDF of OpenAI’s 2025 a
 ## 1. Verdict for a specialised e-commerce ops agent
 
 Bittokx is **not** a storefront shopping agent. Customers already buy on Daraz and
-the owner’s site. We are a **merchant-side operations agent** plus **customer-care
-in Instagram/TikTok DMs**.
+the owner’s site. We are a **merchant-side operations agent** (Gmail → ledger)
+plus **simple customer enquiry** in Instagram/TikTok DMs.
+
+**How successful ecommerce companies split channels (2026):** Gorgias and
+Shopify brands put the *order* in the store admin and email. Social DMs are
+pre-sales and simple “where is my order / is this in stock.” Gorgias’s AI
+even treats email/chat as the automated path first; social is often still
+rules + humans. Accounting products (Xero, QuickBooks, Sage) take bills from
+email/documents and take bank lines from an **upload** until Open Banking
+(Yapily / TrueLayer / Plaid) is allowed. We copy that split: **Gmail is the
+operations inbox. Instagram is enquiry. Bank CSV now; live feed later.**
 
 Closest published analog: Anthropic’s **merchant agent** + the shopping agent’s
 **customer-care** skill (`shopping-agent/skills/customer-care/SKILL.md`). Closest

@@ -44,31 +44,32 @@ listed as later.
 | Hash-chained audit + offline verifier | `01` §8, AC-0.2, ADR-007 | Append-only `audit_event` rows | Hash chain when a second tenant or UK compliance appears |
 | Self-hosted LiteLLM + 3 model groups + 90–99% cache design | `01` §9, AC-6.4, ADR-008/017 | One Anthropic (or LiteLLM) key, Claude for customer text | Routing + cache discipline when cost or a second model appears |
 | Async memory extractor + bi-temporal facts + hidden notes + AC-8 | `01` §7, AC-8, ADR-006 | Policy as uploaded text + a few hand-entered facts. No extractor | Extractor after you have traces |
-| 50–100 snapshot cases **per flow** | `00` §14, AC-5.4 | **20** cases per *shipped* flow (J1–J3 first). Pair a few negatives | 50–100 when you have real DMs |
+| 50–100 snapshot cases **per flow** | `00` §14 | **20** cases per *shipped* flow (J6/J7 first). Pair a few negatives | 50–100 when you have real mail |
 | Schema-per-tenant Postgres | `01` §2 | One schema + `tenant_id` on every row | Schema-per-tenant at tenant 2 if isolation tests fail |
 | 14 canonical entities | `01` §3 | Prototype: Contact, Conversation, Message, Product, Order, Invoice, Document, ReturnRequest, Task | Bill, Payment, Expense, Refund when Accounts ships |
 | Skills-by-frequency + 4 CS + 3 Accounts `SKILL.md` | `01` §4.2 | One persona file per role. Add a skill only when the persona file gets long | Frequency rule |
 | Graduation engine (50-streak, policy versions, sliders) | `02` §4, AC-5 | All-draft. Owner flips a class to auto in config | Graduation after 4 weeks of data |
 | WhatsApp approve-by-reply | AC-4.3, channels | Web app only | WhatsApp if she asks |
-| Bank-statement CSV matching | AC-3.4 | **Conflicts with** PRD non-goal “no bank feeds”. Drop from prototype ACs | After J6/J7 work |
+| Live bank feed (Yapily / TrueLayer) | — | **Not in prototype.** Company registration is too long. | After the company is registered. Pick Yapily or TrueLayer then. |
+| Manual bank-statement CSV | AC-3.4, J11 | **In the prototype.** Same test path Xero / QuickBooks use before a feed. | Replaced by the live feed later |
 | 15-day grievance “engine” | AC-2.5, CS-RETURN-DECISION | A date field + a line in the daily brief | Clock automation |
 | EU AI Act / IETF audit alignment | `01` §8 | Ignore for Nepal prototype | Revisit for UK |
 | Vue vs React / frappe-ui / PWA | `01` §1 | Pick one UI when you start the owner screen. Do not decide in the spec | — |
 | Staff role | `00` §4 | No jobs. Drop from prototype users | When a second login exists |
 | AC-TAX, AC-COA, AC-CLOSE, CS-DISCOUNT, categorise-rule/weak | `02` | Not J1–J10. Keep in the matrix as **later**, not build | After design partner |
 
-## 4. Contradictions and missing details (fixed in v0.3)
+## 4. Contradictions (v0.4 — founder corrections)
 
-1. **Bank feeds:** PRD §6 says no bank feeds; AC-3.4 requires statement CSV matching. Drop AC-3.4 from prototype.
-2. **Eval size:** §14 asks 50–100 cases × (J1–J5 + J6–J7 + injection) = hundreds of cases before Instagram works. That is a research lab, not a prototype.
-3. **“Research file wins the architecture”** (`README`, `01` header). That made the spec grow every time a paper was read. Flip it: **PRD + prototype cut win. Research may only add an ADR when it changes a ship decision.**
-4. **Staff** is a user with no job. Remove or mark later.
-5. **OQ1–OQ5** still look open. You already approved prototype defaults. Mark them **accepted defaults** so they stop blocking.
-6. **Product statement** is one 12-line sentence. Fine as the long form; add a one-line version at the top of the PRD.
-7. **J4 vs build order:** architecture ships J4 after Gmail. PRD lists J4 before J6. Keep Instagram J1–J3 first; J4 can wait. Align the tables.
-8. **Hash-chain vs “exactly one audit row per action”** (AC-0.2): a draft then an approve is two rows. Say “every decision and every execution has a row”, not “exactly one per action”.
-9. **CS-RETURN-OPEN is `auto` in prototype** while “everything consequential is draft”. Opening a record is OK; say that explicitly so it does not look like a leak.
-10. **No SKILL.md files exist in the repo.** The architecture names seven skills. For prototype, delete the names from the YAML until a file exists.
+1. **Bank:** live feed (Yapily / TrueLayer) is later — company registration is long. **Manual CSV upload is in the prototype** so matching can be tested. AC-3.4 / J11 restored. Not a contradiction.
+2. **Eval size:** 20 cases per shipped flow. Explained in plain language in the PRD.
+3. **Staff:** one owner login. Explained in plain language in the PRD.
+4. **OQ1–OQ5:** accepted defaults, explained in plain language.
+5. **Product statement:** rewritten. Gmail is the ops inbox; social is enquiry.
+6. **Build order:** **Gmail first** (J6 → J7 → J11), then Instagram enquiry (J1–J3). Same split Gorgias / Shopify brands use: email + store hold the order; social is pre-sales and simple questions.
+7. **Audit:** a draft then an apply is **two rows**. That is the correct count.
+8. **CS-RETURN-OPEN:** auto is correct. Consequential = customer commitment or ledger change. Opening an internal ticket is not consequential.
+9. **Research does not override the PRD.**
+10. **No SKILL.md files** until one exists in the repo.
 
 ## 5. What the new sources say (and what not to add)
 
@@ -114,7 +115,7 @@ CS (look up order → draft reply) and Accounts (read email → draft invoice) a
 | Kirsch *Domain-Specialized Agent Systems in Enterprise AI* | **Use the title, not the machinery.** We are already a specialised enterprise agent (CS + Accounts on ERP). Do not add a “domain OS” layer |
 | VoltAgent/awesome-ai-agent-papers (364+ papers, 2026 only) | A **watch list**, not a build list. Do not fold it into the architecture |
 
-## 6. Recommended file hygiene (done in v0.3)
+## 6. Recommended file hygiene (done; v0.4 updates channel + bank)
 
 - `00-prd.md` — source of product truth. OQs marked accepted. Eval capped at 20.
 - `01-architecture.md` — prototype cut is the build list.
@@ -126,9 +127,11 @@ CS (look up order → draft reply) and Accounts (read email → draft invoice) a
 
 ## 7. What to do next (build, not more docs)
 
-1. ERPNext site + Instagram → CS drafts for J1–J3.
-2. Owner web list: approve / edit / reject.
-3. Twenty snapshot cases on those three jobs + two injection cases.
-4. Then Gmail → invoice draft.
+1. ERPNext site + owner web list (approve / edit / reject).
+2. Gmail → Accounts drafts for J6/J7.
+3. Statement CSV upload → exact payment-match drafts (J11).
+4. Twenty snapshot cases on those jobs + two injection cases.
+5. Then Instagram → simple CS enquiry (J1–J3).
 
-Do not start with LiteLLM, hash chains, extractors, or a skills framework.
+Do not start with LiteLLM, Yapily, TrueLayer, hash chains, extractors, or a
+skills framework.
