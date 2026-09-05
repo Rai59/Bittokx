@@ -370,6 +370,7 @@ Do not install Twenty, Frappe CRM, Chatwoot, n8n, or Keycloak to prove the produ
 - [awesome-frappe](https://github.com/gavindsouza/awesome-frappe)
 - GitHub API star / license / push dates, 5 September 2026
 - Comparative write-ups: OSSAlt CRM guide, OpenSourceProjects CRM list, ERPNext vs Odoo 2026 comparisons (used for market context; product facts checked against official repos)
+- Bittokx product cut: [PR #1](https://github.com/Rai59/Bittokx/pull/1) (`00-prd`, `01-architecture`, `04-decisions`)
 
 ---
 
