@@ -4,9 +4,9 @@
 
 The Bittokx logo package is available in `assets/logo/`.
 
-- `bittokx-mark.svg` / `bittokx-mark-white.svg` - the mark, black and white
-- `bittokx-logo.svg` / `bittokx-logo-white.svg` - full lockup, black and white
-- `bittokx-app-icon.svg` - app icon (white mark on black)
-- `preview.html` - browser preview sheet
+- `bittokx-mark.svg` / `bittokx-mark-white.svg` — Night Operator mark
+- `bittokx-logo.svg` / `bittokx-logo-white.svg` — full lockup
+- `bittokx-app-icon.svg` — app icon
+- `preview.html` — browser preview sheet
 
 Design rationale and usage notes are documented in `docs/logo-design.md`.

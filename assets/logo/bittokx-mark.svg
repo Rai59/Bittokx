@@ -1,5 +1,10 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bittokx mark">
-  <!-- A "1" and a "0" forming a lowercase b: the bit and the token. -->
-  <rect x="122" y="96" width="64" height="320" fill="#000000"/>
-  <circle cx="294" cy="320" r="64" stroke="#000000" stroke-width="64"/>
+
+  <g transform="translate(256 258)">
+    <path d="M-160 -118 L0 -70 L160 -118" fill="none" stroke="#111111" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+    <path fill="#111111" fill-rule="evenodd" d="M-94 24 m-80 0 a80 80 0 1 0 160 0 a80 80 0 1 0 -160 0 M-78 29 m-13 0 a13 13 0 1 0 26 0 a13 13 0 1 0 -26 0"/>
+    <circle cx="94" cy="24" r="58" fill="none" stroke="#111111" stroke-width="44"/>
+    <circle cx="74" cy="28" r="13" fill="#111111"/>
+    <path d="M-22 64 L22 64 L0 122 Z" fill="#111111"/>
+  </g>
 </svg>
