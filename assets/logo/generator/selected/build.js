@@ -6,11 +6,8 @@ const WORDMARK =
 
 function mark(color) {
   return `<g fill="${color}">
-    <path d="M22 34 L50 45 L78 34" fill="none" stroke="${color}" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path fill-rule="evenodd" d="M23 58 a13 13 0 1 0 26 0 a13 13 0 1 0 -26 0 M38.9 57.1 a2.5 2.5 0 1 0 5 0 a2.5 2.5 0 1 0 -5 0"/>
-    <circle cx="64" cy="58" r="9" fill="none" stroke="${color}" stroke-width="5.5"/>
-    <circle cx="60.6" cy="59.2" r="2.5"/>
-    <path d="M46 67 L54 67 L50 77 Z"/>
+    <circle cx="38" cy="50" r="20"/>
+    <circle cx="64" cy="50" r="14" fill="none" stroke="${color}" stroke-width="6"/>
   </g>`;
 }
 
@@ -30,11 +27,11 @@ fs.writeFileSync(path.join(selected, "mark-white.svg"), svg(1024, 1024, `  ${mar
 
 fs.writeFileSync(
   path.join(logoDir, "bittokx-mark.svg"),
-  svg(512, 512, `  <g transform="translate(56 48) scale(4)">${mark("#111111")}</g>`, "Bittokx mark")
+  svg(512, 512, `  <g transform="translate(56 56) scale(4)">${mark("#111111")}</g>`, "Bittokx mark")
 );
 fs.writeFileSync(
   path.join(logoDir, "bittokx-mark-white.svg"),
-  svg(512, 512, `  <g transform="translate(56 48) scale(4)">${mark("#FFFFFF")}</g>`, "Bittokx mark, white")
+  svg(512, 512, `  <g transform="translate(56 56) scale(4)">${mark("#FFFFFF")}</g>`, "Bittokx mark, white")
 );
 fs.writeFileSync(
   path.join(logoDir, "bittokx-app-icon.svg"),
@@ -42,14 +39,14 @@ fs.writeFileSync(
     512,
     512,
     `  <rect width="512" height="512" rx="112" fill="#111111"/>
-  <g transform="translate(76 68) scale(3.6)">${mark("#FFFFFF")}</g>`,
+  <g transform="translate(86 86) scale(3.4)">${mark("#FFFFFF")}</g>`,
     "Bittokx app icon"
   )
 );
 
 const lockup = (color) => `
-  <g transform="translate(24 28) scale(2.24)">${mark(color)}</g>
-  <path transform="translate(268 178)" fill="${color}" d="${WORDMARK}"/>
+  <g transform="translate(16 12) scale(2.4)">${mark(color)}</g>
+  <path transform="translate(248 178)" fill="${color}" d="${WORDMARK}"/>
 `;
 
 fs.writeFileSync(path.join(logoDir, "bittokx-logo.svg"), svg(900, 280, lockup("#111111"), "Bittokx logo"));

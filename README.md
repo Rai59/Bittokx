@@ -11,4 +11,6 @@ The Bittokx logo package is available in `assets/logo/`.
 
 Eight geometric variants generated with the [logo-generator skill](https://github.com/op7418/logo-generator-skill) live in `assets/logo/generator/`. Open `assets/logo/generator/showcase.html` to compare them.
 
+Ops-icon exploration (no animals): `assets/logo/generator/ops-icons/index.html`.
+
 Design rationale and usage notes are documented in `docs/logo-design.md`.
