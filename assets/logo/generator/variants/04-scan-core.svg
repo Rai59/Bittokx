@@ -1,0 +1,18 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bittokx Scan Core">
+  <!-- The operating system reading the business: ordered lines inside a store. -->
+  <defs>
+    <clipPath id="scan">
+      <circle cx="50" cy="50" r="28"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#scan)" stroke="currentColor" stroke-linecap="round">
+    <line x1="18" y1="30" x2="82" y2="30" stroke-width="2.6"/>
+    <line x1="18" y1="37" x2="82" y2="37" stroke-width="3"/>
+    <line x1="18" y1="44" x2="82" y2="44" stroke-width="3.4"/>
+    <line x1="18" y1="51" x2="82" y2="51" stroke-width="3.8"/>
+    <line x1="18" y1="58" x2="82" y2="58" stroke-width="3.4"/>
+    <line x1="18" y1="65" x2="82" y2="65" stroke-width="3"/>
+    <line x1="18" y1="72" x2="82" y2="72" stroke-width="2.6"/>
+  </g>
+  <circle cx="50" cy="50" r="32" fill="none" stroke="currentColor" stroke-width="2.8"/>
+</svg>
