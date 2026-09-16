@@ -1,0 +1,29 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Bittokx icon mark</title>
+  <desc id="desc">A geometric token-ring B monogram with an exchange-path accent.</desc>
+  <defs>
+    <linearGradient id="ring" x1="70" y1="58" x2="442" y2="454" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#19E6FF"/>
+      <stop offset="0.48" stop-color="#38BDF8"/>
+      <stop offset="1" stop-color="#FFB13B"/>
+    </linearGradient>
+    <linearGradient id="exchange" x1="136" y1="350" x2="374" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFB13B"/>
+      <stop offset="1" stop-color="#19E6FF"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="#071326"/>
+  <circle cx="256" cy="256" r="172" stroke="url(#ring)" stroke-width="21"/>
+  <circle cx="256" cy="256" r="130" stroke="#11263D" stroke-width="5"/>
+
+  <path d="M175 147C175 136.507 183.507 128 194 128H264C319.515 128 358 158.542 358 202C358 230.233 341.374 252.511 314.229 263.257C346.008 272.694 365 297.903 365 333C365 380.942 324.739 410 266 410H194C183.507 410 175 401.493 175 391V147Z" fill="#F8FBFF"/>
+  <path d="M222 171H265C294.006 171 312 184.647 312 206.5C312 228.353 294.006 242 265 242H222V171Z" fill="#071326"/>
+  <path d="M222 285H270C300.014 285 319 299.382 319 322.5C319 345.618 300.014 360 270 360H222V285Z" fill="#071326"/>
+  <rect x="150" y="128" width="66" height="282" rx="29" fill="#F8FBFF"/>
+
+  <path d="M370 118L142 346" stroke="url(#exchange)" stroke-width="16" stroke-linecap="round"/>
+  <path d="M361 123H393V155" stroke="#19E6FF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M151 342H119V310" stroke="#FFB13B" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="256" cy="256" r="59" stroke="#19E6FF" stroke-opacity="0.15" stroke-width="13"/>
+</svg>
