@@ -124,12 +124,13 @@
         );
         const Logo06 = () => (
             <svg viewBox="0 0 100 100" className="w-full h-full">
-                <g fill="currentColor" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M24 36 L50 46 L76 36" fill="none"/>
+                <g fill="currentColor">
+                    <path d="M22 34 L50 45 L78 34" fill="none" stroke="currentColor" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path fillRule="evenodd" d="M23 58 a13 13 0 1 0 26 0 a13 13 0 1 0 -26 0 M38.9 57.1 a2.5 2.5 0 1 0 5 0 a2.5 2.5 0 1 0 -5 0"/>
+                    <circle cx="64" cy="58" r="9" fill="none" stroke="currentColor" strokeWidth="5.5"/>
+                    <circle cx="60.6" cy="59.2" r="2.5"/>
+                    <path d="M46 67 L54 67 L50 77 Z"/>
                 </g>
-                <circle cx="38" cy="60" r="12" fill="currentColor"/>
-                <circle cx="64" cy="60" r="8" fill="none" stroke="currentColor" strokeWidth="5.5"/>
-                <path d="M46 68 L54 68 L50 78 Z" fill="currentColor"/>
             </svg>
         );
         const Logo07 = () => (
@@ -189,7 +190,7 @@
                     Component: Logo06,
                     title: "Night Operator",
                     subtitle: "06 / Mixed geometry",
-                    philosophy: "The owl reconstructed in this skill's language. Brow is the OS layer. Solid eye is the merchant. Ring is the AI. Beak is execute. E-commerce never sleeps; neither does this mark."
+                    philosophy: "SELECTED. The owl reconstructed in this skill's language. Brow is the OS layer. Solid eye is the merchant. Ring is the AI. Beak is execute. E-commerce never sleeps; neither does this mark."
                 },
                 {
                     Component: Logo07,
@@ -207,12 +208,17 @@
 
             return (
                 <div className="min-h-screen flex flex-col items-center py-20 px-6">
-                    <div className="text-center mb-20 max-w-3xl">
+                    <div className="text-center mb-16 max-w-3xl">
+                        <p className="font-mono text-xs opacity-40 uppercase tracking-ultra-wide mb-8">Selected — Night Operator</p>
                         <h1 className="text-6xl md:text-7xl font-extralight tracking-wider mb-6">Bittokx</h1>
                         <p className="font-mono text-xs opacity-40 uppercase tracking-ultra-wide mb-8">
                             AI-native operating system for e-commerce
                         </p>
-                        <div className="w-12 h-[1px] bg-[#1A1A1A] mx-auto opacity-30"></div>
+                        <div className="w-32 h-32 mx-auto mb-10"><Logo06 /></div>
+                        <p className="text-sm leading-relaxed opacity-70 font-light max-w-xl mx-auto text-balance">
+                            The OS that runs the store at night. Brow is the operating layer. Solid eye is the merchant. Ring is the AI. They look at each other. Beak is execute.
+                        </p>
+                        <div className="w-12 h-[1px] bg-[#1A1A1A] mx-auto opacity-30 mt-10"></div>
                     </div>
 
                     <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 mb-20">

@@ -2,6 +2,10 @@
 
 Eight SVG marks generated with [op7418/logo-generator-skill](https://github.com/op7418/logo-generator-skill).
 
+**Selected logo: Night Operator** (`assets/logo/generator/selected/`)
+
+The official production files are also written to `assets/logo/bittokx-*.svg`.
+
 **Product:** Bittokx  
 **Category:** AI-native operating system for e-commerce  
 **Concepts:** connect, automate, merchant + AI, 24/7 operation  
