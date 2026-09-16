@@ -5,14 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bittokx Logo Preview</title>
     <style>
-      :root {
-        --navy: #071326;
-        --cyan: #19e6ff;
-        --amber: #ffb13b;
-        --slate: #53657a;
-        --paper: #f8fbff;
-      }
-
       * {
         box-sizing: border-box;
       }
@@ -20,126 +12,88 @@
       body {
         margin: 0;
         min-height: 100vh;
-        background: #eef3f8;
-        color: var(--navy);
-        font-family: Inter, "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+        background: #ececec;
+        color: #000;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       }
 
       main {
         display: grid;
-        gap: 28px;
+        gap: 20px;
         margin: 0 auto;
-        max-width: 1180px;
-        padding: 48px 28px;
+        max-width: 1160px;
+        padding: 44px 24px;
       }
 
-      .hero,
-      .grid-card {
-        border: 1px solid rgba(7, 19, 38, 0.08);
-        border-radius: 32px;
-        box-shadow: 0 24px 70px rgba(7, 19, 38, 0.08);
-        overflow: hidden;
-      }
-
-      .hero {
-        background: var(--paper);
+      section {
+        background: #fff;
+        border-radius: 8px;
         padding: 56px;
       }
 
-      .hero img {
-        display: block;
-        height: auto;
-        width: min(100%, 920px);
-      }
-
-      .grid {
-        display: grid;
-        gap: 28px;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      }
-
-      .grid-card {
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        min-height: 320px;
-        padding: 44px;
-      }
-
-      .grid-card.dark {
-        background:
-          radial-gradient(circle at 25% 10%, rgba(25, 230, 255, 0.22), transparent 30%),
-          radial-gradient(circle at 85% 80%, rgba(255, 177, 59, 0.2), transparent 32%),
-          var(--navy);
-      }
-
-      .grid-card.light {
-        background: var(--paper);
-      }
-
-      .grid-card img {
-        height: auto;
-        max-width: 220px;
-        width: 64%;
+      section.dark {
+        background: #000;
       }
 
       .caption {
-        color: var(--slate);
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 0.16em;
-        margin: 0 0 18px;
+        color: #888;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        margin: 0 0 32px;
         text-transform: uppercase;
       }
 
-      .swatches {
+      .dark .caption {
+        color: #666;
+      }
+
+      .lockup img {
+        display: block;
+        height: auto;
+        width: min(100%, 780px);
+      }
+
+      .row {
+        align-items: flex-end;
         display: flex;
         flex-wrap: wrap;
-        gap: 14px;
+        gap: 56px;
       }
 
-      .swatch {
-        align-items: end;
-        border-radius: 20px;
-        color: white;
-        display: flex;
-        font-size: 13px;
-        font-weight: 750;
-        height: 108px;
-        letter-spacing: 0.03em;
-        padding: 16px;
-        width: 160px;
+      .cell {
+        text-align: center;
       }
 
-      .swatch.paper {
-        border: 1px solid rgba(7, 19, 38, 0.1);
-        color: var(--navy);
+      .cell span {
+        color: #888;
+        display: block;
+        font-size: 11px;
+        margin-top: 14px;
       }
     </style>
   </head>
   <body>
     <main>
-      <section class="hero">
-        <p class="caption">Primary lockup</p>
-        <img src="./bittokx-logo.svg" alt="Bittokx full logo" />
+      <section class="lockup">
+        <p class="caption">Primary lockup — positive</p>
+        <img src="./bittokx-logo.svg" alt="Bittokx logo on white" />
       </section>
 
-      <section class="grid">
-        <div class="grid-card dark">
-          <img src="./bittokx-mark.svg" alt="Bittokx mark on dark background" />
-        </div>
-        <div class="grid-card light">
-          <img src="./bittokx-mark.svg" alt="Bittokx mark on light background" />
-        </div>
+      <section class="lockup dark">
+        <p class="caption">Primary lockup — reversed</p>
+        <img src="./bittokx-logo-white.svg" alt="Bittokx logo on black" />
       </section>
 
       <section>
-        <p class="caption">Core palette</p>
-        <div class="swatches">
-          <div class="swatch" style="background: var(--navy)">#071326</div>
-          <div class="swatch" style="background: var(--cyan); color: var(--navy)">#19E6FF</div>
-          <div class="swatch" style="background: var(--amber); color: var(--navy)">#FFB13B</div>
-          <div class="swatch paper" style="background: var(--paper)">#F8FBFF</div>
+        <p class="caption">Mark — scalability</p>
+        <div class="row">
+          <div class="cell"><img src="./bittokx-mark.svg" width="160" height="160" alt="" /><span>160</span></div>
+          <div class="cell"><img src="./bittokx-mark.svg" width="96" height="96" alt="" /><span>96</span></div>
+          <div class="cell"><img src="./bittokx-mark.svg" width="48" height="48" alt="" /><span>48</span></div>
+          <div class="cell"><img src="./bittokx-mark.svg" width="24" height="24" alt="" /><span>24</span></div>
+          <div class="cell"><img src="./bittokx-mark.svg" width="16" height="16" alt="" /><span>16</span></div>
+          <div class="cell"><img src="./bittokx-app-icon.svg" width="96" height="96" alt="" /><span>app icon</span></div>
         </div>
       </section>
     </main>
