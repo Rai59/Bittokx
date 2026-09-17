@@ -1,0 +1,5 @@
+<svg width="1024" height="1024" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Eclipse">
+  <!-- Two equal masses. One filled, one open. The brand is the overlap. -->
+  <circle cx="40" cy="50" r="22" fill="currentColor"/>
+  <circle cx="60" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="7"/>
+</svg>
