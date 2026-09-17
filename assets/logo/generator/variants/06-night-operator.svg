@@ -1,0 +1,9 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bittokx Night Operator">
+  <g fill="currentColor">
+    <path d="M22 34 L50 45 L78 34" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path fill-rule="evenodd" d="M23 58 a13 13 0 1 0 26 0 a13 13 0 1 0 -26 0 M38.9 57.1 a2.5 2.5 0 1 0 5 0 a2.5 2.5 0 1 0 -5 0"/>
+    <circle cx="64" cy="58" r="9" fill="none" stroke="currentColor" stroke-width="5.5"/>
+    <circle cx="60.6" cy="59.2" r="2.5"/>
+    <path d="M46 67 L54 67 L50 77 Z"/>
+  </g>
+</svg>

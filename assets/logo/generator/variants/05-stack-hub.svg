@@ -1,0 +1,16 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bittokx Stack Hub">
+  <!-- One OS node connecting the whole commerce stack. -->
+  <g fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M50 50 L28 28" stroke-width="3"/>
+    <path d="M50 50 L78 36" stroke-width="3"/>
+    <path d="M50 50 L72 74" stroke-width="3"/>
+    <path d="M50 50 L26 68" stroke-width="3"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="50" cy="50" r="8"/>
+    <circle cx="28" cy="28" r="4.5"/>
+    <circle cx="78" cy="36" r="4"/>
+    <circle cx="72" cy="74" r="5"/>
+    <circle cx="26" cy="68" r="3.5"/>
+  </g>
+</svg>

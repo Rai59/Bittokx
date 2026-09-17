@@ -1,0 +1,5 @@
+<svg width="1024" height="1024" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Eclipse">
+  <!-- Production mark. Equal outer diameter. Solid = business. Ring = AI. Overlap = OS. -->
+  <circle cx="38" cy="50" r="24" fill="currentColor"/>
+  <circle cx="62" cy="50" r="20.5" fill="none" stroke="currentColor" stroke-width="7"/>
+</svg>

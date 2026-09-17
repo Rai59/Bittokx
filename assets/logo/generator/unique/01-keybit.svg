@@ -1,0 +1,11 @@
+<svg width="1024" height="1024" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Keybit">
+  <defs>
+    <mask id="keybit">
+      <rect width="100" height="100" fill="#fff"/>
+      <g transform="rotate(-26 44 50)">
+        <rect x="58" y="43" width="34" height="14" rx="3" fill="#000"/>
+      </g>
+    </mask>
+  </defs>
+  <circle cx="44" cy="50" r="32" fill="currentColor" mask="url(#keybit)"/>
+</svg>

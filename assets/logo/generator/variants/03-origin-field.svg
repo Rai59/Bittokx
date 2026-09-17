@@ -1,0 +1,23 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bittokx Origin Field">
+  <!-- An empty center: the OS as source. Rings of work radiating out. -->
+  <g fill="currentColor">
+    <circle cx="50" cy="34" r="3.2"/>
+    <circle cx="63.86" cy="42" r="3.2"/>
+    <circle cx="63.86" cy="58" r="3.2"/>
+    <circle cx="50" cy="66" r="3.2"/>
+    <circle cx="36.14" cy="58" r="3.2"/>
+    <circle cx="36.14" cy="42" r="3.2"/>
+    <circle cx="50" cy="22" r="2.4"/>
+    <circle cx="64" cy="26" r="2.4"/>
+    <circle cx="74" cy="36" r="2.4"/>
+    <circle cx="78" cy="50" r="2.4"/>
+    <circle cx="74" cy="64" r="2.4"/>
+    <circle cx="64" cy="74" r="2.4"/>
+    <circle cx="50" cy="78" r="2.4"/>
+    <circle cx="36" cy="74" r="2.4"/>
+    <circle cx="26" cy="64" r="2.4"/>
+    <circle cx="22" cy="50" r="2.4"/>
+    <circle cx="26" cy="36" r="2.4"/>
+    <circle cx="36" cy="26" r="2.4"/>
+  </g>
+</svg>

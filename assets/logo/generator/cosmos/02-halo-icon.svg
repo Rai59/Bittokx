@@ -1,0 +1,6 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Halo app icon">
+  <rect width="512" height="512" rx="112" fill="#0A0814"/>
+  <g transform="translate(56 56) scale(4)">  <ellipse cx="50" cy="50" rx="40" ry="14.5" fill="none" stroke="#3EE6C8" stroke-width="3.4" transform="rotate(-26 50 50)"/>
+  <rect x="34" y="34" width="32" height="32" rx="9" fill="#FF8A3D"/>
+  <circle cx="86" cy="33" r="4.8" fill="#F6F0E4"/></g>
+</svg>

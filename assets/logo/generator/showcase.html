@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bittokx — Logo Design Exploration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background: #FAFAFA;
+            color: #1A1A1A;
+            overflow-x: hidden;
+        }
+        .font-mono { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+        html { scroll-behavior: smooth; }
+        .logo-card { transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+        .logo-card:hover { transform: translateY(-4px); }
+        .logo-canvas { position: relative; transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+        .logo-aura {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: scale(0.5);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: blur(40px);
+            pointer-events: none;
+        }
+        .logo-card:hover .logo-aura { transform: scale(1); opacity: 1; }
+        .divider-line {
+            width: 0;
+            height: 1px;
+            background: #1A1A1A;
+            opacity: 0.2;
+            transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .logo-card:hover .divider-line { width: 100%; }
+        .tracking-ultra-wide { letter-spacing: 0.2em; }
+        .text-balance { text-wrap: balance; }
+        .logo-dark { background: #111111; color: #FAFAFA; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const Logo01 = () => (
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+                <g fill="currentColor">
+                    <circle cx="38" cy="50" r="20"/>
+                    <circle cx="64" cy="50" r="14" fill="none" stroke="currentColor" strokeWidth="6"/>
+                </g>
+            </svg>
+        );
+        const Logo02 = () => (
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+                <path fill="currentColor" fillRule="evenodd" d="M50 20a30 30 0 1 0 0 60 30 30 0 1 0 0-60zm10 22a10 10 0 1 0 0 20 10 10 0 1 0 0-20z"/>
+            </svg>
+        );
+        const Logo03 = () => (
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+                <g fill="currentColor">
+                    <circle cx="50" cy="34" r="3.2"/><circle cx="63.86" cy="42" r="3.2"/><circle cx="63.86" cy="58" r="3.2"/>
+                    <circle cx="50" cy="66" r="3.2"/><circle cx="36.14" cy="58" r="3.2"/><circle cx="36.14" cy="42" r="3.2"/>
+                    <circle cx="50" cy="22" r="2.4"/><circle cx="64" cy="26" r="2.4"/><circle cx="74" cy="36" r="2.4"/>
+                    <circle cx="78" cy="50" r="2.4"/><circle cx="74" cy="64" r="2.4"/><circle cx="64" cy="74" r="2.4"/>
+                    <circle cx="50" cy="78" r="2.4"/><circle cx="36" cy="74" r="2.4"/><circle cx="26" cy="64" r="2.4"/>
+                    <circle cx="22" cy="50" r="2.4"/><circle cx="26" cy="36" r="2.4"/><circle cx="36" cy="26" r="2.4"/>
+                </g>
+            </svg>
+        );
+        const Logo04 = () => (
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+                <defs>
+                    <clipPath id="scan">
+                        <circle cx="50" cy="50" r="28"/>
+                    </clipPath>
+                </defs>
+                <g clipPath="url(#scan)" stroke="currentColor" strokeLinecap="round">
+                    <line x1="18" y1="30" x2="82" y2="30" strokeWidth="2.6"/>
+                    <line x1="18" y1="37" x2="82" y2="37" strokeWidth="3"/>
+                    <line x1="18" y1="44" x2="82" y2="44" strokeWidth="3.4"/>
+                    <line x1="18" y1="51" x2="82" y2="51" strokeWidth="3.8"/>
+                    <line x1="18" y1="58" x2="82" y2="58" strokeWidth="3.4"/>
+                    <line x1="18" y1="65" x2="82" y2="65" strokeWidth="3"/>
+                    <line x1="18" y1="72" x2="82" y2="72" strokeWidth="2.6"/>
+                </g>
+                <circle cx="50" cy="50" r="32" fill="none" stroke="currentColor" strokeWidth="2.8"/>
+            </svg>
+        );
+        const Logo05 = () => (
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+                <g fill="none" stroke="currentColor" strokeLinecap="round">
+                    <path d="M50 50 L28 28" strokeWidth="3"/>
+                    <path d="M50 50 L78 36" strokeWidth="3"/>
+                    <path d="M50 50 L72 74" strokeWidth="3"/>
+                    <path d="M50 50 L26 68" strokeWidth="3"/>
+                </g>
+                <g fill="currentColor">
+                    <circle cx="50" cy="50" r="8"/>
+                    <circle cx="28" cy="28" r="4.5"/>
+                    <circle cx="78" cy="36" r="4"/>
+                    <circle cx="72" cy="74" r="5"/>
+                    <circle cx="26" cy="68" r="3.5"/>
+                </g>
+            </svg>
+        );
+        const Logo06 = () => (
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+                <g fill="currentColor">
+                    <path d="M22 34 L50 45 L78 34" fill="none" stroke="currentColor" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path fillRule="evenodd" d="M23 58 a13 13 0 1 0 26 0 a13 13 0 1 0 -26 0 M38.9 57.1 a2.5 2.5 0 1 0 5 0 a2.5 2.5 0 1 0 -5 0"/>
+                    <circle cx="64" cy="58" r="9" fill="none" stroke="currentColor" strokeWidth="5.5"/>
+                    <circle cx="60.6" cy="59.2" r="2.5"/>
+                    <path d="M46 67 L54 67 L50 77 Z"/>
+                </g>
+            </svg>
+        );
+        const Logo07 = () => (
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+                <rect x="30" y="18" width="12" height="64" rx="2" fill="currentColor"/>
+                <circle cx="62" cy="62" r="12" fill="none" stroke="currentColor" strokeWidth="12"/>
+            </svg>
+        );
+        const Logo08 = () => (
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+                <defs>
+                    <clipPath id="right">
+                        <circle cx="60" cy="50" r="20"/>
+                    </clipPath>
+                </defs>
+                <g fill="none" stroke="currentColor" strokeWidth="3.2">
+                    <circle cx="40" cy="50" r="20"/>
+                    <circle cx="60" cy="50" r="20"/>
+                </g>
+                <circle cx="40" cy="50" r="20" clipPath="url(#right)" fill="currentColor"/>
+            </svg>
+        );
+
+        const LogoShowcase = () => {
+            const logos = [
+                {
+                    Component: Logo01,
+                    title: "Dual Operators",
+                    subtitle: "01 / Pure geometric",
+                    philosophy: "The merchant is solid. The AI is a ring. Together they are the two operators of a store — one already there, one always looking. The gap between them is the operating system."
+                },
+                {
+                    Component: Logo02,
+                    title: "Punched Gaze",
+                    subtitle: "02 / Negative space",
+                    philosophy: "A single circle is the whole business. A rounded knockout is the AI looking through it. Subtract rather than add: the hole is the intelligence, the mass is the store."
+                },
+                {
+                    Component: Logo03,
+                    title: "Origin Field",
+                    subtitle: "03 / Dot matrix",
+                    philosophy: "Empty at the center on purpose. The OS is a source, not a decoration. Work radiates outward through the commerce stack the way a field radiates from an origin."
+                },
+                {
+                    Component: Logo04,
+                    title: "Scan Core",
+                    subtitle: "04 / Line system",
+                    philosophy: "Ordered lines inside a container: the operating system reading inventory, orders, ads, and support as one stream. Weight peaks at the midline — that is where automation concentrates."
+                },
+                {
+                    Component: Logo05,
+                    title: "Stack Hub",
+                    subtitle: "05 / Node network",
+                    philosophy: "One node connects the entire e-commerce business. Asymmetric satellites are the modules — catalog, ads, fulfillment, support — none equal, all wired to the same OS."
+                },
+                {
+                    Component: Logo06,
+                    title: "Night Operator",
+                    subtitle: "06 / Mixed geometry",
+                    philosophy: "SELECTED. The owl reconstructed in this skill's language. Brow is the OS layer. Solid eye is the merchant. Ring is the AI. Beak is execute. E-commerce never sleeps; neither does this mark."
+                },
+                {
+                    Component: Logo07,
+                    title: "Bit",
+                    subtitle: "07 / Letter construction",
+                    philosophy: "A 1 and a 0 forming a b. The smallest unit of an operating system, and the first letter of Bittokx. Two primitives, no illustration, infinite scale."
+                },
+                {
+                    Component: Logo08,
+                    title: "Merge",
+                    subtitle: "08 / Boolean geometry",
+                    philosophy: "Two outlined systems overlap and a third form appears in the lens. That filled intersection is Bittokx: what exists only when the merchant's tools are connected."
+                }
+            ];
+
+            return (
+                <div className="min-h-screen flex flex-col items-center py-20 px-6">
+                    <div className="text-center mb-16 max-w-3xl">
+                        <p className="font-mono text-xs opacity-40 uppercase tracking-ultra-wide mb-8">Selected — Night Operator</p>
+                        <h1 className="text-6xl md:text-7xl font-extralight tracking-wider mb-6">Bittokx</h1>
+                        <p className="font-mono text-xs opacity-40 uppercase tracking-ultra-wide mb-8">
+                            AI-native operating system for e-commerce
+                        </p>
+                        <div className="w-32 h-32 mx-auto mb-10"><Logo06 /></div>
+                        <p className="text-sm leading-relaxed opacity-70 font-light max-w-xl mx-auto text-balance">
+                            The OS that runs the store at night. Brow is the operating layer. Solid eye is the merchant. Ring is the AI. They look at each other. Beak is execute.
+                        </p>
+                        <div className="w-12 h-[1px] bg-[#1A1A1A] mx-auto opacity-30 mt-10"></div>
+                    </div>
+
+                    <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 mb-20">
+                        {logos.map((logo, index) => (
+                            <div key={index} className="flex flex-col items-center logo-card cursor-pointer">
+                                <div className="w-64 h-64 mb-10 flex items-center justify-center relative">
+                                    <div className="logo-aura"></div>
+                                    <div className="w-32 h-32 relative z-10 logo-canvas">
+                                        <logo.Component />
+                                    </div>
+                                </div>
+                                <div className="text-center w-full px-4">
+                                    <h2 className="text-xl font-medium tracking-wider mb-2 uppercase">{logo.title}</h2>
+                                    <h3 className="text-xs font-mono opacity-50 tracking-widest mb-6">{logo.subtitle}</h3>
+                                    <p className="text-sm leading-relaxed opacity-70 text-left font-light text-balance">{logo.philosophy}</p>
+                                </div>
+                                <div className="divider-line mt-8 mx-auto"></div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="max-w-7xl w-full mb-32">
+                        <p className="font-mono text-xs opacity-40 uppercase tracking-ultra-wide mb-10 text-center">Reversed</p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            {logos.map((logo, index) => (
+                                <div key={index} className="logo-dark rounded-2xl aspect-square flex items-center justify-center p-10">
+                                    <div className="w-24 h-24"><logo.Component /></div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="mt-8 max-w-2xl text-center">
+                        <p className="font-mono text-xs opacity-40 uppercase tracking-ultra-wide leading-loose">
+                            Generated with Logo Generator<br/>
+                            2026
+                        </p>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<LogoShowcase />, document.getElementById('root'));
+    </script>
+</body>
+</html>

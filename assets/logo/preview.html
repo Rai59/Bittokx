@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bittokx — Eclipse</title>
+    <style>
+      :root {
+        --ink: #111111;
+        --paper: #f6f5f1;
+        --mute: #7a776f;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      main {
+        display: grid;
+        gap: 20px;
+        margin: 0 auto;
+        max-width: 1180px;
+        padding: 48px 24px 80px;
+      }
+      section {
+        background: #fff;
+        border-radius: 4px;
+        padding: 56px;
+      }
+      section.dark { background: var(--ink); }
+      .caption {
+        color: var(--mute);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        margin: 0 0 36px;
+        text-transform: uppercase;
+      }
+      .dark .caption { color: #6b6b6b; }
+      .lockup img {
+        display: block;
+        height: auto;
+        width: min(100%, 820px);
+      }
+      .row {
+        align-items: flex-end;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 48px;
+      }
+      .cell { text-align: center; }
+      .cell span {
+        color: var(--mute);
+        display: block;
+        font-size: 11px;
+        margin-top: 14px;
+      }
+      .story {
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        line-height: 1.45;
+        margin: 0;
+        max-width: 36em;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <p class="caption">Who we are</p>
+        <p class="story">Bittokx is an AI-native operating system that connects and automates the entire e-commerce business. The mark is Eclipse: the store is solid, the AI is the ring, the overlap is the OS.</p>
+      </section>
+      <section class="lockup">
+        <p class="caption">Primary lockup — positive</p>
+        <img src="./bittokx-logo.svg" alt="Bittokx logo on white" />
+      </section>
+      <section class="lockup dark">
+        <p class="caption">Primary lockup — reversed</p>
+        <img src="./bittokx-logo-white.svg" alt="Bittokx logo on black" />
+      </section>
+      <section>
+        <p class="caption">Mark — survives small</p>
+        <div class="row">
+          <div class="cell"><img src="./bittokx-mark.svg" width="160" height="160" alt="" /><span>160</span></div>
+          <div class="cell"><img src="./bittokx-mark.svg" width="96" height="96" alt="" /><span>96</span></div>
+          <div class="cell"><img src="./bittokx-mark.svg" width="48" height="48" alt="" /><span>48</span></div>
+          <div class="cell"><img src="./bittokx-mark.svg" width="24" height="24" alt="" /><span>24</span></div>
+          <div class="cell"><img src="./bittokx-mark.svg" width="16" height="16" alt="" /><span>16</span></div>
+          <div class="cell"><img src="./bittokx-app-icon.svg" width="96" height="96" alt="" /><span>app icon</span></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

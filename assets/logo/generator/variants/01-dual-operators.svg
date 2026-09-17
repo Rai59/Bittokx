@@ -1,0 +1,7 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bittokx Dual Operators">
+  <!-- Merchant (solid) + AI (ring). The OS is the gap they share. -->
+  <g fill="currentColor">
+    <circle cx="38" cy="50" r="20"/>
+    <circle cx="64" cy="50" r="14" fill="none" stroke="currentColor" stroke-width="6"/>
+  </g>
+</svg>

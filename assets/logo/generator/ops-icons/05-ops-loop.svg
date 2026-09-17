@@ -1,0 +1,4 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ops Loop">
+  <path d="M70 32 A 22 22 0 1 0 70 68" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="70" cy="50" r="7" fill="currentColor"/>
+</svg>

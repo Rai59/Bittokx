@@ -1,0 +1,9 @@
+<svg width="1024" height="1024" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bit OS">
+  <defs>
+    <mask id="bitos">
+      <rect width="100" height="100" fill="#fff"/>
+      <circle cx="86" cy="14" r="16" fill="#000"/>
+    </mask>
+  </defs>
+  <rect x="18" y="18" width="64" height="64" rx="18" fill="currentColor" mask="url(#bitos)"/>
+</svg>
