@@ -4,7 +4,7 @@
 
 The Bittokx logo package is available in `assets/logo/`.
 
-- `bittokx-mark.svg` / `bittokx-mark-white.svg` — Night Operator mark
+- `bittokx-mark.svg` / `bittokx-mark-white.svg` — Eclipse mark (business + AI)
 - `bittokx-logo.svg` / `bittokx-logo-white.svg` — full lockup
 - `bittokx-app-icon.svg` — app icon
 - `preview.html` — browser preview sheet

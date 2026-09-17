@@ -1,76 +1,73 @@
-# Bittokx Logo — Night Operator
+# Bittokx Logo — Eclipse
 
 Bittokx is building an AI-native operating system that connects and
-automates the entire e-commerce business. The logo had to say that in
-one silhouette — the way Tesla's T is a motor, Cursor's cube is a
-cursor, and Nike's swoosh is motion. Not an illustration of an animal.
-A diagram of the product.
+automates the entire e-commerce business. The mark has to say that in
+one silhouette: two operators, locked, running as one system.
 
-## The idea
+## The choice
 
-The mark is the **night operator**: the OS that runs the store while
-the merchant sleeps.
+After animal mascots, Dual Operators, and an iconic round (Apple / Nike /
+Audi / Cursor methods), **Eclipse** is the production icon. It is the
+only construction that carries the company ethic without leftover
+illustration or a borrowed silhouette.
 
-- **Two eyes, two operators.** The solid eye is the merchant — the
-  business, filled in, already there. The ring is the AI — looking,
-  processing, not replacing. Together they watch the same operation.
-- **The brow is the operating system.** One layer sitting above every
-  tool: inventory, ads, support, fulfillment. It connects them.
-- **The gaze is the human signal.** Each eye looks inward, toward the
-  other: a catchlight punched out of the merchant, a pupil sitting in
-  the AI. Geometry with a living offset — the same kind of optical
-  adjustment Cursor made inside its cube. They are not a wink. They
-  are two operators in conversation.
-- **The beak is execute.** A small downward triangle: the OS taking
-  action. In motion it can tick, like a command being run.
+The ethic, in one sentence: the merchant and the AI are peers, and the
+operating system is what appears where they connect.
 
-An owl is the right animal for this company and the wrong one for
-almost every other option on the exploration board. E-commerce is
-24/7. Agents work at night. The merchant needs something that is
-watchful and trusted, not aggressive. The owl is wisdom, patience,
-and always being one step ahead — which is exactly what an operating
-system for a store has to be.
-
-## Why not the other animals
-
-The founder explorations in `assets/logo/concepts/` were the right
-instinct (a character people can remember) and the wrong category fit
-once the product is named clearly:
-
-| Direction | Why it was set aside |
+| Shape | Meaning |
 | --- | --- |
-| Monkey / chimp | MailChimp already owns the ape in e-commerce. Fatal overlap. |
-| Wolf | Reads as esports, generic crypto, or "aggressive trading." Wrong trust signal for handing over a whole business. |
-| Predator / lynx | Speed-and-dominance marks are common in fintech (Avantis' cheetah, etc.). Too sharp for an OS merchants live in all day. |
-| Illustrated owl | Symmetric tufted owls already exist (Hootsuite and a crowd of SaaS "wise" birds). Ours had to stop being a drawing. |
+| Solid circle | The business — already there, filled in, the store |
+| Open ring | The AI — looking, processing, not replacing |
+| Overlap | The OS — connection as structure, not a caption |
+
+They are the same outer size. AI-native means the agent is not a
+satellite. Dual Operators said the right sentence with the wrong
+hierarchy: a large solid and a smaller ring reads as “assistant.”
+Eclipse keeps the filled/open pair and makes them equal.
+
+The centers sit one radius apart. Each form reaches the other’s core.
+That is connect. The ring can fill in motion when a job completes.
+That is automate.
+
+## Why not the others
+
+| Direction | Why it lost |
+| --- | --- |
+| Dual Operators | Same ethic, weaker hierarchy — AI looks hired, not native |
+| Twin Rings | Connection without merchant / AI. Too close to Audi |
+| Bitten | A name gag. Does not encode ops, OS, or automation |
+| Gesture | Nike motion. No two-operator story |
+| Inset | Reads as a code editor, not a business OS |
+| Continuum | Infinity is generic automation |
+| Arc | Incomplete ring. Nothing to retell |
+| Fold | A workspace, not a system |
+| Merge | Strong ethic, but the filled lens dies at 16 px |
+| Kernel | OS + AI, no “connects the entire business” |
+| Hub / Crossroads | Network diagrams. Forgettable at favicon size |
+| Owl / animals | Watchful, wrong category. MailChimp owns the ape |
 
 ## What the best logos actually do
 
-- **Cursor** — the mark *is* the product (a cursor in a cube). One
-  idea. Optical gaps over mathematical perfection. A system, not a
-  sticker.
-- **Tesla** — the T is a motor cross-section. The logo is a diagram.
-- **Nike** — one gesture. Recognized after everything else is stripped.
+- **Cursor** — the mark *is* the product. One idea.
+- **Apple** — one object, one twist (the bite).
+- **Audi** — interlocking rings. Connection is the drawing.
+- **Nike** — one gesture, recognized after everything else is stripped.
 - **Ramp / Mercury** — type carries as much identity as the symbol.
   Quiet, geometric, operational. Designed black first.
-- **SpaceX** — the name, set with intent, is enough when the product
-  is the story.
 
-2026 is not "more minimal." It is **survivability**: one unresolved
-detail that still reads at 16 px, in dark mode, in motion, and in
-one color. AI made every animal head look finished. The way out is a
-construction people can retell in a sentence.
+Eclipse uses Audi’s lock and Apple’s twist: two circles, only one
+filled. The twist is the company.
 
 ## Construction
 
-Four primitives, one ink (`#111111`):
+Two primitives, one ink (`#111111`), 100-unit canvas:
 
-| Element | Geometry | Meaning |
-| --- | --- | --- |
-| Brow | 38-unit stroke, round caps, shallow chevron | The OS layer |
-| Merchant eye | Solid circle, radius 80 | The business |
-| AI eye | Ring, same outer size, offset pupil | The agent, looking |
-| Beak | Downward triangle | Execute |
+| Element | Geometry |
+| --- | --- |
+| Business | Solid circle, `cx=38 cy=50 r=24` |
+| AI | Stroke circle, `cx=62 cy=50 r=20.5` stroke `7` |
+| Outer match | Both forms share outer radius `24` |
+| Lock | Center distance `24` — each reaches the other’s core |
 
 The wordmark is Outfit ExtraBold, tracked tight, converted to outlines
 so the SVG has no font dependency. Title case — `Bittokx` — matching
@@ -78,17 +75,15 @@ how Cursor, Ramp, and Mercury present a company name.
 
 ## Principles
 
-- **Simplicity** — four shapes, one color, no tufts, no feathers, no
-  gradients.
-- **Memorability** — "the owl's eyes are the merchant and the AI" is
-  a sentence people can repeat.
+- **Simplicity** — two circles, one color, no mascot, no gradient.
+- **Memorability** — “the filled one is the store, the ring is the AI,
+  the overlap is the OS.”
 - **Timelessness** — black geometry. Nothing that dates to a 2026
   trend file.
 - **Versatility** — positive, reversed, app icon. Designed in black
-  first. Motion-ready: the pupil can track, the ring can fill when a
-  job completes, the beak can tick.
-- **Relevance** — watchfulness and 24/7 operation are the actual
-  product promise of an e-commerce OS.
+  first. Motion-ready: the ring can fill, the overlap can pulse.
+- **Relevance** — AI-native ops is two peers connected. That is the
+  drawing.
 
 ## Asset files
 
@@ -100,20 +95,23 @@ how Cursor, Ramp, and Mercury present a company name.
 | `assets/logo/bittokx-logo-white.svg` | Full lockup, white |
 | `assets/logo/bittokx-app-icon.svg` | White mark on ink rounded square |
 | `assets/logo/preview.html` | Review sheet |
-| `assets/logo/concepts/` | Earlier explorations, reference only |
+| `assets/logo/generator/ops-icons/` | Connect / automate explorations |
+| `assets/logo/generator/iconic/` | Apple / Nike / Audi / Cursor round |
+| `assets/logo/concepts/` | Earlier mascot board, reference only |
 
+Rebuild from `assets/logo/generator/selected/build.js`.
 PNG exports are rendered from the SVG sources.
 
 ## Color
 
 Ink `#111111` on light surfaces, white `#FFFFFF` on dark surfaces.
-If a single accent is ever added, it belongs only on the open eye —
-the AI. Never on both eyes. Never on the wordmark.
+If a single accent is ever added, it belongs only on the ring — the
+AI. Never on both circles. Never on the wordmark.
 
 ## Usage
 
-- Clear space around the mark equals one eye diameter.
+- Clear space around the mark equals one circle’s outer diameter.
 - Do not outline, shadow, rotate, or gradient the mark.
-- Do not equalize the eyes. The solid/ring pair is the identity.
-- Do not add ear tufts. Abstraction is what keeps it off the
-  Hootsuite shelf.
+- Do not equalize fill. The solid / ring pair is the identity.
+- Do not shrink the ring. Equal outer size is the AI-native signal.
+- Do not pull the circles apart. The overlap is the operating system.

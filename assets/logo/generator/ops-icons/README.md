@@ -5,7 +5,10 @@ are built for that meaning: connect, automate, operate.
 
 Open `index.html` in a browser.
 
-**Recommended for production:** 01 Dual Operators — the business is solid, the AI is the ring.
+**Production choice:** Eclipse in `../iconic/06-eclipse.svg` (equal Dual
+Operators). Dual Operators was the right sentence with the wrong
+hierarchy — a smaller ring reads as an assistant. Eclipse keeps the
+filled/open pair and makes the AI a peer.
 
 | # | Mark | Meaning |
 | --- | --- | --- |
