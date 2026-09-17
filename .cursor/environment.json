@@ -1,6 +1,6 @@
 {
   "name": "Bittokx logo assets",
-  "install": "node assets/logo/generator/selected/build.js",
+  "install": "if [ -f assets/logo/generator/selected/build.js ]; then node assets/logo/generator/selected/build.js; else echo 'generator script not present on this ref; skipping SVG rebuild'; fi",
   "terminals": [
     {
       "name": "preview-server",
