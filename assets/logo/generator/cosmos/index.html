@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cosmos marks — space identity</title>
+    <style>
+      :root {
+        --void: #0a0814;
+        --dusk: #141022;
+        --star: #f6f0e4;
+        --solar: #ff8a3d;
+        --corona: #ffc56a;
+        --aurora: #3ee6c8;
+        --nebula: #7b5cff;
+        --plasma: #ff4f9a;
+        --ice: #6ba6ff;
+        --mute: #8a84a3;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(ellipse 80% 50% at 20% -10%, rgba(123, 92, 255, 0.28), transparent 55%),
+          radial-gradient(ellipse 60% 40% at 100% 10%, rgba(255, 79, 154, 0.16), transparent 50%),
+          radial-gradient(ellipse 50% 50% at 50% 120%, rgba(62, 230, 200, 0.1), transparent 50%),
+          var(--void);
+        color: var(--star);
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      }
+      main { max-width: 1200px; margin: 0 auto; padding: 56px 24px 100px; }
+      header { max-width: 38em; margin-bottom: 40px; }
+      .kicker {
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--aurora);
+        margin: 0 0 14px;
+      }
+      h1 {
+        font-family: Palatino, "Palatino Linotype", Georgia, serif;
+        font-weight: 400;
+        font-size: 44px;
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+        margin: 0 0 16px;
+      }
+      .lede { color: var(--mute); line-height: 1.55; margin: 0; }
+      .swatches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 28px 0 48px;
+      }
+      .swatch {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--mute);
+      }
+      .chip {
+        width: 14px;
+        height: 14px;
+        border-radius: 99px;
+        box-shadow: 0 0 0 1px rgba(246, 240, 228, 0.12);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      @media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
+      @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+      article {
+        background: rgba(20, 16, 34, 0.72);
+        border: 1px solid rgba(246, 240, 228, 0.08);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .void-stage {
+        height: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+          radial-gradient(circle at 50% 50%, rgba(123, 92, 255, 0.12), transparent 62%);
+      }
+      .void-stage img { width: 128px; height: 128px; }
+      .paper {
+        background: #f3f1ea;
+        height: 92px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .paper img { width: 52px; height: 52px; }
+      .icon-row {
+        display: flex;
+        justify-content: center;
+        padding: 18px 0 8px;
+      }
+      .icon-row img { width: 72px; height: 72px; border-radius: 18px; }
+      .copy { padding: 8px 20px 22px; }
+      h2 {
+        font-family: Palatino, Georgia, serif;
+        font-size: 22px;
+        font-weight: 400;
+        margin: 0 0 6px;
+      }
+      p { margin: 0; color: var(--mute); font-size: 13px; line-height: 1.45; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="kicker">Catalog · not a name-mark</p>
+        <h1>Marks from gravity, not from the word.</h1>
+        <p class="lede">
+          The company may change its name. These icons do not spell it.
+          They come from the solar system: a star, an orbit, an axis, a well,
+          a comet, a corona. Built for an AI-native operating system that
+          holds an entire business in one field.
+        </p>
+      </header>
+      <div class="swatches">
+        <div class="swatch"><i class="chip" style="background:#0a0814"></i>Void</div>
+        <div class="swatch"><i class="chip" style="background:#f6f0e4"></i>Star</div>
+        <div class="swatch"><i class="chip" style="background:#ff8a3d"></i>Solar</div>
+        <div class="swatch"><i class="chip" style="background:#ffc56a"></i>Corona</div>
+        <div class="swatch"><i class="chip" style="background:#3ee6c8"></i>Aurora</div>
+        <div class="swatch"><i class="chip" style="background:#7b5cff"></i>Nebula</div>
+        <div class="swatch"><i class="chip" style="background:#ff4f9a"></i>Plasma</div>
+        <div class="swatch"><i class="chip" style="background:#6ba6ff"></i>Ice</div>
+      </div>
+      <div class="grid">
+        <article>
+          <div class="void-stage"><img src="./01-spark-color.svg" alt="Spark" /></div>
+          <div class="paper"><img src="./01-spark.svg" alt="" /></div>
+          <div class="icon-row"><img src="./01-spark-icon.svg" alt="" /></div>
+          <div class="copy">
+            <h2>Spark</h2>
+            <p>A star as one gesture. The OS as a north star — orientation for the whole store.</p>
+          </div>
+        </article>
+        <article>
+          <div class="void-stage"><img src="./02-halo-color.svg" alt="Halo" /></div>
+          <div class="paper"><img src="./02-halo.svg" alt="" /></div>
+          <div class="icon-row"><img src="./02-halo-icon.svg" alt="" /></div>
+          <div class="copy">
+            <h2>Halo</h2>
+            <p>A world with one orbit and a satellite. The business is the body; the AI keeps the path.</p>
+          </div>
+        </article>
+        <article>
+          <div class="void-stage"><img src="./03-axis-color.svg" alt="Axis" /></div>
+          <div class="paper"><img src="./03-axis.svg" alt="" /></div>
+          <div class="icon-row"><img src="./03-axis-icon.svg" alt="" /></div>
+          <div class="copy">
+            <h2>Axis</h2>
+            <p>A polar star through an equator. Everything in the business rotates around the OS.</p>
+          </div>
+        </article>
+        <article>
+          <div class="void-stage"><img src="./04-well-color.svg" alt="Well" /></div>
+          <div class="paper"><img src="./04-well.svg" alt="" /></div>
+          <div class="icon-row"><img src="./04-well-icon.svg" alt="" /></div>
+          <div class="copy">
+            <h2>Well</h2>
+            <p>Gravity. Catalog, ads, fulfillment pulled into one field, with a star at the core.</p>
+          </div>
+        </article>
+        <article>
+          <div class="void-stage"><img src="./05-drift-color.svg" alt="Drift" /></div>
+          <div class="paper"><img src="./05-drift.svg" alt="" /></div>
+          <div class="icon-row"><img src="./05-drift-icon.svg" alt="" /></div>
+          <div class="copy">
+            <h2>Drift</h2>
+            <p>A comet. Automation as a body in motion — work that does not stop.</p>
+          </div>
+        </article>
+        <article>
+          <div class="void-stage"><img src="./06-corona-color.svg" alt="Corona" /></div>
+          <div class="paper"><img src="./06-corona.svg" alt="" /></div>
+          <div class="icon-row"><img src="./06-corona-icon.svg" alt="" /></div>
+          <div class="copy">
+            <h2>Corona</h2>
+            <p>A sun. The ring is the system; the spark is the engine that runs while you sleep.</p>
+          </div>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

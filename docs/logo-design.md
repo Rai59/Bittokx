@@ -102,10 +102,10 @@ how Cursor, Ramp, and Mercury present a company name.
 Rebuild from `assets/logo/generator/selected/build.js`.
 PNG exports are rendered from the SVG sources.
 
-If Eclipse feels too diagrammatic, four stronger-silhouette alternatives
-live in `assets/logo/generator/unique/` (Keybit, Operator B, Bit OS,
-Crosslock). Open `unique/index.html` to compare. Production stays Eclipse
-until one of those is chosen.
+If the name may change, do not lock the mark to Bit / tok / x.
+A cosmos set (star, orbit, axis, gravity, comet, sun) lives in
+`assets/logo/generator/cosmos/`. Color: Void, Star, Solar, Corona,
+Aurora, Nebula, Plasma, Ice. Open `cosmos/index.html`.
 
 ## Color
 
