@@ -1,0 +1,23 @@
+<svg width="1024" height="1024" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Operator B">
+  <path fill="currentColor" fill-rule="evenodd" d="
+    M28 10
+    H54
+    C76 10 86 20 86 34
+    C86 44 80 50 68 52
+    C82 54 92 64 92 76
+    C92 90 80 92 54 92
+    H28
+    C18 92 16 86 16 78
+    V24
+    C16 14 20 10 28 10
+    Z
+    M44 28
+    A10 10 0 1 0 64 28
+    A10 10 0 1 0 44 28
+    Z
+    M45 66
+    A13 13 0 1 0 71 66
+    A13 13 0 1 0 45 66
+    Z
+  "/>
+</svg>

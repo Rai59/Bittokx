@@ -1,0 +1,8 @@
+<svg width="1024" height="1024" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Crosslock">
+  <g transform="translate(50 50) rotate(38)">
+    <rect x="-37" y="-8.5" width="74" height="17" rx="8.5" fill="none" stroke="currentColor" stroke-width="6"/>
+  </g>
+  <g transform="translate(50 50) rotate(-38)">
+    <rect x="-37" y="-8.5" width="74" height="17" rx="8.5" fill="currentColor"/>
+  </g>
+</svg>

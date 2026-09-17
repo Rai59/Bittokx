@@ -102,6 +102,11 @@ how Cursor, Ramp, and Mercury present a company name.
 Rebuild from `assets/logo/generator/selected/build.js`.
 PNG exports are rendered from the SVG sources.
 
+If Eclipse feels too diagrammatic, four stronger-silhouette alternatives
+live in `assets/logo/generator/unique/` (Keybit, Operator B, Bit OS,
+Crosslock). Open `unique/index.html` to compare. Production stays Eclipse
+until one of those is chosen.
+
 ## Color
 
 Ink `#111111` on light surfaces, white `#FFFFFF` on dark surfaces.

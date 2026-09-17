@@ -15,4 +15,6 @@ Ops-icon exploration (no animals): `assets/logo/generator/ops-icons/index.html`.
 
 Iconic set (Apple / Nike / Audi / Cursor methods): `assets/logo/generator/iconic/index.html`.
 
+Unique alternatives (stronger silhouettes than Eclipse): `assets/logo/generator/unique/index.html`.
+
 Design rationale and usage notes are documented in `docs/logo-design.md`.
