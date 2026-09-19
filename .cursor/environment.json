@@ -1,0 +1,14 @@
+{
+  "name": "Bittokx logo assets",
+  "install": "if [ -f assets/logo/generator/selected/build.js ]; then node assets/logo/generator/selected/build.js; else echo 'generator script not present on this ref; skipping SVG rebuild'; fi",
+  "terminals": [
+    {
+      "name": "preview-server",
+      "command": "python3 -m http.server 8000",
+      "description": "Serves the repository at http://localhost:8000 so the logo preview pages render with their SVG/PNG assets: /assets/logo/preview.html, /assets/logo/generator/showcase.html, /assets/logo/generator/ops-icons/index.html, and /assets/logo/generator/iconic/index.html."
+    }
+  ],
+  "ports": [
+    { "name": "preview", "port": 8000 }
+  ]
+}
