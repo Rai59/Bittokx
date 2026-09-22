@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zephrok · System</title>
+  <link rel="stylesheet" href="../css/system.css" />
+  <style>
+    .shell { min-height: 100vh; display: flex; flex-direction: column; }
+    .work { display: grid; grid-template-columns: 1fr 320px; max-width: 1100px; }
+    .feed { padding: 32px; }
+    .side { border-left: 1px solid var(--z-line); padding: 32px 24px; background: var(--z-surface); }
+    .run { height: 3px; background: var(--z-sunken); margin: 16px 0 28px; border-radius: 1px; overflow: hidden; }
+    .run i { display: block; height: 100%; width: 62%; background: var(--z-ember); animation: fill 2.4s cubic-bezier(0.2,0,0,1) infinite; }
+    @keyframes fill { 0% { width: 8%; } 70% { width: 92%; } 100% { width: 8%; } }
+    @media (max-width: 800px) { .work { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="app-strip">
+      <span class="wordmark">Zephrok</span>
+      <a class="mod" href="dashboard.html">Operations</a>
+      <a class="mod is-on">System</a>
+      <a class="mod" href="ledger.html">Finance</a>
+    </header>
+    <div class="work">
+      <section class="feed">
+        <p class="label">System activity</p>
+        <h1>Running · 1 job</h1>
+        <p class="lede" style="margin:8px 0 0">The spine fills while a command is in flight. When it finishes, it becomes a row. There is no orb, no sparkle, no chat mascot.</p>
+        <div class="run" aria-hidden="true"><i></i></div>
+        <div class="event is-now">
+          <div class="event-when">09:16:04<br />System</div>
+          <div>
+            <div class="event-title">Matching receipt to payout DF-201</div>
+            <div class="event-why">Why: bank CSV line 14 equals the posted amount and the last four of the instrument.</div>
+            <div class="event-next">Next: will mark reconciled if the remaining 2 fields match. No write until then.</div>
+          </div>
+          <span class="st st-run">Running</span>
+        </div>
+        <div class="event is-ok">
+          <div class="event-when">09:14:02<br />System</div>
+          <div>
+            <div class="event-title">Draft refund created for ORD-20491</div>
+            <div class="event-why">Why: policy <span class="id">money-out</span> classified this as draft, not auto.</div>
+          </div>
+          <span class="st st-draft">Draft</span>
+        </div>
+        <div class="event is-err">
+          <div class="event-when">09:13:21<br />System</div>
+          <div>
+            <div class="event-title">Command refused</div>
+            <div class="event-why">Why: the order ID was not issued in this session. Provenance gate. The model does not supply amounts or IDs.</div>
+            <div class="event-next">Next: look the order up first. Only the lookup’s ID becomes writable.</div>
+          </div>
+          <span class="st st-err">Forbidden</span>
+        </div>
+        <div class="event is-ok">
+          <div class="event-when">09:02:11<br />A. Gurung</div>
+          <div>
+            <div class="event-title">Approved DF-201</div>
+            <div class="event-why">Why: you approved. Policy re-checked against current limits. Adapter executed with no model in the path.</div>
+          </div>
+          <span class="st st-ok">Posted</span>
+        </div>
+      </section>
+      <aside class="side">
+        <p class="label">How to read this</p>
+        <h3 style="margin:8px 0 12px">System and people share a ledger</h3>
+        <p style="margin:0 0 16px;font-size:14px;line-height:22px;color:var(--z-ink-2)">Attribution is mono. Status is a named state. Copy is what, why, next. If it cannot be said that way, it is not ready to show.</p>
+        <div class="notice notice-err">
+          <div class="bar"></div>
+          <div>
+            <h4>Forbidden is a feature</h4>
+            <p>Do not restyle refused commands as a friendly empty state.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>

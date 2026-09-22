@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zephrok Visual System</title>
+  <link rel="stylesheet" href="css/system.css" />
+  <link rel="stylesheet" href="css/book.css" />
+</head>
+<body>
+  <div class="book">
+    <aside class="side">
+      <a class="brand" href="#cover"><strong>Zephrok</strong><em>1.0</em></a>
+      <div class="sec">Start</div>
+      <nav>
+        <a class="nav-item toc" href="#cover">Cover</a>
+        <a class="nav-item toc" href="#use">How to use</a>
+        <a class="nav-item toc" href="#position">Position</a>
+        <a class="nav-item toc" href="#personality">Personality</a>
+        <a class="nav-item toc" href="#principles">Principles</a>
+      </nav>
+      <div class="sec">System</div>
+      <nav>
+        <a class="nav-item toc" href="#colour">Colour</a>
+        <a class="nav-item toc" href="#orange">Orange</a>
+        <a class="nav-item toc" href="#status">Status</a>
+        <a class="nav-item toc" href="#data">Data</a>
+        <a class="nav-item toc" href="#type">Typography</a>
+        <a class="nav-item toc" href="#numbers">Numbers</a>
+        <a class="nav-item toc" href="#icons">Icons</a>
+        <a class="nav-item toc" href="#space">Space</a>
+        <a class="nav-item toc" href="#layout">Layout</a>
+      </nav>
+      <div class="sec">Expression</div>
+      <nav>
+        <a class="nav-item toc" href="#graphic">Graphic language</a>
+        <a class="nav-item toc" href="#imagery">Imagery</a>
+        <a class="nav-item toc" href="#motion">Motion</a>
+        <a class="nav-item toc" href="#ai">AI behaviour</a>
+        <a class="nav-item toc" href="#ui">UI</a>
+      </nav>
+      <div class="sec">Use</div>
+      <nav>
+        <a class="nav-item toc" href="#dodont">Do / Don’t</a>
+        <a class="nav-item toc" href="#apps">Applications</a>
+        <a class="nav-item toc" href="#slop">Anti-slop</a>
+        <a class="nav-item toc" href="#build">Build</a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <section class="cover" id="cover">
+        <p class="kicker">Visual system 1.0 · No logo in this document</p>
+        <h1 class="display">We understand the complexity. You don’t have to.</h1>
+        <p class="lede">Zephrok is an AI-native operating system for running an online business. This is the visual language around the product — colour, type, space, records, and behaviour. It is a working system, not a moodboard.</p>
+        <p class="caption meta" style="margin-top:40px">Trustworthy guardian · Simple · Modern · Calm · Confident<br />Orange is a verb. Numbers are identity. AI is a record of work.</p>
+      </section>
+
+      <section class="art" id="use">
+        <p class="kicker">00 · How to use</p>
+        <h2 class="h1-market">A designer who has never spoken to us should be able to ship from this.</h2>
+        <p class="lede" style="margin:16px 0 32px">Every major rule is written as <strong>Rule → Reason → Correct → Incorrect</strong>. If a decision is not here, default to less: fewer colours, fewer radii, fewer cards, less motion. Do not design a logo here. Set the word Zephrok in Source Sans 3 semibold.</p>
+        <div class="grid-3">
+          <article>
+            <h3>Start here</h3>
+            <p class="muted" style="margin:8px 0 0;font-size:14px;line-height:22px;color:var(--z-ink-2)">Read the four principles. Then colour, then type. Applications at the end show the system under load — dashboard, ledger, AI operations, marketing.</p>
+          </article>
+          <article>
+            <h3>Tokens</h3>
+            <p class="muted" style="margin:8px 0 0;font-size:14px;line-height:22px;color:var(--z-ink-2)"><span class="id">tokens/tokens.css</span> is canonical. <span class="id">tokens/shadcn-theme.css</span> is the tweakcn-shaped export for product UI. Do not restyle shadcn back to default radius and cool gray.</p>
+          </article>
+          <article>
+            <h3>Paper</h3>
+            <p class="muted" style="margin:8px 0 0;font-size:14px;line-height:22px;color:var(--z-ink-2)">This file is Paper-native HTML/CSS. Each section is an artboard. Import frames into Paper with the same tokens; do not restyle in the canvas.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="art" id="position">
+        <p class="kicker">01 · Position</p>
+        <h2 class="h1-market">An intelligent operating system for serious businesses.</h2>
+        <p class="lede" style="margin:16px 0 28px">Not another SaaS tile. Not a futuristic AI lab. Zephrok holds money, customers, inventory, and operations in one place. The brand has to feel like control without complexity — capable, quiet, and specific.</p>
+        <div class="grid-2">
+          <div>
+            <p class="label">Is</p>
+            <ul class="stack" style="margin:8px 0 0;padding-left:18px;color:var(--z-ink-2)">
+              <li>A back-office OS for shops that currently live in six tools</li>
+              <li>A record of what happened, why, and what to do next</li>
+              <li>A policy-gated system: draft, apply, or refuse — never “the model decided”</li>
+              <li>Flexible later for retail, agencies, travel, restaurants</li>
+            </ul>
+          </div>
+          <div>
+            <p class="label">Is not</p>
+            <ul class="stack" style="margin:8px 0 0;padding-left:18px;color:var(--z-ink-2)">
+              <li>A chatbot with a dashboard glued on</li>
+              <li>A neon AI startup, a bank clone, or a generic CRM</li>
+              <li>Ecommerce-coded so hard it cannot leave shops</li>
+              <li>A place that hides a failed payment behind friendliness</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="art" id="personality">
+        <p class="kicker">02 · Personality → design</p>
+        <h2 class="h1-market">The product’s character is the layout, not a tone of voice overlay.</h2>
+        <dl class="rule">
+          <dt>Rule</dt>
+          <dd>
+            <p class="r">Translate personality into constraints, not adjectives on a poster.</p>
+            <p class="why">Reason: “Calm” that is only a word becomes a lavender gradient. Constraints can be checked in review.</p>
+          </dd>
+        </dl>
+        <table class="sheet" style="margin-top:8px">
+          <thead>
+            <tr><th>Personality</th><th>Design implication</th><th>Forbidden translation</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Trustworthy guardian</td><td>Stable hierarchy, predictable colour, numbers always tabular, audit visible</td><td>Crests, shields, locks as decoration, navy “enterprise” skins</td></tr>
+            <tr><td>Simple</td><td>One primary action, few colours, grouping only when it is a unit of work</td><td>Empty luxury layouts that hide the work</td></tr>
+            <tr><td>Modern</td><td>Optical type, 4px space, current but not seasonal patterns</td><td>Glass, blobs, 3D toys, Inter + violet gradient</td></tr>
+            <tr><td>Calm</td><td>Warm paper, no bounce, status colours that are readable not loud</td><td>Muted-to-the-point-of-fog, slow cinematic fades</td></tr>
+            <tr><td>Confident</td><td>Decisions are visible. Ember appears once, on purpose</td><td>Oversized type shouting INNOVATION, orange everywhere</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="art" id="principles">
+        <p class="kicker">03 · Four principles</p>
+        <h2 class="h1-market">These four things should still read as Zephrok if the name is removed.</h2>
+        <p class="lede" style="margin:16px 0 28px">If a layout could belong to any AI/SaaS company, it is not done. Do not add a fifth principle. Do not invent a mascot shape to “own” the brand.</p>
+        <div class="principles">
+          <article>
+            <div class="n">01</div>
+            <h3>The Spine</h3>
+            <p>A 3px Ember mark shows the current context: nav item, selected row, live event, focused section. It is a status indicator, not a stripe decoration. One spine per context. Never a 3px rule on every card.</p>
+          </article>
+          <article>
+            <div class="n">02</div>
+            <h3>Warm Ledger</h3>
+            <p>Canvas is warm paper. Type is ink. Rules are hairline. Shadows almost never. The product should feel like a well-kept record, not a cool-gray SaaS dashboard or a night-mode sci-fi console.</p>
+          </article>
+          <article>
+            <div class="n">03</div>
+            <h3>One Orange Verb</h3>
+            <p>In any view, Ember is allowed on the spine, the focus ring, and one primary action. That is it. Orange is what you do next — not a theme, not a fill, not an illustration colour.</p>
+          </article>
+          <article>
+            <div class="n">04</div>
+            <h3>The Record</h3>
+            <p>Information is laid out as a ledger: when / who on the left, what happened in the middle, numbers on the right. Tables, activity, AI actions, and invoices share this skeleton. AI work appears in the same record as human work.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="art" id="colour">
+        <p class="kicker">04 · Colour</p>
+        <h2 class="h1-market">Warm paper, ink, and one ember. Everything else is status.</h2>
+        <dl class="rule">
+          <dt>Rule</dt>
+          <dd>
+            <p class="r">Build every screen from Paper, Surface, Ink, Line, then Ember, then one status colour if the state needs it.</p>
+            <p class="why">Reason: a small, warm system is recognisable. A rainbow of “brand supporting colours” is not a brand. It is a default palette.</p>
+          </dd>
+        </dl>
+        <div class="grid-6" style="margin:24px 0">
+          <div class="swatch"><div class="chip" style="background:#E24A1B"></div><div class="meta"><strong>Ember</strong><span>#E24A1B</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#BE3A0E"></div><div class="meta"><strong>Ember Strong</strong><span>#BE3A0E</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#1C1917"></div><div class="meta"><strong>Ink</strong><span>#1C1917</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#F6F3EE"></div><div class="meta"><strong>Paper</strong><span>#F6F3EE</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#FFFCF8"></div><div class="meta"><strong>Surface</strong><span>#FFFCF8</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#E4DFD8"></div><div class="meta"><strong>Line</strong><span>#E4DFD8</span></div></div>
+        </div>
+        <div class="grid-6">
+          <div class="swatch"><div class="chip" style="background:#44403C"></div><div class="meta"><strong>Ink 2</strong><span>#44403C</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#5C564F"></div><div class="meta"><strong>Ink 3</strong><span>#5C564F</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#EFEBE6"></div><div class="meta"><strong>Sunken</strong><span>#EFEBE6</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#FBEDE8"></div><div class="meta"><strong>Ember Tint</strong><span>#FBEDE8</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#A83710"></div><div class="meta"><strong>Ember Hover</strong><span>#A83710</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#6B5344"></div><div class="meta"><strong>Umber</strong><span>#6B5344</span></div></div>
+        </div>
+        <div class="pair" style="margin-top:24px">
+          <div class="ex ex-ok">
+            <div class="ex-h">Correct</div>
+            <div class="ex-b">
+              <p style="margin:0 0 12px;font-size:14px">Ink heading, ink-2 body, paper canvas, one ember button.</p>
+              <div style="background:var(--z-paper);padding:20px;border:1px solid var(--z-line)">
+                <div class="label">Today</div>
+                <p style="margin:4px 0 12px;font-weight:600">3 drafts waiting</p>
+                <p class="caption" style="margin:0 0 16px">Policy held these because they move money.</p>
+                <button class="btn btn-primary">Review drafts</button>
+              </div>
+            </div>
+          </div>
+          <div class="ex ex-no">
+            <div class="ex-h">Incorrect</div>
+            <div class="ex-b">
+              <p style="margin:0 0 12px;font-size:14px">Orange canvas, orange type, orange cards, orange chart, orange icon.</p>
+              <div style="background:#E24A1B;padding:20px;color:white">
+                <div style="opacity:.8;font-size:12px">TODAY</div>
+                <p style="margin:4px 0 12px;font-weight:700;font-size:22px">Let’s go 🚀</p>
+                <p style="margin:0 0 16px;opacity:.85">Your AI is crushing it.</p>
+                <button class="btn" style="background:white;color:#E24A1B">See magic</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="art" id="orange">
+        <p class="kicker">05 · Orange behaviour</p>
+        <h2 class="h1-market">Ember creates recognition. Fatigue is a brand failure.</h2>
+        <dl class="rule">
+          <dt>Rule</dt>
+          <dd>
+            <p class="r">Never set Ember as small text on Paper. Use Ember Strong for any orange fill that contains white text. Cap Ember to spine + focus + one verb.</p>
+            <p class="why">Reason: #E24A1B is 3.9:1 on white — fine as a 3px mark and a chart series, not as 14px copy. #BE3A0E is 5.5:1 on white — that is the button.</p>
+          </dd>
+        </dl>
+        <table class="sheet">
+          <thead><tr><th>Allowed</th><th>Not allowed</th></tr></thead>
+          <tbody>
+            <tr><td>3px spine on the active context</td><td>Orange page backgrounds, hero washes, illustration fills</td></tr>
+            <tr><td>Primary button (Ember Strong), one per view</td><td>Secondary and tertiary also orange</td></tr>
+            <tr><td>Focus ring, 2px Ember, 2px offset</td><td>Glow, outer orange shadow, skeuomorphic shine</td></tr>
+            <tr><td>Selected row wash Ember Tint, max one contiguous selection</td><td>Tinted cards stacked down a dashboard</td></tr>
+            <tr><td>Chart series 1, or a progress fill on a track</td><td>Every series orange. Orange legends for “AI”</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="art" id="status">
+        <p class="kicker">06 · Status</p>
+        <h2 class="h1-market">Name states after the work, not after traffic lights.</h2>
+        <p class="lede" style="margin:16px 0 20px">Draft is ochre, not Ember. Ember is “do this.” Draft is “this is waiting.” Mixing them makes every pending thing look like a call to action.</p>
+        <div class="stack" style="flex-direction:row;flex-wrap:wrap;gap:8px;margin-bottom:24px">
+          <span class="st st-draft">Draft</span>
+          <span class="st st-run">Running</span>
+          <span class="st st-ok">Posted</span>
+          <span class="st st-ok">Paid</span>
+          <span class="st st-err">Declined</span>
+          <span class="st st-err">Forbidden</span>
+          <span class="st st-info">System</span>
+        </div>
+        <div class="grid-4" style="margin-bottom:24px">
+          <div class="swatch"><div class="chip" style="background:#8A5A00"></div><div class="meta"><strong>Draft / wait</strong><span>#8A5A00 · 5.4:1</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#2C6A4A"></div><div class="meta"><strong>Posted / ok</strong><span>#2C6A4A · 5.8:1</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#B42318"></div><div class="meta"><strong>Failed / err</strong><span>#B42318 · 5.9:1</span></div></div>
+          <div class="swatch"><div class="chip" style="background:#3F5C73"></div><div class="meta"><strong>Info / system</strong><span>#3F5C73 · 6.3:1</span></div></div>
+        </div>
+        <div class="pair">
+          <div class="ex ex-ok">
+            <div class="ex-h">Correct</div>
+            <div class="ex-b">
+              <div class="notice notice-err">
+                <div class="bar"></div>
+                <div>
+                  <h4>Payment failed</h4>
+                  <p>The card was declined. Ask the customer to try another card.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ex ex-no">
+            <div class="ex-h">Incorrect</div>
+            <div class="ex-b">
+              <div style="background:#fff3cd;border:1px dashed #f0ad4e;border-radius:16px;padding:16px">
+                <strong>Oops! 😅</strong>
+                <p style="margin:6px 0 0;color:#666">Something went wrong on our side. Don’t worry — we’ve got this!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="art" id="data">
+        <p class="kicker">07 · Data visualisation</p>
+        <h2 class="h1-market">Charts explain a record. They are not brand decoration.</h2>
+        <dl class="rule">
+          <dt>Rule</dt>
+          <dd>
+            <p class="r">Use the six categorical colours in order. Ember is series 1 only when it is the series the user should watch. Axes, grid, and labels are Ink 3 and Line — never coloured.</p>
+            <p class="why">Reason: rainbow dashboards look like every analytics template. A ledger with one emphasised series looks like Zephrok.</p>
+          </dd>
+        </dl>
+        <div class="grid-2" style="margin-top:24px;align-items:center">
+          <div class="stack">
+            <div class="bar-row"><span class="k">Shopify</span><div class="track"><div class="fill" style="width:72%"></div></div><span class="v amt">Rs 4.82L</span></div>
+            <div class="bar-row"><span class="k">Walk-in</span><div class="track"><div class="fill" style="width:41%;background:var(--z-ink)"></div></div><span class="v amt">Rs 2.74L</span></div>
+            <div class="bar-row"><span class="k">Wholesale</span><div class="track"><div class="fill" style="width:28%;background:var(--z-info)"></div></div><span class="v amt">Rs 1.86L</span></div>
+            <div class="bar-row"><span class="k">Other</span><div class="track"><div class="fill" style="width:12%;background:var(--z-umber)"></div></div><span class="v amt">Rs 0.79L</span></div>
+          </div>
+          <div>
+            <p class="label">Do not</p>
+            <p style="margin:8px 0 0;color:var(--z-ink-2);font-size:14px;line-height:22px">3D bars, gradients inside bars, glow under lines, donut charts as hero brand marks, “AI insights” callouts in purple, pie charts for more than three slices, or dual-axis tricks that hide a decline.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="art" id="type">
+        <p class="kicker">08 · Typography</p>
+        <h2 class="h1-market">Three voices. One system. Not a fashionable pairing.</h2>
+        <p class="lede" style="margin:16px 0 8px"><strong>Source Serif 4</strong> speaks for the business in public. <strong>Source Sans 3</strong> does the work. <strong>IBM Plex Mono</strong> is the machine: IDs, timestamps, policy names. Money never goes in mono — it stays in Source Sans with tabular figures.</p>
+        <div class="type-row">
+          <div class="spec">Display · Serif 56/64 · 600 · −2.2%</div>
+          <div class="display" style="font-size:40px;line-height:48px">The books, in one place.</div>
+        </div>
+        <div class="type-row">
+          <div class="spec">Market H1 · Serif 40/48 · 600</div>
+          <div class="h1-market" style="font-size:32px;line-height:40px">Payment failed. The card was declined.</div>
+        </div>
+        <div class="type-row">
+          <div class="spec">Product H1 · Sans 28/36 · 600</div>
+          <div class="h1">Review 3 drafts before 18:00</div>
+        </div>
+        <div class="type-row">
+          <div class="spec">H2 · Sans 22/30 · 600</div>
+          <div class="h2">Customer · #CU-1842</div>
+        </div>
+        <div class="type-row">
+          <div class="spec">Body · Sans 15/24 · 400</div>
+          <div>Ask the customer to try another card. Do not retry the same instrument. The decline came from the issuer, not from Zephrok.</div>
+        </div>
+        <div class="type-row">
+          <div class="spec">UI · Sans 14/20 · 400/500</div>
+          <div class="ui">Issue refund · Filter · Last 30 days</div>
+        </div>
+        <div class="type-row">
+          <div class="spec">Label · Sans 12/16 · 500</div>
+          <div class="label" style="color:var(--z-ink-2)">Posted at · Policy · Channel</div>
+        </div>
+        <div class="type-row">
+          <div class="spec">ID · Mono 12/16 · 400</div>
+          <div class="id">ORD-20491 · POLICY/money-out · 09:14:02</div>
+        </div>
+        <dl class="rule">
+          <dt>Rule</dt>
+          <dd>
+            <p class="r">Weights are 400, 500, 600 only. No 700 in product. No uppercase labels with 0.08em tracking — that is generic SaaS chrome.</p>
+            <p class="why">Reason: 700 plus tracked caps is how every shadcn dashboard shouts. We already have hierarchy from size and the spine.</p>
+          </dd>
+        </dl>
+      </section>
+
+      <section class="art" id="numbers">
+        <p class="kicker">09 · Numbers</p>
+        <h2 class="h1-market">If a table of numbers does not look like Zephrok, the identity has failed.</h2>
+        <dl class="rule">
+          <dt>Rule</dt>
+          <dd>
+            <p class="r">Always <span class="id">font-variant-numeric: tabular-nums lining-nums</span>. Right-align quantities and money. Keep the currency symbol in the same tabular run. Negative values use Error colour, not parentheses and a minus.</p>
+            <p class="why">Reason: proportional figures jitter in a column of invoices. Jitter reads as untrustworthy in finance.</p>
+          </dd>
+        </dl>
+        <table class="sheet" style="margin-top:16px">
+          <thead>
+            <tr>
+              <th>When</th>
+              <th>Record</th>
+              <th>Status</th>
+              <th class="right">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="is-selected">
+              <td class="id">09:14</td>
+              <td>Invoice INV-8831 · Himalayan Wool Co.</td>
+              <td><span class="st st-draft">Draft</span></td>
+              <td class="amt">12,400.00</td>
+            </tr>
+            <tr>
+              <td class="id">09:02</td>
+              <td>Payout · eSewa</td>
+              <td><span class="st st-ok">Posted</span></td>
+              <td class="amt">8,250.00</td>
+            </tr>
+            <tr>
+              <td class="id">08:47</td>
+              <td>Card · ending 4412</td>
+              <td><span class="st st-err">Declined</span></td>
+              <td class="amt neg">−3,190.00</td>
+            </tr>
+            <tr>
+              <td class="id">08:11</td>
+              <td>Refund · ORD-20411</td>
+              <td><span class="st st-ok">Paid</span></td>
+              <td class="amt">1,050.00</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="caption" style="margin-top:12px">Selected row: Ember Tint + spine. One selection. Amounts never sit in a badge.</p>
+      </section>
+
+      <section class="art" id="icons">
+        <p class="kicker">10 · Iconography</p>
+        <h2 class="h1-market">Icons name a thing. They do not furnish a layout.</h2>
+        <dl class="rule">
+          <dt>Rule</dt>
+          <dd>
+            <p class="r">24×24 grid, 1.5px stroke, round caps, 1.5px corners, optical alignment. Inactive = Ink 3. Active = Ember Strong stroke, no fill except a 20% Ember Tint if the icon is the only selected control.</p>
+            <p class="why">Reason: filled candy icons and 2.5px “friendly” strokes belong to consumer apps. We need density in nav and tables.</p>
+          </dd>
+        </dl>
+        <div class="icon-row" style="margin:24px 0">
+          <div class="icon-cell"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="1.5"/><path d="M4 9h16"/><path d="M8 13h4"/></svg></div>
+          <div class="icon-cell"><svg class="icon" viewBox="0 0 24 24"><path d="M5 19V6.5A1.5 1.5 0 0 1 6.5 5H12v14H6.5A1.5 1.5 0 0 1 5 17.5V19"/><path d="M12 5h5.5A1.5 1.5 0 0 1 19 6.5V19"/><path d="M12 19h7"/></svg></div>
+          <div class="icon-cell"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 19c0-3.3 3.1-6 7-6s7 2.7 7 6"/></svg></div>
+          <div class="icon-cell"><svg class="icon" viewBox="0 0 24 24"><path d="M4 7h16v11H4z"/><path d="M8 7V5h8v2"/><path d="M9 12h6"/></svg></div>
+          <div class="icon-cell"><svg class="icon" viewBox="0 0 24 24"><path d="M12 4v10"/><path d="M8 10l4 4 4-4"/><path d="M5 18h14"/></svg></div>
+          <div class="icon-cell" style="background:var(--z-ember-tint)"><svg class="icon" viewBox="0 0 24 24" style="color:var(--z-ember-strong)"><circle cx="12" cy="12" r="7"/><path d="M12 9v3l2 2"/></svg></div>
+        </div>
+        <p class="caption">No decorative icons beside headings “to add interest.” If removing the icon loses no information, remove it.</p>
+      </section>
+
+      <section class="art" id="space">
+        <p class="kicker">11 · Space &amp; grid</p>
+        <h2 class="h1-market">4px is the unit. Product is dense. Marketing can breathe. They stay related.</h2>
+        <dl class="rule">
+          <dt>Rule</dt>
+          <dd>
+            <p class="r">Product spacing: 8, 12, 16, 24. Marketing spacing: 24, 40, 64, 96. Gutters 24. Marketing max width 1200. Prose 720. Never mix a 13px gap in because it “looked better.”</p>
+            <p class="why">Reason: a startup team cannot keep a 12-step spacing scale consistent. This one is short enough to memorise.</p>
+          </dd>
+        </dl>
+        <div class="space-demo" style="margin:24px 0">
+          <span style="width:4px;height:4px" title="4"></span>
+          <span style="width:8px;height:8px"></span>
+          <span style="width:12px;height:12px"></span>
+          <span style="width:16px;height:16px"></span>
+          <span style="width:24px;height:24px"></span>
+          <span style="width:32px;height:32px"></span>
+          <span style="width:40px;height:40px"></span>
+          <span style="width:48px;height:48px"></span>
+          <span style="width:64px;height:64px"></span>
+        </div>
+        <p class="caption">4 8 12 16 24 32 40 48 64 — stop. 20 and 80 exist in tokens for optical exceptions only.</p>
+      </section>
+
+      <section class="art" id="layout">
+        <p class="kicker">12 · Layout</p>
+        <h2 class="h1-market">Do not put everything in a card. A card is a unit of work.</h2>
+        <dl class="rule">
+          <dt>Rule</dt>
+          <dd>
+            <p class="r">Use a card only when the object is independently actionable: an invoice, a conversation, a SKU, a draft. Lists, tables, page titles, and filters sit on Paper with hairlines.</p>
+            <p class="why">Reason: card-on-card dashboards are the generic SaaS look. A ledger on paper is ours.</p>
+          </dd>
+        </dl>
+        <div class="pair" style="margin-top:24px">
+          <div>
+            <p class="label">Product</p>
+            <p style="margin:8px 0 0;font-size:14px;line-height:22px;color:var(--z-ink-2)">Ink strip on top (OS). Nav with spine. Main column is the record. Detail pane on the right when a row is selected — not a modal if the user is comparing. Radius 4 on controls, 6 on the detail pane, 0 on tables.</p>
+          </div>
+          <div>
+            <p class="label">Marketing</p>
+            <p style="margin:8px 0 0;font-size:14px;line-height:22px;color:var(--z-ink-2)">Serif display, spine beside the headline, real product (the ledger) as the image, one Ember Strong CTA. No fake glassy UI, no 3D OS windows floating in space, no stock founders.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="art" id="graphic">
+        <p class="kicker">13 · Graphic language</p>
+        <h2 class="h1-market">If it would still work as a blob, a grid of dots, or a neural net, delete it.</h2>
+        <p class="lede" style="margin:16px 0 24px">The recognisable Zephrok picture is: warm sheet, ink type, a 3px ember spine, a ledger of events, tabular numbers on the right. That scene should be repeatable on a website, a slide, a social card, and the product itself.</p>
+        <div class="grid-3">
+          <article class="ex"><div class="ex-b">
+            <p class="label">Shape</p>
+            <p style="margin:8px 0 0;font-size:14px;line-height:22px">Rectangles with 4–6px corners. Square spine ticks. No circles as brand marks. No hexagons. No isometric cities.</p>
+          </div></article>
+          <article class="ex"><div class="ex-b">
+            <p class="label">Line</p>
+            <p style="margin:8px 0 0;font-size:14px;line-height:22px">1px Line for structure. 3px Ember for “now.” That’s the whole line language.</p>
+          </div></article>
+          <article class="ex"><div class="ex-b">
+            <p class="label">Composition</p>
+            <p style="margin:8px 0 0;font-size:14px;line-height:22px">Left-weighted. Spine or time column anchors the left. Numbers fall to the right. Headlines sit next to the spine, not floating in a field of white.</p>
+          </div></article>
+        </div>
+      </section>
+
+      <section class="art" id="imagery">
+        <p class="kicker">14 · Imagery</p>
+        <h2 class="h1-market">Photograph the work, or don’t photograph.</h2>
+        <dl class="rule">
+          <dt>Rule</dt>
+          <dd>
+            <p class="r">Prefer the live product (ledgers, drafts, conversations) as the image. If you use photography: real shops, real goods, real paper and hands at work, cropped tight, warm colour match to Paper (#F6F3EE grade), no teal-orange cinematic grade, no laptop-gaze portraits, no robots.</p>
+            <p class="why">Reason: stock entrepreneurship is indistinguishable. A cropped photograph of packed orders next to a Zephrok ledger is specific and expandable to restaurants or travel later — it is operations, not “ecommerce neon.”</p>
+          </dd>
+        </dl>
+        <div class="grid-2" style="margin-top:20px">
+          <div>
+            <p class="label">Treatment</p>
+            <ul style="margin:8px 0 0;padding-left:18px;color:var(--z-ink-2);font-size:14px;line-height:22px">
+              <li>Exposure slightly high, shadows warm</li>
+              <li>Saturation pulled toward umber and ember, never cyan</li>
+              <li>Fine grain allowed; HDR and glow not allowed</li>
+              <li>Overlay type in Ink or Surface only</li>
+              <li>Social/cards: product crop + one line of serif + spine</li>
+            </ul>
+          </div>
+          <div>
+            <p class="label">Never</p>
+            <ul style="margin:8px 0 0;padding-left:18px;color:var(--z-ink-2);font-size:14px;line-height:22px">
+              <li>People staring at laptops / fake standups</li>
+              <li>Hands on glass dashboards</li>
+              <li>Brains, neurons, holograms, circuits</li>
+              <li>Generated “AI founders” or sparkle dust</li>
+              <li>Unrelated fashion photography as “premium”</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="art" id="motion">
+        <p class="kicker">15 · Motion</p>
+        <h2 class="h1-market">Fast, precise, quiet. Motion is a status change.</h2>
+        <dl class="rule">
+          <dt>Rule</dt>
+          <dd>
+            <p class="r">120ms micro (hover, focus). 180ms state (expand, tab, row select). 240ms panel. Easing <span class="id">cubic-bezier(0.2, 0, 0, 1)</span>. No bounce. No spring. AI processing is a 3px Ember filling the spine from top to bottom, then it becomes a record.</p>
+            <p class="why">Reason: bounce and particles say “consumer toy.” A spine that fills says “the system is working on this row.”</p>
+          </dd>
+        </dl>
+        <table class="sheet" style="margin-top:12px">
+          <thead><tr><th>Event</th><th>Motion</th><th>Do not</th></tr></thead>
+          <tbody>
+            <tr><td>Hover / focus</td><td>Colour 120ms, no movement</td><td>Scale 1.04, lift shadows</td></tr>
+            <tr><td>Row select</td><td>Tint + spine 180ms</td><td>Slide the whole table</td></tr>
+            <tr><td>Panel open</td><td>Width + fade 240ms</td><td>Modal zoom, blur the world</td></tr>
+            <tr><td>AI running</td><td>Spine fill, then the event appears</td><td>Sparkles, typing dots as personality, pulsing orbs</td></tr>
+            <tr><td>Success</td><td>Status chip swap, 180ms</td><td>Confetti, checkmark bounce</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="art" id="ai">
+        <p class="kicker">16 · AI visual language</p>
+        <h2 class="h1-market">Intelligence is how the system behaves, not what it is decorated with.</h2>
+        <p class="lede" style="margin:16px 0 20px">Zephrok is AI-native and policy-gated. The model never “decides money.” Draft, apply, and forbidden are visible states. Attribution is System or a named human, in mono. Copy is: what happened → why → what the user can do next.</p>
+        <div class="stack" style="background:var(--z-surface);border:1px solid var(--z-line);border-radius:6px;padding:8px 20px 8px 8px">
+          <div class="event is-now">
+            <div class="event-when">09:14:02<br />System</div>
+            <div>
+              <div class="event-title">Draft refund created for ORD-20491</div>
+              <div class="event-why">Why: the item is in the 7-day window and the payment is captured. Policy <span class="id">money-out</span> requires your approval.</div>
+              <div class="event-next">Next: approve, edit the amount, or reject.</div>
+            </div>
+            <div><span class="st st-draft">Draft</span></div>
+          </div>
+          <div class="event is-ok">
+            <div class="event-when">09:02:11<br />A. Gurung</div>
+            <div>
+              <div class="event-title">Payout posted to eSewa</div>
+              <div class="event-why">Why: you approved draft DF-201. Adapter wrote to the ledger. No model in the path at apply time.</div>
+            </div>
+            <div><span class="st st-ok">Posted</span></div>
+          </div>
+          <div class="event is-err">
+            <div class="event-when">08:47:40<br />System</div>
+            <div>
+              <div class="event-title">Payment failed</div>
+              <div class="event-why">Why: the card was declined by the issuer.</div>
+              <div class="event-next">Next: ask the customer to try another card.</div>
+            </div>
+            <div><span class="st st-err">Declined</span></div>
+          </div>
+        </div>
+        <dl class="rule">
+          <dt>Rule</dt>
+          <dd>
+            <p class="r">No robots, brains, neural nets, sparkles, purple gradients, holograms, circuit boards, or “magic” particles. No separate “AI bubble” style. System events use the same Record as human events.</p>
+            <p class="why">Reason: those symbols are how every AI startup looks in 2024–26. Zephrok should look like an operating system that happens to be fast.</p>
+          </dd>
+        </dl>
+      </section>
+
+      <section class="art" id="ui">
+        <p class="kicker">17 · UI principles</p>
+        <h2 class="h1-market">Product UI is the brand at 14px.</h2>
+        <div class="grid-2">
+          <div>
+            <p class="label">Do</p>
+            <ul style="margin:8px 0 0;padding-left:18px;color:var(--z-ink-2);font-size:14px;line-height:22px">
+              <li>Ink OS strip, then Paper workspace</li>
+              <li>One Ember Strong button per view</li>
+              <li>Filters as text + hairline, not chip clouds</li>
+              <li>Forms: label above, 6px gap, 36px control</li>
+              <li>Destructive actions are Error, never Ember</li>
+              <li>Empty states explain what to do next, 2 lines max</li>
+            </ul>
+          </div>
+          <div>
+            <p class="label">Don’t</p>
+            <ul style="margin:8px 0 0;padding-left:18px;color:var(--z-ink-2);font-size:14px;line-height:22px">
+              <li>Glassmorphism, heavy shadows, 16px radii</li>
+              <li>Gradient buttons, neon focus, animated borders</li>
+              <li>Fake metrics to make a dashboard look “alive”</li>
+              <li>Onboarding confetti, empty-state illustrations of rockets</li>
+              <li>Using Ember for destructive money-out</li>
+              <li>Hiding density behind more cards</li>
+            </ul>
+          </div>
+        </div>
+        <div style="margin-top:28px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <button class="btn btn-primary">Approve draft</button>
+          <button class="btn btn-secondary">Edit amount</button>
+          <button class="btn btn-ghost">Cancel</button>
+          <button class="btn btn-danger">Reject</button>
+        </div>
+        <p class="caption" style="margin-top:10px">Approve is the one verb. Reject is Error. Ember is not used for both.</p>
+      </section>
+
+      <section class="art" id="dodont">
+        <p class="kicker">18 · Do / Don’t</p>
+        <h2 class="h1-market">A short list a tired designer can use at 1am.</h2>
+        <div class="do-grid" style="margin-top:24px">
+          <p><span class="yes">Do</span> use Paper + Ink + one Ember verb</p>
+          <p><span class="no">Don’t</span> theme the whole UI orange</p>
+          <p><span class="yes">Do</span> show what / why / next on events</p>
+          <p><span class="no">Don’t</span> write “Oops” around money</p>
+          <p><span class="yes">Do</span> tabular numbers, right aligned</p>
+          <p><span class="no">Don’t</span> put amounts in colourful badges</p>
+          <p><span class="yes">Do</span> mark the current row with a spine</p>
+          <p><span class="no">Don’t</span> put a spine on every module</p>
+          <p><span class="yes">Do</span> keep AI in the same ledger</p>
+          <p><span class="no">Don’t</span> invent an AI mascot or glow</p>
+          <p><span class="yes">Do</span> 4px / 6px radius, no shadow</p>
+          <p><span class="no">Don’t</span> default shadcn 8px + drop shadow</p>
+          <p><span class="yes">Do</span> Source Serif only in public/marketing</p>
+          <p><span class="no">Don’t</span> serif inside dense tables</p>
+          <p><span class="yes">Do</span> draft = ochre, posted = forest</p>
+          <p><span class="no">Don’t</span> mint green / hot red traffic lights</p>
+        </div>
+      </section>
+
+      <section class="art" id="apps">
+        <p class="kicker">19 · Applications</p>
+        <h2 class="h1-market">The same system, under load.</h2>
+        <p class="lede" style="margin:16px 0 20px">Four working surfaces. They share tokens, type, spine, and the Record. Open them. If they feel like four different products, the system broke.</p>
+        <div class="links">
+          <a class="btn btn-primary" href="examples/dashboard.html">Operations OS</a>
+          <a class="btn btn-secondary" href="examples/ledger.html">Finance ledger</a>
+          <a class="btn btn-secondary" href="examples/operations.html">AI activity</a>
+          <a class="btn btn-secondary" href="examples/marketing.html">Marketing</a>
+        </div>
+        <p class="caption" style="margin-top:16px">Also: presentations use the marketing type scale and a left spine. Social cards are a cropped Record + one serif line. Apparel, if any, is Ink on Paper or Paper on Ink — Ember as a 3px mark only.</p>
+      </section>
+
+      <section class="art" id="slop">
+        <p class="kicker">20 · Anti-AI-slop review</p>
+        <h2 class="h1-market">Specificity, not minimalism.</h2>
+        <table class="sheet slop" style="margin-top:20px">
+          <thead>
+            <tr><th>Decision</th><th>Specific to Zephrok?</th><th>Could any AI SaaS use it?</th><th>Keep?</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Warm paper + ink ledger</td><td>Yes — finance/OS, not lab</td><td>Rare; most go cool gray or black</td><td>Keep</td></tr>
+            <tr><td>3px Ember spine as “now”</td><td>Yes — status, not stripe art</td><td>Only if copied; it is a behaviour</td><td>Keep</td></tr>
+            <tr><td>One orange verb</td><td>Yes — discipline of the colour</td><td>Orange brands usually flood it</td><td>Keep</td></tr>
+            <tr><td>Record layout for AI + humans</td><td>Yes — policy/audit product</td><td>Most AI UIs are chat bubbles</td><td>Keep</td></tr>
+            <tr><td>Source Serif + Source Sans + Plex Mono</td><td>Yes — business / work / machine</td><td>Inter + Cal Sans is the default</td><td>Keep</td></tr>
+            <tr><td>Draft ochre ≠ Ember</td><td>Yes — money-out policy</td><td>Usually one “warning orange”</td><td>Keep</td></tr>
+            <tr><td>Gradient mesh / glass / blobs</td><td>No</td><td>Yes, endlessly</td><td>Rejected</td></tr>
+            <tr><td>Robot / sparkle / neural art</td><td>No</td><td>Yes</td><td>Rejected</td></tr>
+            <tr><td>Inter + 12px radius + blue</td><td>No</td><td>Yes</td><td>Rejected</td></tr>
+            <tr><td>Empty-minimal luxury site</td><td>No — hides the work</td><td>Yes</td><td>Rejected</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="art" id="build">
+        <p class="kicker">21 · Build</p>
+        <h2 class="h1-market">Small team, few files, no interpretation.</h2>
+        <table class="sheet" style="margin-top:20px">
+          <thead><tr><th>File</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td class="id">tokens/tokens.css</td><td>Canonical variables. Import everywhere.</td></tr>
+            <tr><td class="id">tokens/tokens.json</td><td>Same tokens for design tools and codegen.</td></tr>
+            <tr><td class="id">tokens/shadcn-theme.css</td><td>Paste into globals.css / tweakcn. Do not round radius up.</td></tr>
+            <tr><td class="id">css/system.css</td><td>Buttons, table, event, notice, nav. Copy patterns, don’t restyle.</td></tr>
+            <tr><td class="id">examples/*.html</td><td>The acceptance tests. Match these, don’t “elevate” them.</td></tr>
+          </tbody>
+        </table>
+        <p class="lede" style="margin-top:28px">When in doubt: less orange, fewer cards, slower to add motion, faster to show the number. The logo will come later. Until then the Record is the mark.</p>
+      </section>
+    </main>
+  </div>
+  <script>
+    const items = document.querySelectorAll(".side .toc");
+    const map = [...items].map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        items.forEach(a => a.classList.toggle("is-active", a.getAttribute("href") === "#" + e.target.id));
+      });
+    }, { rootMargin: "-20% 0px -70% 0px" });
+    map.forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

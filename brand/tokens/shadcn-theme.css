@@ -1,0 +1,109 @@
+/* Zephrok theme for Tailwind CSS + shadcn/ui
+   Compatible with tweakcn export shape.
+   Primary is Ember Strong (button colour), not the brighter recognition orange.
+   Radius is 6px. Do not round it up to 12px. */
+
+@theme inline {
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+:root {
+  --background: 37.5 30.8% 94.9%;          /* paper #F6F3EE */
+  --foreground: 24 9.8% 10%;               /* ink #1C1917 */
+  --card: 34.3 100% 98.6%;                 /* surface #FFFCF8 */
+  --card-foreground: 24 9.8% 10%;
+  --popover: 34.3 100% 98.6%;
+  --popover-foreground: 24 9.8% 10%;
+  --primary: 15 86.3% 40%;                 /* ember-strong #BE3A0E */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 33.3 22% 92%;               /* sunken */
+  --secondary-foreground: 24 9.8% 10%;
+  --muted: 33.3 22% 92%;
+  --muted-foreground: 32.3 7.6% 33.5%;     /* ink-3 */
+  --accent: 15.8 70.4% 94.7%;              /* ember-tint */
+  --accent-foreground: 15 86.3% 40%;
+  --destructive: 4.2 76.5% 40%;            /* err #B42318 */
+  --destructive-foreground: 0 0% 100%;
+  --border: 35 18.2% 87.1%;                /* line */
+  --input: 35 18.2% 87.1%;
+  --ring: 14.2 78.7% 49.6%;                /* ember #E24A1B */
+  --chart-1: 14.2 78.7% 49.6%;
+  --chart-2: 24 9.8% 10%;
+  --chart-3: 206.5 29.2% 34.9%;
+  --chart-4: 149 41.3% 29.4%;
+  --chart-5: 39.1 100% 27.1%;
+  --radius: 0.375rem;                      /* 6px */
+
+  --sidebar: 34.3 100% 98.6%;
+  --sidebar-foreground: 24 9.8% 10%;
+  --sidebar-primary: 15 86.3% 40%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 15.8 70.4% 94.7%;
+  --sidebar-accent-foreground: 15 86.3% 40%;
+  --sidebar-border: 35 18.2% 87.1%;
+  --sidebar-ring: 14.2 78.7% 49.6%;
+
+  /* Zephrok extras — not in default shadcn, keep them */
+  --brand: 14.2 78.7% 49.6%;               /* ember recognition */
+  --brand-strong: 15 86.3% 40%;
+  --draft: 39.1 100% 27.1%;
+  --ok: 149 41.3% 29.4%;
+  --info: 206.5 29.2% 34.9%;
+}
+
+.dark {
+  --background: 30 15.8% 7.5%;             /* #161310 */
+  --foreground: 32.3 35.1% 92.7%;          /* #F3EDE6 */
+  --card: 30 15.4% 10.2%;                  /* #1E1A16 */
+  --card-foreground: 32.3 35.1% 92.7%;
+  --popover: 30 15.4% 10.2%;
+  --popover-foreground: 32.3 35.1% 92.7%;
+  --primary: 15.8 85.8% 58.4%;             /* #F06A3A */
+  --primary-foreground: 24 9.8% 10%;       /* ink on ember, not white */
+  --secondary: 30 12% 14%;
+  --secondary-foreground: 32.3 35.1% 92.7%;
+  --muted: 30 12% 14%;
+  --muted-foreground: 30 8% 52%;
+  --accent: 15 36% 16%;
+  --accent-foreground: 15.8 85.8% 58.4%;
+  --destructive: 4 62% 66%;
+  --destructive-foreground: 24 9.8% 10%;
+  --border: 30 12% 16%;
+  --input: 30 12% 16%;
+  --ring: 15.8 85.8% 58.4%;
+  --chart-1: 15.8 85.8% 58.4%;
+  --chart-2: 32.3 35.1% 92.7%;
+  --chart-3: 206 20% 64%;
+  --chart-4: 149 28% 60%;
+  --chart-5: 39 70% 62%;
+  --sidebar: 30 15.4% 10.2%;
+  --sidebar-foreground: 32.3 35.1% 92.7%;
+  --sidebar-primary: 15.8 85.8% 58.4%;
+  --sidebar-primary-foreground: 24 9.8% 10%;
+  --sidebar-accent: 15 36% 16%;
+  --sidebar-accent-foreground: 15.8 85.8% 58.4%;
+  --sidebar-border: 30 12% 16%;
+  --sidebar-ring: 15.8 85.8% 58.4%;
+}
+
+/* shadcn overrides that make Zephrok not look like default shadcn */
+@layer base {
+  * { border-color: hsl(var(--border)); }
+  html { background: hsl(var(--background)); }
+  body {
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  button, [data-slot="button"] { border-radius: var(--radius); }
+  [data-slot="card"] {
+    border-radius: var(--radius);
+    box-shadow: none;
+    border: 1px solid hsl(var(--border));
+  }
+  table { font-variant-numeric: tabular-nums; }
+}

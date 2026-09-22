@@ -1,0 +1,144 @@
+/* Brand-book chrome. The book is an application of the system. */
+
+.book {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+}
+.side {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+  padding: 24px 16px 40px;
+  border-right: 1px solid var(--z-line);
+  background: var(--z-surface);
+}
+.side .brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 12px 20px;
+  text-decoration: none;
+}
+.side .brand strong {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.side .brand em {
+  font-style: normal;
+  font-size: 11px;
+  color: var(--z-ink-3);
+  font-family: var(--z-mono);
+}
+.side nav { display: flex; flex-direction: column; gap: 2px; }
+.side .sec {
+  margin: 16px 12px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--z-ink-3);
+}
+.main { min-width: 0; }
+.art {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 64px 48px 96px;
+}
+.art + .art { border-top: 1px solid var(--z-line); }
+.kicker {
+  font-family: var(--z-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--z-ember-strong);
+  margin: 0 0 12px;
+  font-weight: 500;
+}
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 64px 48px 80px;
+  max-width: 1080px;
+  margin: 0 auto;
+  position: relative;
+}
+.cover::before {
+  content: "";
+  position: absolute;
+  left: 48px;
+  top: 64px;
+  bottom: 80px;
+  width: 3px;
+  background: var(--z-ember);
+}
+.cover .kicker { margin-left: 28px; }
+.cover .display, .cover .lede, .cover .meta { margin-left: 28px; }
+.cover .display { max-width: 16ch; margin: 0 0 24px 28px; }
+.grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.principles { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--z-line); border: 1px solid var(--z-line); }
+.principles article {
+  background: var(--z-surface);
+  padding: 28px;
+}
+.principles h3 { margin-bottom: 8px; }
+.principles p { margin: 0; color: var(--z-ink-2); font-size: 14px; line-height: 22px; }
+.principles .n {
+  font-family: var(--z-mono);
+  font-size: 11px;
+  color: var(--z-ember-strong);
+  margin-bottom: 10px;
+}
+.type-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid var(--z-line);
+  align-items: baseline;
+}
+.type-row .spec { font-family: var(--z-mono); font-size: 11px; color: var(--z-ink-3); }
+.do-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 32px; }
+.do-grid li { font-size: 14px; line-height: 22px; color: var(--z-ink-2); }
+.do-grid .yes { color: var(--z-ok); font-weight: 600; }
+.do-grid .no { color: var(--z-err); font-weight: 600; }
+.links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.toc a { text-decoration: none; }
+.space-demo { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; }
+.space-demo span {
+  background: var(--z-ember-soft);
+  display: block;
+}
+.icon-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.icon-cell {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--z-line);
+  border-radius: var(--z-r-sm);
+  background: var(--z-surface);
+}
+.app-frame {
+  border: 1px solid var(--z-line);
+  border-radius: var(--z-r-md);
+  overflow: hidden;
+  background: var(--z-paper);
+  min-height: 520px;
+}
+.slop td, .slop th { font-size: 13px; }
+@media (max-width: 980px) {
+  .book { grid-template-columns: 1fr; }
+  .side { display: none; }
+  .art, .cover { padding: 40px 20px 64px; }
+  .cover::before { left: 20px; }
+  .grid-6 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4, .grid-3, .grid-2, .principles, .do-grid { grid-template-columns: 1fr; }
+}

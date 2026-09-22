@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zephrok · Ledger</title>
+  <link rel="stylesheet" href="../css/system.css" />
+  <style>
+    .shell { min-height: 100vh; display: flex; flex-direction: column; }
+    .work { padding: 24px 32px 64px; max-width: 1200px; }
+    .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin: 24px 0; }
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--z-line); background: var(--z-surface); margin-bottom: 28px; }
+    .m { padding: 16px 20px; border-right: 1px solid var(--z-line); }
+    .m:last-child { border-right: 0; }
+    .m .amt-lg { font-size: 22px; line-height: 28px; }
+    .filters { display: flex; gap: 16px; align-items: center; margin-bottom: 12px; font-size: 14px; color: var(--z-ink-2); }
+    .filters a { text-decoration: none; padding-bottom: 8px; }
+    .filters a.on { color: var(--z-ink); box-shadow: inset 0 -2px 0 var(--z-ember); font-weight: 500; }
+    @media (max-width: 800px) { .metrics { grid-template-columns: 1fr 1fr; } .m { border-bottom: 1px solid var(--z-line); } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="app-strip">
+      <span class="wordmark">Zephrok</span>
+      <a class="mod" href="dashboard.html">Operations</a>
+      <a class="mod">Sales</a>
+      <a class="mod">Support</a>
+      <a class="mod is-on">Finance</a>
+      <a class="mod">Inventory</a>
+    </header>
+    <div class="work">
+      <p class="label">Finance</p>
+      <div class="head">
+        <h1>Ledger · September</h1>
+        <button class="btn btn-primary">Export CSV</button>
+      </div>
+      <div class="metrics">
+        <div class="m"><div class="label">In</div><div class="amt-lg amt">4,12,850.00</div></div>
+        <div class="m"><div class="label">Out</div><div class="amt-lg amt">2,66,410.00</div></div>
+        <div class="m"><div class="label">Net</div><div class="amt-lg amt">1,46,440.00</div></div>
+        <div class="m"><div class="label">Drafts</div><div class="amt-lg amt" style="color:var(--z-draft)">3</div></div>
+      </div>
+      <div class="filters">
+        <a class="on" href="#">All</a>
+        <a href="#">Money in</a>
+        <a href="#">Money out</a>
+        <a href="#">Drafts</a>
+        <a href="#">Failed</a>
+      </div>
+      <table class="sheet">
+        <thead>
+          <tr>
+            <th>When</th>
+            <th>Record</th>
+            <th>Account</th>
+            <th>Status</th>
+            <th class="right">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="is-selected">
+            <td class="id">22 Sep 09:14</td>
+            <td>Refund · ORD-20491 · N. Sharma</td>
+            <td class="id">NPR · eSewa</td>
+            <td><span class="st st-draft">Draft</span></td>
+            <td class="amt neg">−3,190.00</td>
+          </tr>
+          <tr>
+            <td class="id">22 Sep 09:11</td>
+            <td>Invoice INV-8831 · Himalayan Wool Co.</td>
+            <td class="id">NPR · Receivable</td>
+            <td><span class="st st-draft">Draft</span></td>
+            <td class="amt">12,400.00</td>
+          </tr>
+          <tr>
+            <td class="id">22 Sep 09:02</td>
+            <td>Payout · weekly settlement</td>
+            <td class="id">NPR · eSewa</td>
+            <td><span class="st st-ok">Posted</span></td>
+            <td class="amt">8,250.00</td>
+          </tr>
+          <tr>
+            <td class="id">22 Sep 08:47</td>
+            <td>Card capture · ORD-20488</td>
+            <td class="id">NPR · Card</td>
+            <td><span class="st st-err">Declined</span></td>
+            <td class="amt neg">−3,190.00</td>
+          </tr>
+          <tr>
+            <td class="id">21 Sep 18:02</td>
+            <td>Sale · ORD-20471 · walk-in</td>
+            <td class="id">NPR · Cash</td>
+            <td><span class="st st-ok">Posted</span></td>
+            <td class="amt">4,800.00</td>
+          </tr>
+          <tr>
+            <td class="id">21 Sep 14:22</td>
+            <td>Inventory receipt · SKU-THW-01</td>
+            <td class="id">NPR · COGS</td>
+            <td><span class="st st-ok">Posted</span></td>
+            <td class="amt neg">−18,000.00</td>
+          </tr>
+          <tr>
+            <td class="id">21 Sep 11:08</td>
+            <td>Shopify payout</td>
+            <td class="id">NPR · Bank</td>
+            <td><span class="st st-ok">Posted</span></td>
+            <td class="amt">62,440.00</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="caption" style="margin-top:12px">Selected row carries the spine. Export is the one Ember verb. Draft ochre is not a button.</p>
+    </div>
+  </div>
+</body>
+</html>

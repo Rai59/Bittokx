@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zephrok · Operations</title>
+  <link rel="stylesheet" href="../css/system.css" />
+  <style>
+    html, body { height: 100%; background: var(--z-paper); }
+    .shell { min-height: 100%; display: flex; flex-direction: column; }
+    .body { flex: 1; display: grid; grid-template-columns: 220px 1fr 360px; min-height: 0; }
+    .navp { background: var(--z-surface); border-right: 1px solid var(--z-line); padding: 16px 12px; }
+    .navp .label { padding: 12px 12px 6px; }
+    .work { padding: 24px 28px; min-width: 0; }
+    .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+    .detail { background: var(--z-surface); border-left: 1px solid var(--z-line); padding: 24px; }
+    .detail h3 { margin-bottom: 4px; }
+    .kv { display: grid; grid-template-columns: 92px 1fr; gap: 8px 12px; font-size: 13px; margin: 16px 0 24px; }
+    .kv dt { color: var(--z-ink-3); }
+    .kv dd { margin: 0; }
+    .acts { display: flex; gap: 8px; flex-wrap: wrap; }
+    @media (max-width: 1100px) {
+      .body { grid-template-columns: 1fr; }
+      .navp, .detail { border: 0; border-top: 1px solid var(--z-line); }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="app-strip">
+      <span class="wordmark">Zephrok</span>
+      <a class="mod is-on">Operations</a>
+      <a class="mod">Sales</a>
+      <a class="mod">Support</a>
+      <a class="mod">Finance</a>
+      <a class="mod">Inventory</a>
+      <span class="id" style="margin-left:auto;color:rgba(246,243,238,.55)">Himalayan Wool Co. · NPR</span>
+    </header>
+    <div class="body">
+      <aside class="navp">
+        <div class="label">Today</div>
+        <a class="nav-item is-active" href="#"><svg class="icon" viewBox="0 0 24 24"><path d="M5 6h14M5 12h14M5 18h10"/></svg>Activity</a>
+        <a class="nav-item" href="ledger.html"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="1.5"/><path d="M4 9h16"/></svg>Ledger</a>
+        <a class="nav-item" href="operations.html"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><path d="M12 9v3l2 2"/></svg>System</a>
+        <div class="label">Records</div>
+        <a class="nav-item" href="#"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 19c0-3.3 3.1-6 7-6s7 2.7 7 6"/></svg>Customers</a>
+        <a class="nav-item" href="#"><svg class="icon" viewBox="0 0 24 24"><path d="M4 7h16v11H4z"/><path d="M8 7V5h8v2"/></svg>Orders</a>
+        <a class="nav-item" href="#"><svg class="icon" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="1.5"/><path d="M8 8h8M8 12h6"/></svg>Invoices</a>
+      </aside>
+      <section class="work">
+        <div class="head">
+          <div>
+            <p class="label">Tuesday 22 Sep</p>
+            <h1>3 drafts waiting</h1>
+            <p class="lede" style="margin-top:8px">Policy held money-out. Nothing has been sent.</p>
+          </div>
+          <button class="btn btn-primary">Review drafts</button>
+        </div>
+        <div class="event is-now">
+          <div class="event-when">09:14:02<br />System</div>
+          <div>
+            <div class="event-title">Draft refund created for ORD-20491</div>
+            <div class="event-why">Why: item is inside the 7-day window and payment is captured. Policy <span class="id">money-out</span> requires approval.</div>
+            <div class="event-next">Next: approve, edit the amount, or reject.</div>
+          </div>
+          <span class="st st-draft">Draft</span>
+        </div>
+        <div class="event is-now">
+          <div class="event-when">09:11:18<br />System</div>
+          <div>
+            <div class="event-title">Draft invoice INV-8831 for Himalayan Wool Co.</div>
+            <div class="event-why">Why: order delivered and terms are Net 7. Amount taken from the order, not from the model.</div>
+            <div class="event-next">Next: approve to post, or edit line items.</div>
+          </div>
+          <span class="st st-draft">Draft</span>
+        </div>
+        <div class="event is-ok">
+          <div class="event-when">09:02:11<br />A. Gurung</div>
+          <div>
+            <div class="event-title">Payout posted to eSewa</div>
+            <div class="event-why">Why: you approved DF-201. Adapter wrote to the ledger. No model in the path.</div>
+          </div>
+          <span class="st st-ok">Posted</span>
+        </div>
+        <div class="event is-err">
+          <div class="event-when">08:47:40<br />System</div>
+          <div>
+            <div class="event-title">Payment failed on ORD-20488</div>
+            <div class="event-why">Why: the card was declined by the issuer.</div>
+            <div class="event-next">Next: ask the customer to try another card.</div>
+          </div>
+          <span class="st st-err">Declined</span>
+        </div>
+      </section>
+      <aside class="detail">
+        <p class="label">Selected</p>
+        <h3>ORD-20491</h3>
+        <p class="id">Refund draft · DF-318</p>
+        <dl class="kv">
+          <dt>Customer</dt><dd>N. Sharma</dd>
+          <dt>Item</dt><dd>Yak wool throw · qty 1</dd>
+          <dt>Captured</dt><dd class="amt">Rs 3,190.00</dd>
+          <dt>Proposed</dt><dd class="amt">Rs 3,190.00</dd>
+          <dt>Policy</dt><dd class="id">money-out</dd>
+          <dt>Window</dt><dd>Day 3 of 7</dd>
+        </dl>
+        <div class="notice notice-draft" style="margin-bottom:20px">
+          <div class="bar"></div>
+          <div>
+            <h4>Held for approval</h4>
+            <p>This moves money. Approve applies through the adapter with no model in the path.</p>
+          </div>
+        </div>
+        <div class="acts">
+          <button class="btn btn-primary">Approve</button>
+          <button class="btn btn-secondary">Edit amount</button>
+          <button class="btn btn-danger">Reject</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>
