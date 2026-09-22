@@ -50,7 +50,11 @@ Four principles:
 
 ## Paper
 
-This system is HTML/CSS, which is what Paper reads and writes. When the Paper MCP is connected, create 1440-wide artboards and `write_html` from these pages without restyling. Do not invent a logo in Paper.
+Living canvas (same tokens, no logo):
+
+https://app.paper.design/file/01M30CXA2B1FCY2C7JM3D714FH/p-1-0
+
+This system is HTML/CSS, which is what Paper reads and writes. When adding frames, use the tokens already in that file. Do not restyle. Do not invent a logo. Ember is `#E24A1B`. Buttons use `#BE3A0E`.
 
 ## Do not
 
