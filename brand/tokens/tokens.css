@@ -1,0 +1,111 @@
+/* Zephrok tokens — source of truth for colour, type, space, motion.
+   Prefix: --z-
+   Do not invent extra colours. If you need a new one, it is probably a mistake. */
+
+:root {
+  /* Brand — Ember is recognition, not a theme. */
+  --z-ember: #E24A1B;
+  --z-ember-strong: #BE3A0E;
+  --z-ember-hover: #A83710;
+  --z-ember-tint: #FBEDE8;
+  --z-ember-soft: #F6D5C8;
+
+  /* Ink & paper */
+  --z-ink: #1C1917;
+  --z-ink-2: #44403C;
+  --z-ink-3: #5C564F;
+  --z-paper: #F6F3EE;
+  --z-surface: #FFFCF8;
+  --z-sunken: #EFEBE6;
+  --z-line: #E4DFD8;
+  --z-line-strong: #D4CFC8;
+  --z-white: #FFFFFF;
+
+  /* Status — calm, named after work, not traffic lights */
+  --z-ok: #2C6A4A;
+  --z-ok-tint: #E8F3EC;
+  --z-draft: #8A5A00;
+  --z-draft-tint: #F8F0DC;
+  --z-err: #B42318;
+  --z-err-tint: #F8E8E6;
+  --z-info: #3F5C73;
+  --z-info-tint: #E8EEF2;
+  --z-umber: #6B5344;
+
+  /* Charts */
+  --z-chart-1: #E24A1B;
+  --z-chart-2: #1C1917;
+  --z-chart-3: #3F5C73;
+  --z-chart-4: #2C6A4A;
+  --z-chart-5: #8A5A00;
+  --z-chart-6: #6B5344;
+
+  /* Type */
+  --z-serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --z-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --z-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Space */
+  --z-space-1: 4px;
+  --z-space-2: 8px;
+  --z-space-3: 12px;
+  --z-space-4: 16px;
+  --z-space-5: 20px;
+  --z-space-6: 24px;
+  --z-space-8: 32px;
+  --z-space-10: 40px;
+  --z-space-12: 48px;
+  --z-space-16: 64px;
+  --z-space-20: 80px;
+  --z-space-24: 96px;
+
+  /* Radius — almost none. This is a system, not a lifestyle app. */
+  --z-r-none: 0;
+  --z-r-sm: 4px;
+  --z-r-md: 6px;
+
+  /* Spine */
+  --z-spine: 3px;
+
+  /* Motion */
+  --z-ease: cubic-bezier(0.2, 0, 0, 1);
+  --z-t-micro: 120ms;
+  --z-t-state: 180ms;
+  --z-t-panel: 240ms;
+
+  /* Elevation — one popover shadow. Nothing else. */
+  --z-shadow-pop: 0 8px 28px rgba(28, 25, 23, 0.1), 0 0 0 1px rgba(28, 25, 23, 0.06);
+
+  /* Layout */
+  --z-content: 1120px;
+  --z-prose: 720px;
+  --z-gutter: 24px;
+}
+
+.dark,
+[data-theme="dark"] {
+  --z-ember: #F06A3A;
+  --z-ember-strong: #F06A3A;
+  --z-ember-hover: #F4A07C;
+  --z-ember-tint: #3A221A;
+  --z-ember-soft: #5A2E20;
+  --z-ink: #F3EDE6;
+  --z-ink-2: #C4B8AE;
+  --z-ink-3: #8F857C;
+  --z-paper: #161310;
+  --z-surface: #1E1A16;
+  --z-sunken: #12100E;
+  --z-line: #2E2924;
+  --z-line-strong: #3D3731;
+  --z-ok: #7CB99A;
+  --z-ok-tint: #1C2E24;
+  --z-draft: #E0B45C;
+  --z-draft-tint: #2E2614;
+  --z-err: #E07A72;
+  --z-err-tint: #331918;
+  --z-info: #8AA4B8;
+  --z-info-tint: #1B242C;
+  --z-chart-1: #F06A3A;
+  --z-chart-2: #F3EDE6;
+  --z-shadow-pop: 0 8px 28px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(243, 237, 230, 0.08);
+}
